@@ -1582,9 +1582,11 @@
         // ============================================
         // SUPABASE CONFIGURATION
         // ============================================
+        console.log('Supabase library loaded:', typeof window.supabase);
         const SUPABASE_URL = 'https://bvrdimwnarfobmwvthyb.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cmRpbXduYXJmb2Jtd3Z0aHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMjAxMzcsImV4cCI6MjA3Nzc5NjEzN30.vweZ-F-sG4rYJT1CM1OH0QONmEt73_TMV0F-emMuj8k';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase client created:', supabase);
 
         // ============================================
         // MODAL MANAGEMENT
@@ -1721,14 +1723,21 @@
         // ============================================
         // WAITLIST FORM SUBMISSION
         // ============================================
+        console.log('Setting up form listener...');
+        console.log('Form element:', waitlistForm);
+        
         waitlistForm.addEventListener('submit', async (e) => {
+            console.log('Form submitted!');
             e.preventDefault();
             hideMessages();
 
             // Validate form before submission
             if (!validateForm()) {
+                console.log('Validation failed');
                 return;
             }
+            
+            console.log('Validation passed, submitting to Supabase...');
 
             // Disable button and show loading state
             setLoading(true);
