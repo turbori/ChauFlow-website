@@ -507,37 +507,70 @@
                 We stripped out the features that don't apply to drivers and kept only what you actually need.
             </p>
             
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1: Trip & Income Tracking -->
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div class="text-5xl mb-4">💸</div>
                     <h3 class="text-xl font-bold mb-3 text-textDark">
-                        Track all earnings
+                        Trip & Income Tracking
                     </h3>
                     <p class="text-gray-600 leading-relaxed">
-                        Track earnings from rideshare apps, private clients, and tips — all in one place.
+                        Log trips from rideshare apps, private clients, and cash jobs. See weekly and monthly totals at a glance.
                     </p>
                 </div>
                 
-                <!-- Feature 2 -->
+                <!-- Feature 2: Smart Expense Tracking -->
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div class="text-5xl mb-4">🧾</div>
                     <h3 class="text-xl font-bold mb-3 text-textDark">
-                        Auto-categorize expenses
+                        Smart Expense Tracking
                     </h3>
                     <p class="text-gray-600 leading-relaxed">
-                        Automatically categorize gas, tolls, maintenance, and other driver expenses.
+                        Add expenses manually or set up recurring ones. Auto-categorize gas, tolls, maintenance, and more.
                     </p>
                 </div>
                 
-                <!-- Feature 3 -->
+                <!-- Feature 3: AI Receipt Upload -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="text-5xl mb-4">📸</div>
+                    <h3 class="text-xl font-bold mb-3 text-textDark">
+                        AI Receipt Upload
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Snap a photo of any receipt. AI extracts vendor, date, and amount — then suggests the right category.
+                    </p>
+                </div>
+                
+                <!-- Feature 4: Dashboard & Reports -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-3 text-textDark">
+                        Dashboard & Reports
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        See weekly and monthly net profit, income vs. expenses charts, and tax-deductible totals.
+                    </p>
+                </div>
+                
+                <!-- Feature 5: One-Click Export -->
                 <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div class="text-5xl mb-4">📤</div>
                     <h3 class="text-xl font-bold mb-3 text-textDark">
-                        Export for tax season
+                        One-Click Export
                     </h3>
                     <p class="text-gray-600 leading-relaxed">
-                        Export monthly summaries and reports ready for your accountant or tax software.
+                        Export to CSV for your accountant or tax software. Filter by date range and download instantly.
+                    </p>
+                </div>
+                
+                <!-- Feature 6: Simple Account Setup -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-3 text-textDark">
+                        Simple Account Setup
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Sign up with Google or email. Toggle business vs. personal mode. Add vehicle info and start tracking.
                     </p>
                 </div>
             </div>
@@ -557,27 +590,30 @@
             <!-- Scrollable Preview Container -->
             <div class="overflow-x-auto pb-6">
                 <div class="flex gap-6 justify-center lg:justify-center min-w-max mx-auto w-fit">
-                    <!-- Preview 1 -->
+                    <!-- Preview 1: AI Receipt Upload -->
                     <div class="w-72 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                         <div class="text-center mb-4">
                             <span class="inline-block bg-white px-4 py-2 rounded-full text-sm font-semibold text-primary shadow-sm">
-                                1. Add Expense
+                                1. Snap Receipt
                             </span>
                         </div>
                         <div class="bg-white rounded-2xl p-6 h-96 flex flex-col">
-                            <h4 class="text-lg font-bold mb-4">Quick Add Expense</h4>
+                            <h4 class="text-lg font-bold mb-4">Upload Receipt</h4>
                             <div class="space-y-4 flex-1">
-                                <div class="bg-gray-100 rounded-xl p-4">
-                                    <p class="text-sm text-gray-500 mb-2">Category</p>
-                                    <p class="font-semibold">⛽ Gas</p>
+                                <div class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl p-8 flex items-center justify-center border-2 border-dashed border-gray-300">
+                                    <div class="text-center">
+                                        <div class="text-4xl mb-2">📸</div>
+                                        <p class="text-sm text-gray-600">AI will extract details</p>
+                                    </div>
                                 </div>
-                                <div class="bg-gray-100 rounded-xl p-4">
-                                    <p class="text-sm text-gray-500 mb-2">Amount</p>
-                                    <p class="text-2xl font-bold">$52.00</p>
+                                <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                                    <p class="text-xs text-blue-600 mb-1">✓ Vendor detected</p>
+                                    <p class="text-sm font-semibold">Shell Gas Station</p>
+                                    <p class="text-xs text-gray-500 mt-2">$52.00 • Gas</p>
                                 </div>
                             </div>
                             <button class="w-full bg-primary text-white py-3 rounded-xl font-semibold">
-                                Save
+                                Confirm & Save
                             </button>
                         </div>
                     </div>
@@ -901,7 +937,7 @@
                     <!-- Features List -->
                     <div class="px-8 py-10 bg-gradient-to-br from-primary to-blue-700">
                         <div class="space-y-4">
-                            <!-- Feature Item -->
+                            <!-- Feature 1: Trip & Income Tracking -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -909,11 +945,12 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Track income (manual entry)</p>
-                                    <p class="text-blue-100 text-sm">Rideshare apps, private clients, independent contractor work</p>
+                                    <p class="font-semibold text-white text-lg">Trip & Income Tracking</p>
+                                    <p class="text-blue-100 text-sm">Manual trip logging with auto-categorized income sources (rideshare, private, cash)</p>
                                 </div>
                             </div>
                             
+                            <!-- Feature 2: Expense Tracking -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -921,11 +958,12 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Expense logging</p>
-                                    <p class="text-blue-100 text-sm">Pre-tagged categories: gas, tolls, maintenance, insurance, car wash</p>
+                                    <p class="font-semibold text-white text-lg">Smart Expense Tracking</p>
+                                    <p class="text-blue-100 text-sm">AI-suggested categories, recurring expenses, and "Is this deductible?" toggle</p>
                                 </div>
                             </div>
                             
+                            <!-- Feature 3: AI Receipt Upload -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -933,11 +971,12 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Receipt uploads</p>
-                                    <p class="text-blue-100 text-sm">Store and tag for audit/tax season</p>
+                                    <p class="font-semibold text-white text-lg">AI Receipt Upload & Extraction</p>
+                                    <p class="text-blue-100 text-sm">Upload photos, auto-extract vendor, date, amount, and category using GPT Vision</p>
                                 </div>
                             </div>
                             
+                            <!-- Feature 4: Dashboard & Reports -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -945,11 +984,12 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Monthly & yearly summaries</p>
-                                    <p class="text-blue-100 text-sm">IRS Schedule C–style formatting</p>
+                                    <p class="font-semibold text-white text-lg">Dashboard & Summary</p>
+                                    <p class="text-blue-100 text-sm">Weekly/monthly net profit, income vs. expenses charts, category breakdown, tax-deductible totals</p>
                                 </div>
                             </div>
                             
+                            <!-- Feature 5: Data Export -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -957,11 +997,12 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Estimated quarterly tax calculator</p>
-                                    <p class="text-blue-100 text-sm">1099-specific logic</p>
+                                    <p class="font-semibold text-white text-lg">CSV Export for Accountants</p>
+                                    <p class="text-blue-100 text-sm">Filter by date range and download all records for tax filing</p>
                                 </div>
                             </div>
                             
+                            <!-- Feature 6: Account Setup -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -969,11 +1010,12 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Reminder emails</p>
-                                    <p class="text-blue-100 text-sm">Estimated tax deadlines, missing receipts</p>
+                                    <p class="font-semibold text-white text-lg">Google Sign-In & Settings</p>
+                                    <p class="text-blue-100 text-sm">Quick setup, business/personal toggle, vehicle info, payment management via Stripe</p>
                                 </div>
                             </div>
                             
+                            <!-- Feature 7: Unlimited Usage -->
                             <div class="flex gap-4 items-start">
                                 <div class="flex-shrink-0 w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-0.5">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -981,8 +1023,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-white text-lg">Unlimited entries</p>
-                                    <p class="text-blue-100 text-sm">No cap on income/expense records</p>
+                                    <p class="font-semibold text-white text-lg">Unlimited Entries & Storage</p>
+                                    <p class="text-blue-100 text-sm">No caps on trips, expenses, or receipt uploads</p>
                                 </div>
                             </div>
                             
