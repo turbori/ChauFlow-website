@@ -1725,6 +1725,12 @@
         // ============================================
         console.log('Setting up form listener...');
         console.log('Form element:', waitlistForm);
+        console.log('Submit button:', submitBtn);
+        
+        // Add click listener to button as backup
+        submitBtn.addEventListener('click', (e) => {
+            console.log('Button clicked!');
+        });
         
         waitlistForm.addEventListener('submit', async (e) => {
             console.log('Form submitted!');
@@ -1819,11 +1825,14 @@
         // ============================================
         // BUTTON HANDLERS - Open Modal
         // ============================================
-        // All "Join Waitlist" buttons should open the modal
+        // All "Join Waitlist" buttons should open the modal (but NOT the submit button inside the modal)
         const buttons = document.querySelectorAll('button, a');
         buttons.forEach(button => {
             const text = button.textContent.toLowerCase();
-            if (text.includes('waitlist') || text.includes('join') || text.includes('get started')) {
+            const isInsideModal = button.closest('#waitlist-modal');
+            
+            // Only attach to buttons outside the modal
+            if (!isInsideModal && (text.includes('waitlist') || text.includes('join') || text.includes('get started'))) {
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
                     openModal();
