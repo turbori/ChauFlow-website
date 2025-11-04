@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS public.waitlist (
     full_name TEXT NOT NULL,
     email TEXT NOT NULL,
     user_type TEXT NOT NULL CHECK (user_type IN ('Independent Driver', 'Fleet Owner', 'Accountant / Tax Pro', 'Other')),
+    company_name TEXT,
     joined_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     source TEXT,

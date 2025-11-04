@@ -221,23 +221,20 @@
                         Built by drivers, for drivers. Track income, log expenses, and stay organized — without the QuickBooks mess.
                     </p>
                     
-                    <!-- Email Signup Form -->
-                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-4">
-                        <input 
-                            type="email" 
-                            id="hero-email"
-                            placeholder="Enter your email" 
-                            class="flex-1 px-6 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
-                        />
-                        <button id="hero-cta" class="px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl">
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0 mb-6">
+                        <button id="hero-cta" class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl">
                             Join the Waitlist
                         </button>
+                        <a href="#sample-report" class="px-8 py-3 bg-white text-primary border-2 border-primary font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-200 text-center">
+                            See Sample Report
+                        </a>
                     </div>
                     
                     <div class="flex items-center justify-center lg:justify-start gap-4 text-sm text-gray-500">
                         <span>✓ No credit card needed</span>
                         <span>•</span>
-                        <a href="#sample-report" class="text-primary hover:underline font-medium">See sample tax report</a>
+                        <span>✓ 3 months free early access</span>
                     </div>
                 </div>
                 
@@ -864,10 +861,10 @@
                 <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl p-8 shadow-sm border border-gray-200">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-lg">
-                            S
+                            R
                         </div>
                         <div>
-                            <p class="font-bold text-textDark">Sarah P.</p>
+                            <p class="font-bold text-textDark">Raj P.</p>
                             <p class="text-sm text-gray-500">Independent Contractor</p>
                         </div>
                     </div>
@@ -880,10 +877,10 @@
                 <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-8 shadow-sm border border-gray-200">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                            R
+                            D
                         </div>
                         <div>
-                            <p class="font-bold text-textDark">Robert K.</p>
+                            <p class="font-bold text-textDark">David K.</p>
                             <p class="text-sm text-gray-500">Black Car Driver</p>
                         </div>
                     </div>
@@ -1437,8 +1434,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <div>
-                            <p class="text-sm font-semibold text-green-800">You're on the list!</p>
-                            <p class="text-xs text-green-700 mt-1">We'll reach out when ChauFlow launches.</p>
+                            <p class="text-sm font-semibold text-green-800">✅ You're on the list!</p>
+                            <p class="text-xs text-green-700 mt-1">We'll notify you before launch.</p>
                         </div>
                     </div>
                 </div>
@@ -1502,7 +1499,7 @@
                                 <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
-                                I am a...
+                                What best describes you?
                             </span>
                         </label>
                         <select 
@@ -1517,6 +1514,25 @@
                             <option value="Accountant / Tax Pro">Accountant / Tax Pro</option>
                             <option value="Other">Other</option>
                         </select>
+                    </div>
+
+                    <!-- Company Name (Conditional - shown for Fleet Owner & Accountant) -->
+                    <div id="company_name_field" class="hidden">
+                        <label for="company_name" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                Company Name <span class="text-gray-400 font-normal">(Optional)</span>
+                            </span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="company_name" 
+                            name="company_name" 
+                            placeholder="e.g., ABC Transportation LLC" 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                        />
                     </div>
 
                     <!-- Source (Optional) -->
@@ -1647,11 +1663,74 @@
         });
 
         // ============================================
+        // CONDITIONAL FIELD VISIBILITY
+        // ============================================
+        const userTypeSelect = document.getElementById('user_type');
+        const companyNameField = document.getElementById('company_name_field');
+        
+        userTypeSelect.addEventListener('change', (e) => {
+            const selectedType = e.target.value;
+            
+            // Show company name field for Fleet Owner and Accountant / Tax Pro
+            if (selectedType === 'Fleet Owner' || selectedType === 'Accountant / Tax Pro') {
+                companyNameField.classList.remove('hidden');
+            } else {
+                companyNameField.classList.add('hidden');
+                // Clear the company name when hiding
+                document.getElementById('company_name').value = '';
+            }
+        });
+
+        // ============================================
+        // EMAIL VALIDATION
+        // ============================================
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validateForm() {
+            const fullName = document.getElementById('full_name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const userType = document.getElementById('user_type').value;
+
+            // Check required fields
+            if (!fullName) {
+                showError('Please enter your full name.');
+                return false;
+            }
+
+            if (!email) {
+                showError('Please enter your email address.');
+                return false;
+            }
+
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address.');
+                return false;
+            }
+
+            if (!userType) {
+                showError('Please select what best describes you.');
+                return false;
+            }
+
+            return true;
+        }
+
+        // ============================================
         // WAITLIST FORM SUBMISSION
         // ============================================
         waitlistForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             hideMessages();
+
+            // Validate form before submission
+            if (!validateForm()) {
+                return;
+            }
+
+            // Disable button and show loading state
             setLoading(true);
 
             // Get form data
@@ -1659,8 +1738,10 @@
                 full_name: document.getElementById('full_name').value.trim(),
                 email: document.getElementById('email').value.trim().toLowerCase(),
                 user_type: document.getElementById('user_type').value,
+                company_name: document.getElementById('company_name').value.trim() || null,
                 source: document.getElementById('source').value.trim() || null,
-                user_id: null // Will be set if user is authenticated
+                user_id: null, // Will be set if user is authenticated
+                joined_at: new Date().toISOString()
             };
 
             try {
@@ -1678,16 +1759,23 @@
 
                 if (error) {
                     // Handle specific errors
-                    if (error.code === '23505') { // Unique constraint violation
-                        showError('This email is already on the waitlist!');
+                    if (error.code === '23505') { // Unique constraint violation (duplicate email)
+                        showError('This email is already on the waitlist! Check your inbox for our welcome email.');
+                    } else if (error.message.includes('violates check constraint')) {
+                        showError('Please select a valid user type.');
                     } else {
-                        showError(error.message || 'Something went wrong. Please try again.');
+                        showError('Something went wrong. Please try again or contact support.');
                     }
                     console.error('Supabase error:', error);
                 } else {
                     // Success!
                     showSuccess();
+                    
+                    // Clear form fields
                     waitlistForm.reset();
+                    
+                    // Hide company name field if it was visible
+                    companyNameField.classList.add('hidden');
                     
                     // Close modal after 3 seconds
                     setTimeout(() => {
@@ -1696,11 +1784,25 @@
 
                     // Track conversion (add your analytics here)
                     console.log('Waitlist signup successful:', data);
+                    
+                    // Optional: Send to analytics
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'waitlist_signup', {
+                            'event_category': 'engagement',
+                            'event_label': formData.user_type
+                        });
+                    }
                 }
             } catch (error) {
-                showError('Network error. Please check your connection and try again.');
+                // Network or unexpected errors
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showError('Network error. Please check your internet connection and try again.');
+                } else {
+                    showError('Something went wrong. Please try again or contact support.');
+                }
                 console.error('Error:', error);
             } finally {
+                // Re-enable button
                 setLoading(false);
             }
         });
