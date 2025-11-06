@@ -35,9 +35,11 @@
     <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center justify-between h-16">
-                <!-- Logo & Nav -->
+                <!-- Logo -->
                 <div class="flex items-center gap-8">
                     <h1 class="text-xl md:text-2xl font-bold text-primary">ChauFlow</h1>
+                    
+                    <!-- Desktop Navigation -->
                     <div class="hidden md:flex items-center space-x-6">
                         <a href="dashboard.html" class="text-gray-600 hover:text-primary transition-colors duration-200">Dashboard</a>
                         <a href="income.html" class="text-primary font-medium border-b-2 border-primary pb-1">Income</a>
@@ -47,8 +49,17 @@
                     </div>
                 </div>
                 
-                <!-- User Menu -->
+                <!-- User Menu & Mobile Menu Button -->
                 <div class="flex items-center gap-3">
+                    <!-- Mobile Menu Button (replaces user menu on mobile) -->
+                    <button id="mobile-nav-btn" class="md:hidden flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:shadow-md transition-all duration-200 font-medium">
+                        <svg id="mobile-menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="mobile-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                     <div class="hidden md:block text-right">
                         <p class="text-xs text-gray-500 mb-0.5">Logged in as</p>
                         <p class="text-sm font-medium text-gray-800" id="user-email">Loading...</p>
@@ -99,6 +110,32 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-nav-menu" class="hidden md:hidden border-t border-gray-200 bg-white">
+                <div class="px-4 py-4 space-y-2">
+                    <!-- User Info -->
+                    <div class="px-4 py-3 bg-gray-50 rounded-lg mb-2">
+                        <p class="text-xs text-gray-500 mb-0.5">Logged in as</p>
+                        <p class="text-sm font-medium text-gray-800" id="mobile-user-email">Loading...</p>
+                    </div>
+                    
+                    <!-- Navigation Links -->
+                    <a href="dashboard.html" class="block px-4 py-3 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg transition-colors duration-200">Dashboard</a>
+                    <a href="income.html" class="block px-4 py-3 text-primary bg-blue-50 rounded-lg font-medium">Income</a>
+                    <a href="expenses.html" class="block px-4 py-3 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg transition-colors duration-200">Expenses</a>
+                    <a href="balance-sheet.html" class="block px-4 py-3 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg transition-colors duration-200">Balance Sheet</a>
+                    <button onclick="alert('Reports page coming soon!')" class="w-full text-left px-4 py-3 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg transition-colors duration-200">Reports</button>
+                    
+                    <!-- Sign Out Button -->
+                    <button id="mobile-signout-btn" class="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 font-medium flex items-center gap-2 border-t border-gray-200 mt-2 pt-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Sign Out
+                    </button>
                 </div>
             </div>
         </div>
@@ -547,11 +584,32 @@
                 userEmailMenu.textContent = currentUser.email || 'Driver';
             }
             
+            // Update email in mobile menu
+            const mobileUserEmail = document.getElementById('mobile-user-email');
+            if (mobileUserEmail) {
+                mobileUserEmail.textContent = currentUser.email || 'Driver';
+            }
+            
             // Load income data
             await loadIncomeData();
         }
         
         // ============================================
+        // Mobile Navigation Toggle
+        // ============================================
+        const mobileNavBtn = document.getElementById('mobile-nav-btn');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        const mobileCloseIcon = document.getElementById('mobile-close-icon');
+
+        if (mobileNavBtn) {
+            mobileNavBtn.addEventListener('click', () => {
+                mobileNavMenu.classList.toggle('hidden');
+                mobileMenuIcon.classList.toggle('hidden');
+                mobileCloseIcon.classList.toggle('hidden');
+            });
+        }
+
         // User Menu Toggle
         // ============================================
         
@@ -571,14 +629,22 @@
         });
         
         // Sign out
-        document.getElementById('signout-btn').addEventListener('click', async () => {
+        // Sign out handlers (desktop and mobile)
+        const handleSignOut = async () => {
             const { error } = await supabase.auth.signOut();
             if (error) {
                 alert('Error signing out: ' + error.message);
             } else {
                 window.location.href = 'index.html';
             }
-        });
+        };
+        
+        document.getElementById('signout-btn').addEventListener('click', handleSignOut);
+        
+        const mobileSignoutBtn = document.getElementById('mobile-signout-btn');
+        if (mobileSignoutBtn) {
+            mobileSignoutBtn.addEventListener('click', handleSignOut);
+        }
         
         // Listen for auth state changes
         supabase.auth.onAuthStateChange((event, session) => {
