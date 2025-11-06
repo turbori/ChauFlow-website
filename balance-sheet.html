@@ -164,31 +164,6 @@
 
         <!-- Summary Cards - 3 Metrics -->
         <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <!-- Net Worth Card -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
-                    </div>
-                    <button class="group/tooltip relative" onmouseenter="showTooltip('net-worth-tooltip')" onmouseleave="hideTooltip('net-worth-tooltip')">
-                        <svg class="w-5 h-5 text-gray-400 hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div id="net-worth-tooltip" class="hidden absolute bottom-full right-0 mb-2 w-64 bg-gray-900 text-white text-xs rounded-lg py-2 px-3 z-50 shadow-xl">
-                            What your business is really worth — your assets minus what you owe.
-                            <div class="absolute top-full right-4 -mt-1">
-                                <div class="border-4 border-transparent border-t-gray-900"></div>
-                            </div>
-                        </div>
-                    </button>
-                </div>
-                <p class="text-sm text-gray-500 mb-1">Business Net Worth</p>
-                <p id="net-worth" class="text-3xl font-bold text-primary">$0.00</p>
-                <p class="text-xs text-gray-500 mt-2" id="net-worth-formula">$0 - $0</p>
-            </div>
-
             <!-- Total Assets Card -->
             <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
                 <div class="flex items-start justify-between mb-4">
@@ -238,18 +213,50 @@
                 <p id="total-liabilities-summary" class="text-3xl font-bold text-danger">$0.00</p>
                 <p class="text-xs text-gray-500 mt-2">Total Liabilities</p>
             </div>
+
+            <!-- Net Worth Card -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <button class="group/tooltip relative" onmouseenter="showTooltip('net-worth-tooltip')" onmouseleave="hideTooltip('net-worth-tooltip')">
+                        <svg class="w-5 h-5 text-gray-400 hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div id="net-worth-tooltip" class="hidden absolute bottom-full right-0 mb-2 w-64 bg-gray-900 text-white text-xs rounded-lg py-2 px-3 z-50 shadow-xl">
+                            What your business is really worth — your assets minus what you owe.
+                            <div class="absolute top-full right-4 -mt-1">
+                                <div class="border-4 border-transparent border-t-gray-900"></div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Business Net Worth</p>
+                <p id="net-worth" class="text-3xl font-bold text-primary">$0.00</p>
+                <p class="text-xs text-gray-500 mt-2" id="net-worth-formula">$0 - $0</p>
+            </div>
         </div>
 
         <!-- Two Column Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             <!-- ASSETS Column -->
-            <div>
+            <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl p-6 border-2 border-green-100">
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h2 class="text-2xl font-bold text-gray-900">What You Own</h2>
-                            <p class="text-sm text-gray-600">Your business assets</p>
+                            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                What You Own
+                            </h2>
+                            <p class="text-sm text-gray-600 ml-12">Your business assets</p>
                         </div>
                         <button 
                             onclick="openAssetModal()"
@@ -262,7 +269,7 @@
                         </button>
                     </div>
                     <!-- Help Text -->
-                    <div class="bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+                    <div class="bg-white border border-green-200 rounded-lg px-4 py-3 shadow-sm">
                         <p class="text-sm text-green-800">
                             <span class="font-semibold">Examples:</span> Cadillac Escalade, iPhone used for dispatch, business savings account
                         </p>
@@ -288,12 +295,19 @@
             </div>
 
             <!-- LIABILITIES Column -->
-            <div>
+            <div class="bg-gradient-to-br from-red-50 to-white rounded-2xl p-6 border-2 border-red-100">
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h2 class="text-2xl font-bold text-gray-900">What You Owe</h2>
-                            <p class="text-sm text-gray-600">Your business debts</p>
+                            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                    </svg>
+                                </div>
+                                What You Owe
+                            </h2>
+                            <p class="text-sm text-gray-600 ml-12">Your business debts</p>
                         </div>
                         <button 
                             onclick="openLiabilityModal()"
@@ -306,7 +320,7 @@
                         </button>
                     </div>
                     <!-- Help Text -->
-                    <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                    <div class="bg-white border border-red-200 rounded-lg px-4 py-3 shadow-sm">
                         <p class="text-sm text-red-800">
                             <span class="font-semibold">Examples:</span> Auto loan, credit card for gas, iPhone financing, business line of credit
                         </p>
@@ -328,6 +342,122 @@
                     <button onclick="openLiabilityModal()" class="px-4 py-2 bg-danger text-white rounded-lg hover:bg-red-600">
                         Add Your First Liability
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Owner's Equity Section -->
+        <div class="mt-12">
+            <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 border-2 border-purple-100">
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                                <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                                Owner's Equity
+                            </h2>
+                            <p class="text-sm text-gray-600 ml-12">Track your contributions and draws</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button 
+                                onclick="openEquityModal('contribution')"
+                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Add Contribution
+                            </button>
+                            <button 
+                                onclick="openEquityModal('draw')"
+                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-all duration-200 shadow-md hover:shadow-lg active:scale-95">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                </svg>
+                                Record Draw
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Equity Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <!-- Total Contributions -->
+                        <div class="bg-white border border-green-200 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600 font-medium">Total Contributions</p>
+                            </div>
+                            <p id="total-contributions" class="text-2xl font-bold text-green-600">$0.00</p>
+                            <p class="text-xs text-gray-500 mt-1">Money you invested</p>
+                        </div>
+                        
+                        <!-- Total Draws -->
+                        <div class="bg-white border border-purple-200 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-xs text-gray-600 font-medium">Total Draws</p>
+                            </div>
+                            <p id="total-draws" class="text-2xl font-bold text-purple-600">$0.00</p>
+                            <p class="text-xs text-gray-500 mt-1">Money you took out</p>
+                        </div>
+                        
+                        <!-- Net Equity -->
+                        <div class="bg-gradient-to-br from-purple-600 to-purple-700 rounded-lg p-4 text-white">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-xs opacity-90 font-medium">Net Owner's Equity</p>
+                            </div>
+                            <p id="net-equity" class="text-2xl font-bold">$0.00</p>
+                            <p class="text-xs opacity-80 mt-1">Contributions - Draws</p>
+                        </div>
+                    </div>
+
+                    <!-- Help Text -->
+                    <div class="bg-white border border-purple-200 rounded-lg px-4 py-3 shadow-sm">
+                        <p class="text-sm text-purple-800">
+                            <span class="font-semibold">💡 What's the difference?</span> 
+                            <strong>Contributions</strong> are money you put into your business. 
+                            <strong>Draws</strong> are money you take out for personal use. 
+                            Neither affects your profit/loss — they only change your equity.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Equity Transactions List -->
+                <div class="space-y-4" id="equity-list">
+                    <!-- Equity transaction cards will be inserted here -->
+                </div>
+
+                <!-- Empty State - Equity -->
+                <div id="equity-empty" class="hidden bg-white rounded-xl shadow-md p-8 text-center">
+                    <svg class="mx-auto w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">No equity transactions yet</h3>
+                    <p class="text-gray-600 mb-4">Start tracking your contributions and draws</p>
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="openEquityModal('contribution')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                            Add Contribution
+                        </button>
+                        <button onclick="openEquityModal('draw')" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                            Record Draw
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -808,6 +938,273 @@
             </div>
         </div>
     </div>
+
+    <!-- ============================================ -->
+    <!-- PAYMENT MODAL -->
+    <!-- ============================================ -->
+    <div id="payment-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="closePaymentModal()"></div>
+            
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-6 pt-6 pb-4">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">Make Payment</h2>
+                        <button onclick="closePaymentModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Info Banner -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-5">
+                        <div class="flex gap-2">
+                            <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-blue-900 mb-1">How Loan Payments Work</p>
+                                <p class="text-xs text-blue-800">Your payment has two parts: <strong>Principal</strong> (reduces the loan) and <strong>Interest</strong> (recorded as an expense).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Liability Info -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-5">
+                        <p class="text-xs text-gray-500 mb-1">Making payment for:</p>
+                        <p class="text-lg font-bold text-gray-900" id="payment-liability-name">-</p>
+                        <p class="text-sm text-gray-600 mt-1">Current Balance: <span class="font-semibold text-danger" id="payment-current-balance">$0.00</span></p>
+                    </div>
+
+                    <!-- Payment Form -->
+                    <form id="payment-form" class="space-y-5">
+                        <!-- Payment Date -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Payment Date *
+                            </label>
+                            <input type="date" id="payment-date" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        </div>
+
+                        <!-- Total Payment Amount -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Total Payment Amount *
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">$</span>
+                                <input type="text" id="payment-total" inputmode="numeric" required
+                                    oninput="formatPaymentCurrency(this); calculatePrincipal()"
+                                    class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                    placeholder="0.00">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">The full amount you're paying today</p>
+                        </div>
+
+                        <!-- Interest Amount -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Interest Amount *
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">$</span>
+                                <input type="text" id="payment-interest" inputmode="numeric" required
+                                    oninput="formatPaymentCurrency(this); calculatePrincipal()"
+                                    class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                                    placeholder="0.00">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">The interest portion (will be recorded as an expense)</p>
+                        </div>
+
+                        <!-- Principal Amount (Auto-calculated) -->
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs text-green-700 mb-1">Principal Amount (Auto-calculated)</p>
+                                    <p class="text-2xl font-bold text-green-800" id="payment-principal-display">$0.00</p>
+                                </div>
+                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs text-green-700 mt-2">This amount will reduce your loan balance</p>
+                        </div>
+
+                        <!-- Notes (Optional) -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Notes (Optional)
+                            </label>
+                            <textarea id="payment-notes" rows="2"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
+                                placeholder="e.g., Check #1234, confirmation number"></textarea>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="payment-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-3">
+                            <div class="flex gap-2">
+                                <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm text-red-800" id="payment-error-message"></span>
+                            </div>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div id="payment-success" class="hidden bg-green-50 border border-green-200 rounded-lg p-3">
+                            <p class="text-sm text-green-800 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                Payment recorded successfully!
+                            </p>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="flex gap-3 pt-2">
+                            <button type="button" onclick="closePaymentModal()"
+                                class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                                Cancel
+                            </button>
+                            <button type="submit" id="payment-submit-btn"
+                                class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Record Payment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- OWNER'S EQUITY MODAL -->
+    <!-- ============================================ -->
+    <div id="equity-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" onclick="closeEquityModal()"></div>
+            
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-6 pt-6 pb-4">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900" id="equity-modal-title">Add Transaction</h2>
+                        <button onclick="closeEquityModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Info Banner -->
+                    <div id="equity-info-banner" class="bg-purple-50 border border-purple-200 rounded-lg px-4 py-3 mb-5">
+                        <div class="flex gap-2">
+                            <svg class="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-purple-900 mb-1" id="equity-info-title">About This Transaction</p>
+                                <p class="text-xs text-purple-800" id="equity-info-text">Information about the transaction type</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Equity Form -->
+                    <form id="equity-form" class="space-y-5">
+                        <input type="hidden" id="equity-transaction-type" value="">
+                        
+                        <!-- Date -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Date *
+                            </label>
+                            <input type="date" id="equity-date" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                        </div>
+
+                        <!-- Amount -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Amount *
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">$</span>
+                                <input type="text" id="equity-amount" inputmode="numeric" required
+                                    oninput="formatEquityCurrency(this)"
+                                    class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                    placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Description *
+                            </label>
+                            <input type="text" id="equity-description" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                placeholder="e.g., Initial investment, Personal expenses">
+                        </div>
+
+                        <!-- Notes (Optional) -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                Notes (Optional)
+                            </label>
+                            <textarea id="equity-notes" rows="2"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent resize-none"
+                                placeholder="Additional details..."></textarea>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="equity-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-3">
+                            <div class="flex gap-2">
+                                <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-sm text-red-800" id="equity-error-message"></span>
+                            </div>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div id="equity-success" class="hidden bg-green-50 border border-green-200 rounded-lg p-3">
+                            <p class="text-sm text-green-800 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                Transaction recorded successfully!
+                            </p>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="flex gap-3 pt-2">
+                            <button type="button" onclick="closeEquityModal()"
+                                class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                                Cancel
+                            </button>
+                            <button type="submit" id="equity-submit-btn"
+                                class="flex-1 px-4 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span id="equity-submit-text">Record Transaction</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Footer -->
     <footer class="mt-16 py-8 px-4 bg-white border-t border-gray-200">
@@ -1017,7 +1414,7 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-2xl font-bold text-accent">${formatCurrencyDisplay(asset.value)}</p>
+                            <p class="text-2xl font-bold text-accent">${formatCurrencyDisplay(asset.current_value)}</p>
                             ${asset.purchase_date ? `<p class="text-xs text-gray-500 mt-1">Purchased: ${formatDate(asset.purchase_date)}</p>` : ''}
                         </div>
                     </div>
@@ -1060,13 +1457,24 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between mb-4">
                         <div>
-                            <p class="text-2xl font-bold text-danger">${formatCurrencyDisplay(liability.balance)}</p>
+                            <p class="text-2xl font-bold text-danger">${formatCurrencyDisplay(liability.current_balance)}</p>
                             ${liability.due_date ? `<p class="text-xs text-gray-500 mt-1">Due: ${formatDate(liability.due_date)}</p>` : ''}
                         </div>
                     </div>
-                    ${liability.notes ? `<p class="text-sm text-gray-600 mt-3 pt-3 border-t border-gray-200">${liability.notes}</p>` : ''}
+                    ${liability.notes ? `<p class="text-sm text-gray-600 mb-3 pb-3 border-b border-gray-200">${liability.notes}</p>` : ''}
+                    
+                    <!-- Make Payment Button -->
+                    <button 
+                        onclick="openPaymentModal('${liability.id}', '${liability.liability_name}', ${liability.current_balance})"
+                        class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm hover:shadow-md"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        Make Payment
+                    </button>
                 </div>
             `).join('');
         }
@@ -1076,8 +1484,8 @@
         // ============================================
         
         function updateNetWorth() {
-            const totalAssets = allAssets.reduce((sum, asset) => sum + parseFloat(asset.value), 0);
-            const totalLiabilities = allLiabilities.reduce((sum, liability) => sum + parseFloat(liability.balance), 0);
+            const totalAssets = allAssets.reduce((sum, asset) => sum + parseFloat(asset.current_value), 0);
+            const totalLiabilities = allLiabilities.reduce((sum, liability) => sum + parseFloat(liability.current_balance), 0);
             const netWorth = totalAssets - totalLiabilities;
             
             document.getElementById('total-assets-summary').textContent = formatCurrencyDisplay(totalAssets);
@@ -1129,6 +1537,156 @@
         }
         
         // ============================================
+        // Payment Modal Functions
+        // ============================================
+        
+        let currentLiabilityForPayment = null;
+        
+        function openPaymentModal(liabilityId, liabilityName, currentBalance) {
+            currentLiabilityForPayment = liabilityId;
+            
+            // Set liability info
+            document.getElementById('payment-liability-name').textContent = liabilityName;
+            document.getElementById('payment-current-balance').textContent = formatCurrencyDisplay(currentBalance);
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('payment-date').value = today;
+            
+            // Show modal
+            document.getElementById('payment-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+            document.getElementById('payment-form').reset();
+            document.getElementById('payment-error').classList.add('hidden');
+            document.getElementById('payment-success').classList.add('hidden');
+            document.getElementById('payment-principal-display').textContent = '$0.00';
+            document.body.style.overflow = 'auto';
+            currentLiabilityForPayment = null;
+        }
+        
+        // Format currency in payment fields
+        function formatPaymentCurrency(input) {
+            let value = input.value.replace(/[^0-9.]/g, '');
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts.slice(1).join('');
+            }
+            if (parts[1] && parts[1].length > 2) {
+                value = parts[0] + '.' + parts[1].substring(0, 2);
+            }
+            input.value = value;
+        }
+        
+        // Calculate principal amount automatically
+        function calculatePrincipal() {
+            const totalInput = document.getElementById('payment-total').value;
+            const interestInput = document.getElementById('payment-interest').value;
+            
+            const total = parseFloat(totalInput) || 0;
+            const interest = parseFloat(interestInput) || 0;
+            const principal = total - interest;
+            
+            const principalDisplay = document.getElementById('payment-principal-display');
+            if (principal >= 0) {
+                principalDisplay.textContent = formatCurrencyDisplay(principal);
+                principalDisplay.classList.remove('text-red-800');
+                principalDisplay.classList.add('text-green-800');
+            } else {
+                principalDisplay.textContent = formatCurrencyDisplay(principal);
+                principalDisplay.classList.remove('text-green-800');
+                principalDisplay.classList.add('text-red-800');
+            }
+        }
+        
+        // Handle payment form submission
+        const paymentForm = document.getElementById('payment-form');
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('payment-submit-btn');
+            const errorDiv = document.getElementById('payment-error');
+            const errorMessage = document.getElementById('payment-error-message');
+            const successDiv = document.getElementById('payment-success');
+            
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...';
+            
+            try {
+                const totalPayment = parseFloat(document.getElementById('payment-total').value);
+                const interestAmount = parseFloat(document.getElementById('payment-interest').value);
+                const principalAmount = totalPayment - interestAmount;
+                
+                // Validation
+                if (isNaN(totalPayment) || totalPayment <= 0) {
+                    throw new Error('Please enter a valid total payment amount');
+                }
+                if (isNaN(interestAmount) || interestAmount < 0) {
+                    throw new Error('Please enter a valid interest amount');
+                }
+                if (principalAmount < 0) {
+                    throw new Error('Interest amount cannot exceed total payment');
+                }
+                
+                // Step 1: Create interest expense entry (if interest > 0)
+                let expenseId = null;
+                if (interestAmount > 0) {
+                    const { data: expenseData, error: expenseError } = await supabase
+                        .from('expenses')
+                        .insert([{
+                            user_id: currentUser.id,
+                            date: document.getElementById('payment-date').value,
+                            category: 'Interest Expense',
+                            amount: interestAmount,
+                            description: `Interest payment for ${document.getElementById('payment-liability-name').textContent}`
+                        }])
+                        .select();
+                    
+                    if (expenseError) throw expenseError;
+                    expenseId = expenseData[0].id;
+                }
+                
+                // Step 2: Record the loan payment
+                const { data: paymentData, error: paymentError } = await supabase
+                    .from('loan_payments')
+                    .insert([{
+                        user_id: currentUser.id,
+                        liability_id: currentLiabilityForPayment,
+                        payment_date: document.getElementById('payment-date').value,
+                        total_payment: totalPayment,
+                        principal_amount: principalAmount,
+                        interest_amount: interestAmount,
+                        notes: document.getElementById('payment-notes').value || null,
+                        expense_id: expenseId
+                    }])
+                    .select();
+                
+                if (paymentError) throw paymentError;
+                
+                console.log('Payment recorded:', paymentData);
+                successDiv.classList.remove('hidden');
+                
+                // Reload data
+                setTimeout(async () => {
+                    await loadLiabilities();
+                    closePaymentModal();
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error recording payment:', error);
+                errorMessage.textContent = error.message;
+                errorDiv.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Record Payment';
+            }
+        });
+        
+        // ============================================
         // Add Asset Form Handler
         // ============================================
         
@@ -1159,8 +1717,10 @@
                             user_id: currentUser.id,
                             asset_name: document.getElementById('asset-name').value,
                             asset_type: document.getElementById('asset-type').value,
-                            value: value,
+                            current_value: value,
                             purchase_date: document.getElementById('asset-purchase-date').value || null,
+                            purchase_price: document.getElementById('asset-purchase-price').value ? parseFloat(document.getElementById('asset-purchase-price').value) : null,
+                            track_depreciation: document.getElementById('track-depreciation')?.checked || false,
                             notes: document.getElementById('asset-notes').value || null
                         }
                     ])
@@ -1217,7 +1777,7 @@
                             user_id: currentUser.id,
                             liability_name: document.getElementById('liability-name').value,
                             liability_type: document.getElementById('liability-type').value,
-                            balance: balance,
+                            current_balance: balance,
                             due_date: document.getElementById('liability-due-date').value || null,
                             notes: document.getElementById('liability-notes').value || null
                         }
