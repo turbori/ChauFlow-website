@@ -385,21 +385,21 @@
                     <!-- Equity Summary Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <!-- Total Contributions -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                            <p class="text-xs text-gray-600 font-medium mb-2">Total Contributions</p>
-                            <p id="total-contributions" class="text-2xl font-bold text-gray-900">$0.00</p>
-                            <p class="text-xs text-gray-500 mt-1">Money you invested</p>
+                        <div class="bg-gradient-to-br from-green-50 to-white border-2 border-green-200 rounded-lg p-4">
+                            <p class="text-xs text-green-700 font-medium mb-2">Total Contributions</p>
+                            <p id="total-contributions" class="text-2xl font-bold text-green-600">$0.00</p>
+                            <p class="text-xs text-green-600 mt-1">Money you invested</p>
                         </div>
                         
                         <!-- Total Draws -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                            <p class="text-xs text-gray-600 font-medium mb-2">Total Draws</p>
-                            <p id="total-draws" class="text-2xl font-bold text-gray-900">$0.00</p>
-                            <p class="text-xs text-gray-500 mt-1">Money you took out</p>
+                        <div class="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-lg p-4">
+                            <p class="text-xs text-orange-700 font-medium mb-2">Total Draws</p>
+                            <p id="total-draws" class="text-2xl font-bold text-orange-600">$0.00</p>
+                            <p class="text-xs text-orange-600 mt-1">Money you took out</p>
                         </div>
                         
                         <!-- Net Equity -->
-                        <div class="bg-primary rounded-lg p-4 text-white">
+                        <div class="bg-gradient-to-br from-primary to-blue-700 rounded-lg p-4 text-white shadow-md">
                             <p class="text-xs opacity-90 font-medium mb-2">Net Owner's Equity</p>
                             <p id="net-equity" class="text-2xl font-bold">$0.00</p>
                             <p class="text-xs opacity-80 mt-1">Contributions - Draws</p>
@@ -1468,10 +1468,10 @@
             const totalLiabilities = allLiabilities.reduce((sum, liability) => sum + parseFloat(liability.current_balance), 0);
             const netWorth = totalAssets - totalLiabilities;
             
-            // Update summary cards with animated counting
-            animateCurrency('total-assets-summary', totalAssets);
-            animateCurrency('total-liabilities-summary', totalLiabilities);
-            animateCurrency('net-worth', netWorth);
+            // Update summary cards
+            document.getElementById('total-assets-summary').textContent = formatCurrencyDisplay(totalAssets);
+            document.getElementById('total-liabilities-summary').textContent = formatCurrencyDisplay(totalLiabilities);
+            document.getElementById('net-worth').textContent = formatCurrencyDisplay(netWorth);
             
             document.getElementById('net-worth-formula').textContent = 
                 `${formatCurrencyDisplay(totalAssets)} - ${formatCurrencyDisplay(totalLiabilities)} = ${formatCurrencyDisplay(netWorth)}`;
@@ -1664,10 +1664,10 @@
                 const totalDraws = draws.reduce((sum, t) => sum + parseFloat(t.amount), 0);
                 const netEquity = totalContributions - totalDraws;
                 
-                // Update summary cards with animation
-                animateCurrency('total-contributions', totalContributions);
-                animateCurrency('total-draws', totalDraws);
-                animateCurrency('net-equity', netEquity);
+                // Update summary cards
+                document.getElementById('total-contributions').textContent = formatCurrencyDisplay(totalContributions);
+                document.getElementById('total-draws').textContent = formatCurrencyDisplay(totalDraws);
+                document.getElementById('net-equity').textContent = formatCurrencyDisplay(netEquity);
                 
                 // Render transactions list
                 renderEquityList(data);
@@ -1691,16 +1691,19 @@
             
             listEl.innerHTML = transactions.map(transaction => {
                 const isContribution = transaction.transaction_type === 'contribution';
-                const iconBg = isContribution ? 'bg-blue-100' : 'bg-gray-100';
-                const iconColor = isContribution ? 'text-blue-600' : 'text-gray-600';
-                const amountColor = isContribution ? 'text-blue-600' : 'text-gray-900';
+                const iconBg = isContribution ? 'bg-green-100' : 'bg-orange-100';
+                const iconColor = isContribution ? 'text-green-600' : 'text-orange-600';
+                const amountColor = isContribution ? 'text-green-600' : 'text-orange-600';
+                const cardBorder = isContribution ? 'border-green-200' : 'border-orange-200';
+                const cardBg = isContribution ? 'bg-gradient-to-br from-green-50 to-white' : 'bg-gradient-to-br from-orange-50 to-white';
                 const typeLabel = isContribution ? 'Contribution' : 'Draw';
+                const typeBadgeBg = isContribution ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700';
                 const icon = isContribution 
                     ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>'
                     : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>';
                 
                 return `
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <div class="${cardBg} border ${cardBorder} rounded-lg p-4">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3 flex-1">
                                 <div class="w-10 h-10 ${iconBg} rounded-lg flex items-center justify-center flex-shrink-0">
@@ -1711,7 +1714,7 @@
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center gap-2 mb-1">
                                         <span class="text-sm font-semibold text-gray-900">${transaction.description}</span>
-                                        <span class="text-xs px-2 py-0.5 bg-gray-200 text-gray-700 rounded">${typeLabel}</span>
+                                        <span class="text-xs px-2 py-0.5 ${typeBadgeBg} rounded font-medium">${typeLabel}</span>
                                     </div>
                                     <p class="text-xs text-gray-600">${formatDate(transaction.transaction_date)}</p>
                                     ${transaction.notes ? `<p class="text-xs text-gray-500 mt-1">${transaction.notes}</p>` : ''}

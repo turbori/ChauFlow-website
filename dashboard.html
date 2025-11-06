@@ -1163,10 +1163,10 @@
                 const totalExpenses = expenseData.reduce((sum, item) => sum + parseFloat(item.amount), 0);
                 const netProfit = totalIncome - totalExpenses;
                 
-                // Update stats cards with animated counting
-                animateCurrency('total-income', totalIncome);
-                animateCurrency('total-expenses', totalExpenses);
-                animateCurrency('net-profit', netProfit);
+                // Update stats cards
+                document.getElementById('total-income').textContent = formatCurrencyDisplay(totalIncome);
+                document.getElementById('total-expenses').textContent = formatCurrencyDisplay(totalExpenses);
+                document.getElementById('net-profit').textContent = formatCurrencyDisplay(netProfit);
                 
                 // Load Balance Sheet data
                 await loadBalanceSheetData();
@@ -1327,11 +1327,16 @@
                 // Calculate net worth
                 const netWorth = totalAssets - totalLiabilities;
                 
-                // Update dashboard cards with animated counting
-                animateCurrency('dashboard-total-assets', totalAssets);
-                animateCurrency('dashboard-total-liabilities', totalLiabilities);
-                animateCurrency('dashboard-net-equity', netEquity);
-                animateCurrency('dashboard-net-worth', netWorth);
+                // Update dashboard cards
+                const dashboardTotalAssets = document.getElementById('dashboard-total-assets');
+                const dashboardTotalLiabilities = document.getElementById('dashboard-total-liabilities');
+                const dashboardNetEquity = document.getElementById('dashboard-net-equity');
+                const dashboardNetWorth = document.getElementById('dashboard-net-worth');
+                
+                if (dashboardTotalAssets) dashboardTotalAssets.textContent = formatCurrencyDisplay(totalAssets);
+                if (dashboardTotalLiabilities) dashboardTotalLiabilities.textContent = formatCurrencyDisplay(totalLiabilities);
+                if (dashboardNetEquity) dashboardNetEquity.textContent = formatCurrencyDisplay(netEquity);
+                if (dashboardNetWorth) dashboardNetWorth.textContent = formatCurrencyDisplay(netWorth);
                 
             } catch (error) {
                 console.error('Error loading balance sheet data:', error);

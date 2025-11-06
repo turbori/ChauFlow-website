@@ -892,9 +892,9 @@
                 const totalTrips = monthIncome.reduce((sum, item) => sum + (parseInt(item.trip_count) || 0), 0);
                 const avgPerTrip = totalTrips > 0 ? totalIncome / totalTrips : 0;
                 
-                // Update summary cards with animated counting
-                animateCurrency('total-income', totalIncome);
-                animateCurrency('avg-per-trip', avgPerTrip);
+                // Update summary cards
+                document.getElementById('total-income').textContent = formatCurrencyDisplay(totalIncome);
+                document.getElementById('avg-per-trip').textContent = formatCurrencyDisplay(avgPerTrip);
                 document.getElementById('total-entries').textContent = formatNumber(incomeData.length);
                 document.getElementById('trip-count-label').textContent = `${totalTrips} trips`;
                 

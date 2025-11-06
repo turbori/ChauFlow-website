@@ -705,9 +705,9 @@
             const count = monthlyExpenses.length;
             const average = count > 0 ? total / count : 0;
             
-            // Update summary cards with animated counting
-            animateCurrency('total-expenses', total);
-            animateCurrency('avg-expense', average);
+            // Update summary cards
+            document.getElementById('total-expenses').textContent = formatCurrencyDisplay(total);
+            document.getElementById('avg-expense').textContent = formatCurrencyDisplay(average);
             document.getElementById('entry-count').textContent = count.toString();
         }
         
