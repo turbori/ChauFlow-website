@@ -244,23 +244,23 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             <!-- ASSETS Column -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+            <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl p-6 shadow-sm border-2 border-green-200">
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                                <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
                                 What You Own
                             </h2>
-                            <p class="text-sm text-gray-600 ml-12">Your business assets</p>
+                            <p class="text-sm text-green-700 ml-12">Your business assets</p>
                         </div>
                         <button 
                             onclick="openAssetModal()"
-                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -269,8 +269,8 @@
                         </button>
                     </div>
                     <!-- Help Text -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-                        <p class="text-sm text-blue-900">
+                    <div class="bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-green-800">
                             <span class="font-semibold">Examples:</span> Cadillac Escalade, iPhone used for dispatch, business savings account
                         </p>
                     </div>
@@ -295,23 +295,23 @@
             </div>
 
             <!-- LIABILITIES Column -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+            <div class="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 shadow-sm border-2 border-orange-200">
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                                <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                                     </svg>
                                 </div>
                                 What You Owe
                             </h2>
-                            <p class="text-sm text-gray-600 ml-12">Your business debts</p>
+                            <p class="text-sm text-orange-700 ml-12">Your business debts</p>
                         </div>
                         <button 
                             onclick="openLiabilityModal()"
-                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-all duration-200 shadow-sm hover:shadow-md"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -320,8 +320,8 @@
                         </button>
                     </div>
                     <!-- Help Text -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-                        <p class="text-sm text-blue-900">
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-orange-800">
                             <span class="font-semibold">Examples:</span> Auto loan, credit card for gas, iPhone financing, business line of credit
                         </p>
                     </div>
@@ -1691,11 +1691,9 @@
             
             listEl.innerHTML = transactions.map(transaction => {
                 const isContribution = transaction.transaction_type === 'contribution';
-                const iconBg = isContribution ? 'bg-green-100' : 'bg-orange-100';
+                const iconBg = isContribution ? 'bg-green-50' : 'bg-orange-50';
                 const iconColor = isContribution ? 'text-green-600' : 'text-orange-600';
                 const amountColor = isContribution ? 'text-green-600' : 'text-orange-600';
-                const cardBorder = isContribution ? 'border-green-200' : 'border-orange-200';
-                const cardBg = isContribution ? 'bg-gradient-to-br from-green-50 to-white' : 'bg-gradient-to-br from-orange-50 to-white';
                 const typeLabel = isContribution ? 'Contribution' : 'Draw';
                 const typeBadgeBg = isContribution ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700';
                 const icon = isContribution 
@@ -1703,7 +1701,7 @@
                     : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>';
                 
                 return `
-                    <div class="${cardBg} border ${cardBorder} rounded-lg p-4">
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow duration-200">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3 flex-1">
                                 <div class="w-10 h-10 ${iconBg} rounded-lg flex items-center justify-center flex-shrink-0">
