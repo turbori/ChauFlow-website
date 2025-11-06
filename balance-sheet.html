@@ -1248,6 +1248,7 @@
             // Load data
             loadAssets();
             loadLiabilities();
+            loadOwnerEquity();
         }
         
         // Listen for auth state changes
@@ -1515,6 +1516,214 @@
             document.getElementById('liability-error').classList.add('hidden');
             document.getElementById('liability-success').classList.add('hidden');
             document.body.style.overflow = 'auto';
+        }
+        
+        // ============================================
+        // Owner's Equity Modal Functions
+        // ============================================
+        
+        const equityModal = document.getElementById('equity-modal');
+        const equityForm = document.getElementById('equity-form');
+        
+        function openEquityModal(transactionType) {
+            // Set transaction type
+            document.getElementById('equity-transaction-type').value = transactionType;
+            
+            // Update modal title and info based on type
+            const titleEl = document.getElementById('equity-modal-title');
+            const infoTitleEl = document.getElementById('equity-info-title');
+            const infoTextEl = document.getElementById('equity-info-text');
+            const submitTextEl = document.getElementById('equity-submit-text');
+            const infoBanner = document.getElementById('equity-info-banner');
+            
+            if (transactionType === 'contribution') {
+                titleEl.textContent = 'Add Contribution';
+                infoTitleEl.textContent = 'About Contributions';
+                infoTextEl.textContent = 'Record money you invest into your business. This increases your owner\'s equity but doesn\'t affect your profit/loss.';
+                submitTextEl.textContent = 'Record Contribution';
+                infoBanner.className = 'bg-blue-50 border border-blue-200 rounded-lg px-4 py-3 mb-5';
+                infoTitleEl.className = 'text-sm font-semibold text-blue-900 mb-1';
+                infoTextEl.className = 'text-xs text-blue-800';
+            } else {
+                titleEl.textContent = 'Record Draw';
+                infoTitleEl.textContent = 'About Draws';
+                infoTextEl.textContent = 'Record money you take out for personal use. This decreases your owner\'s equity but doesn\'t affect your profit/loss.';
+                submitTextEl.textContent = 'Record Draw';
+                infoBanner.className = 'bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 mb-5';
+                infoTitleEl.className = 'text-sm font-semibold text-gray-900 mb-1';
+                infoTextEl.className = 'text-xs text-gray-700';
+            }
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('equity-date').value = today;
+            
+            // Show modal
+            equityModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEquityModal() {
+            equityModal.classList.add('hidden');
+            equityForm.reset();
+            document.getElementById('equity-error').classList.add('hidden');
+            document.getElementById('equity-success').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Format currency in equity amount field
+        function formatEquityCurrency(input) {
+            let value = input.value.replace(/[^0-9.]/g, '');
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts.slice(1).join('');
+            }
+            if (parts[1] && parts[1].length > 2) {
+                value = parts[0] + '.' + parts[1].substring(0, 2);
+            }
+            input.value = value;
+        }
+        
+        // Handle equity form submission
+        equityForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('equity-submit-btn');
+            const errorDiv = document.getElementById('equity-error');
+            const errorMessage = document.getElementById('equity-error-message');
+            const successDiv = document.getElementById('equity-success');
+            
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...';
+            
+            try {
+                const amount = parseFloat(document.getElementById('equity-amount').value);
+                
+                // Validation
+                if (isNaN(amount) || amount <= 0) {
+                    throw new Error('Please enter a valid amount');
+                }
+                
+                // Insert into owner_equity table
+                const { data, error } = await supabase
+                    .from('owner_equity')
+                    .insert([{
+                        user_id: currentUser.id,
+                        transaction_date: document.getElementById('equity-date').value,
+                        transaction_type: document.getElementById('equity-transaction-type').value,
+                        amount: amount,
+                        description: document.getElementById('equity-description').value,
+                        notes: document.getElementById('equity-notes').value || null
+                    }])
+                    .select();
+                
+                if (error) throw error;
+                
+                console.log('Equity transaction recorded:', data);
+                successDiv.classList.remove('hidden');
+                
+                // Reload data after short delay
+                setTimeout(() => {
+                    loadOwnerEquity();
+                    updateNetWorth();
+                    closeEquityModal();
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error recording equity transaction:', error);
+                errorMessage.textContent = error.message;
+                errorDiv.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span id="equity-submit-text">Record Transaction</span>';
+            }
+        });
+        
+        // ============================================
+        // Load Owner's Equity
+        // ============================================
+        
+        async function loadOwnerEquity() {
+            if (!currentUser) return;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('owner_equity')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('transaction_date', { ascending: false });
+                
+                if (error) throw error;
+                
+                // Calculate totals
+                const contributions = data.filter(t => t.transaction_type === 'contribution');
+                const draws = data.filter(t => t.transaction_type === 'draw');
+                
+                const totalContributions = contributions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+                const totalDraws = draws.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+                const netEquity = totalContributions - totalDraws;
+                
+                // Update summary cards with animation
+                animateCurrency('total-contributions', totalContributions);
+                animateCurrency('total-draws', totalDraws);
+                animateCurrency('net-equity', netEquity);
+                
+                // Render transactions list
+                renderEquityList(data);
+                
+            } catch (error) {
+                console.error('Error loading owner equity:', error);
+            }
+        }
+        
+        function renderEquityList(transactions) {
+            const listEl = document.getElementById('equity-list');
+            const emptyEl = document.getElementById('equity-empty');
+            
+            if (transactions.length === 0) {
+                listEl.innerHTML = '';
+                emptyEl.classList.remove('hidden');
+                return;
+            }
+            
+            emptyEl.classList.add('hidden');
+            
+            listEl.innerHTML = transactions.map(transaction => {
+                const isContribution = transaction.transaction_type === 'contribution';
+                const iconBg = isContribution ? 'bg-blue-100' : 'bg-gray-100';
+                const iconColor = isContribution ? 'text-blue-600' : 'text-gray-600';
+                const amountColor = isContribution ? 'text-blue-600' : 'text-gray-900';
+                const typeLabel = isContribution ? 'Contribution' : 'Draw';
+                const icon = isContribution 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>';
+                
+                return `
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3 flex-1">
+                                <div class="w-10 h-10 ${iconBg} rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        ${icon}
+                                    </svg>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-sm font-semibold text-gray-900">${transaction.description}</span>
+                                        <span class="text-xs px-2 py-0.5 bg-gray-200 text-gray-700 rounded">${typeLabel}</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">${formatDate(transaction.transaction_date)}</p>
+                                    ${transaction.notes ? `<p class="text-xs text-gray-500 mt-1">${transaction.notes}</p>` : ''}
+                                </div>
+                            </div>
+                            <div class="text-right ml-4">
+                                <p class="text-xl font-bold ${amountColor}">${formatCurrencyDisplay(transaction.amount)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
         
         // ============================================
