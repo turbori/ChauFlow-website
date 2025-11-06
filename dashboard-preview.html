@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Preview | ChauFlow</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        accent: '#10B981',
+                        danger: '#EF4444',
+                        background: '#F9FAFB',
+                        textDark: '#1F2937'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen">
+    
+    <!-- Preview Banner -->
+    <div class="bg-yellow-500 text-white py-2 px-4 text-center">
+        <p class="text-sm font-semibold">
+            👁️ PREVIEW MODE - This is a demo with sample data. 
+            <a href="login.html" class="underline">Sign in</a> to use real features.
+        </p>
+    </div>
+    
+    <!-- Navigation Header -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-8">
+                    <h1 class="text-xl md:text-2xl font-bold text-primary">ChauFlow</h1>
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="#" class="text-gray-700 hover:text-primary transition-colors duration-200 font-medium">Dashboard</a>
+                        <a href="#" class="text-gray-600 hover:text-primary transition-colors duration-200">Income</a>
+                        <a href="#" class="text-gray-600 hover:text-primary transition-colors duration-200">Expenses</a>
+                        <a href="#" class="text-gray-600 hover:text-primary transition-colors duration-200">Reports</a>
+                    </div>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:block text-right">
+                        <p class="text-sm font-semibold text-gray-700">demo@chauflow.com</p>
+                        <p class="text-xs text-gray-500">Preview Mode</p>
+                    </div>
+                    <a href="login.html"
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-textDark mb-2">Welcome back! 👋</h2>
+            <p class="text-gray-600 text-lg">Here's your bookkeeping overview (Sample Data)</p>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Card 1: Total Income -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">💵</span>
+                    </div>
+                    <span class="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                        5 entries
+                    </span>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Total Income</p>
+                <p class="text-3xl font-bold text-accent">$4,287.00</p>
+                <p class="text-xs text-gray-500 mt-2">This month</p>
+            </div>
+            
+            <!-- Card 2: Total Expenses -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">🧾</span>
+                    </div>
+                    <span class="text-xs font-semibold text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                        8 entries
+                    </span>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Total Expenses</p>
+                <p class="text-3xl font-bold text-danger">$892.00</p>
+                <p class="text-xs text-gray-500 mt-2">This month</p>
+            </div>
+            
+            <!-- Card 3: Net Profit -->
+            <div class="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 shadow-lg text-white">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                        <span class="text-2xl">📊</span>
+                    </div>
+                    <span class="text-xs font-semibold bg-white/20 px-3 py-1 rounded-full">
+                        Net
+                    </span>
+                </div>
+                <p class="text-sm text-blue-100 mb-1">Net Profit</p>
+                <p class="text-3xl font-bold">$3,395.00</p>
+                <p class="text-xs text-blue-100 mt-2">Income - Expenses</p>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <button onclick="alert('Sign in to add income!')" class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span class="text-xl">➕</span>
+                </div>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-700">Add Income</p>
+                    <p class="text-xs text-gray-500">Log new income</p>
+                </div>
+            </button>
+            
+            <button onclick="alert('Sign in to add expenses!')" class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3">
+                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <span class="text-xl">💸</span>
+                </div>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-700">Add Expense</p>
+                    <p class="text-xs text-gray-500">Track spending</p>
+                </div>
+            </button>
+            
+            <button class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3 opacity-50 cursor-not-allowed">
+                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <span class="text-xl">📸</span>
+                </div>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-700">Scan Receipt</p>
+                    <p class="text-xs text-gray-500">Coming soon</p>
+                </div>
+            </button>
+            
+            <button class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3 opacity-50 cursor-not-allowed">
+                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                    <span class="text-xl">📤</span>
+                </div>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-700">Export Report</p>
+                    <p class="text-xs text-gray-500">Coming soon</p>
+                </div>
+            </button>
+        </div>
+        
+        <!-- Recent Activity & Profit Chart -->
+        <div class="grid lg:grid-cols-3 gap-6">
+            
+            <!-- Recent Activity -->
+            <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-textDark">Recent Activity</h3>
+                    <a href="#" class="text-sm text-primary hover:underline font-medium">View All</a>
+                </div>
+                
+                <div class="space-y-3">
+                    <!-- Activity Item 1 -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="text-lg">🚗</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-700">Rideshare Trip</p>
+                                <p class="text-xs text-gray-500">Today, 2:30 PM</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-accent">+$45.00</span>
+                    </div>
+                    
+                    <!-- Activity Item 2 -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <span class="text-lg">⛽</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-700">Gas - Shell</p>
+                                <p class="text-xs text-gray-500">Today, 11:15 AM</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-danger">-$52.00</span>
+                    </div>
+                    
+                    <!-- Activity Item 3 -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="text-lg">👤</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-700">Private Client</p>
+                                <p class="text-xs text-gray-500">Yesterday, 6:45 PM</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-accent">+$120.00</span>
+                    </div>
+                    
+                    <!-- Activity Item 4 -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <span class="text-lg">🚗</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-700">Toll - GWB</p>
+                                <p class="text-xs text-gray-500">Yesterday, 3:20 PM</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-danger">-$16.00</span>
+                    </div>
+                    
+                    <!-- Activity Item 5 -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="text-lg">🚙</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-700">Black Car Service</p>
+                                <p class="text-xs text-gray-500">2 days ago</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-accent">+$85.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profit Trend -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+                <h3 class="text-xl font-bold text-textDark mb-6">This Month</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Trips</span>
+                            <span class="font-bold text-gray-900">127</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-accent h-2 rounded-full transition-all duration-500" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Hours</span>
+                            <span class="font-bold text-gray-900">42.5</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Miles</span>
+                            <span class="font-bold text-gray-900">1,247</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-purple-500 h-2 rounded-full transition-all duration-500" style="width: 92%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <p class="text-sm text-gray-600 mb-2">Avg. per trip</p>
+                    <p class="text-2xl font-bold text-primary">$33.75</p>
+                </div>
+                
+                <div class="mt-4">
+                    <p class="text-sm text-gray-600 mb-2">Top expense</p>
+                    <p class="text-lg font-semibold text-gray-900">⛽ Gas ($312)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview Notice Banner -->
+        <div class="mt-8 bg-gradient-to-r from-primary to-blue-700 rounded-2xl p-8 text-center text-white shadow-xl">
+            <h3 class="text-2xl font-bold mb-2">👁️ This is a Preview with Sample Data</h3>
+            <p class="text-blue-100 mb-4">Sign in or create an account to track your real income and expenses!</p>
+            <div class="flex gap-4 justify-center">
+                <a href="login.html" class="px-6 py-3 bg-white text-primary rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-200">
+                    Sign In
+                </a>
+                <a href="index.html" class="px-6 py-3 bg-white/20 text-white rounded-xl font-semibold hover:bg-white/30 transition-colors duration-200">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-16 py-8 px-4 bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto text-center text-sm text-gray-500">
+            <p>© 2025 ChauFlow. All rights reserved. | <a href="login.html" class="text-primary hover:underline">Sign In</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
+

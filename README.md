@@ -293,6 +293,30 @@ As advanced features roll out, introduce tiered pricing:
 - [ ] Set up email reminders system
 - [ ] Launch in driver communities
 
+## 📚 Documentation
+
+All documentation has been organized into the `docs/` folder for easy navigation:
+
+### 🚀 Quick Start
+- **[docs/improvements/IMPROVEMENTS_README.md](docs/improvements/IMPROVEMENTS_README.md)** - Latest improvements overview
+- **[docs/improvements/QUICK_START_IMPROVEMENTS.md](docs/improvements/QUICK_START_IMPROVEMENTS.md)** - 5-minute implementation guide
+- **[docs/guides/SETUP_INSTRUCTIONS.md](docs/guides/SETUP_INSTRUCTIONS.md)** - Initial setup instructions
+
+### 📂 Documentation Structure
+```
+docs/
+├── improvements/        🚀 Latest enhancements & utilities
+├── features/           ✨ Feature-specific documentation
+├── guides/             📖 Setup & implementation guides
+├── architecture/       🏗️ System design & architecture
+└── legacy/             📦 Historical/debug documentation
+```
+
+### 📖 Full Documentation Index
+See **[docs/README.md](docs/README.md)** for complete documentation navigation.
+
+---
+
 ## 📄 License
 
 This landing page template is ready for production use for the ChauFlow SaaS product.

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | ChauFlow</title>
+    <title>Create Account | ChauFlow</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -31,7 +31,7 @@
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen flex items-center justify-center p-4">
     
-    <!-- Login Container -->
+    <!-- Signup Container -->
     <div class="w-full max-w-md">
         
         <!-- Back to Home Link -->
@@ -44,7 +44,7 @@
             </a>
         </div>
         
-        <!-- Login Card -->
+        <!-- Signup Card -->
         <div class="bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
             
             <!-- Header -->
@@ -52,8 +52,8 @@
                 <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <span class="text-3xl">🚗</span>
                 </div>
-                <h1 class="text-3xl font-bold text-white mb-2">Welcome to ChauFlow</h1>
-                <p class="text-blue-100">Sign in to manage your bookkeeping</p>
+                <h1 class="text-3xl font-bold text-white mb-2">Create Your Account</h1>
+                <p class="text-blue-100">Start tracking your income & expenses</p>
             </div>
             
             <!-- Form Content -->
@@ -64,12 +64,12 @@
                     <p id="message-text" class="text-sm font-medium"></p>
                 </div>
                 
-                <!-- Email/Password Form -->
-                <form id="auth-form" class="space-y-4 mb-6">
+                <!-- Signup Form -->
+                <form id="signup-form" class="space-y-4 mb-6">
                     
                     <!-- Email Input -->
                     <div>
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
                         <input 
                             type="email" 
                             id="email" 
@@ -78,38 +78,48 @@
                             required
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                         />
+                        <p id="email-error" class="text-xs text-red-600 mt-1 hidden">Please enter a valid email address</p>
                     </div>
                     
                     <!-- Password Input -->
                     <div>
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password *</label>
                         <input 
                             type="password" 
                             id="password" 
                             name="password" 
-                            placeholder="••••••••" 
+                            placeholder="At least 6 characters" 
                             required
                             minlength="6"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                         />
+                        <p id="password-error" class="text-xs text-red-600 mt-1 hidden">Password must be at least 6 characters</p>
                     </div>
                     
-                    <!-- Sign In / Sign Up Buttons -->
-                    <div class="space-y-3 pt-2">
+                    <!-- Confirm Password Input -->
+                    <div>
+                        <label for="confirm-password" class="block text-sm font-semibold text-gray-700 mb-2">Confirm Password *</label>
+                        <input 
+                            type="password" 
+                            id="confirm-password" 
+                            name="confirm-password" 
+                            placeholder="Re-enter your password" 
+                            required
+                            minlength="6"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                        />
+                        <p id="confirm-password-error" class="text-xs text-red-600 mt-1 hidden">Passwords do not match</p>
+                    </div>
+                    
+                    <!-- Create Account Button -->
+                    <div class="pt-2">
                         <button 
                             type="submit" 
-                            id="signin-btn"
+                            id="signup-btn"
                             class="w-full bg-primary text-white py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                         >
-                            Sign In
-                        </button>
-                        
-                        <a 
-                            href="signup.html"
-                            class="w-full bg-white text-primary border-2 border-primary py-3.5 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-200 block text-center"
-                        >
                             Create Account
-                        </a>
+                        </button>
                     </div>
                 </form>
                 
@@ -125,7 +135,7 @@
                 
                 <!-- Google Sign In Button -->
                 <button 
-                    id="google-signin-btn"
+                    id="google-signup-btn"
                     class="w-full bg-white border-2 border-gray-300 text-gray-700 py-3.5 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
                 >
                     <svg class="w-5 h-5" viewBox="0 0 24 24">
@@ -137,13 +147,18 @@
                     Continue with Google
                 </button>
                 
-                <!-- Additional Links -->
-                <div class="mt-6 text-center space-y-2">
-                    <a href="#" id="forgot-password-link" class="block text-sm text-primary hover:underline font-medium">
-                        Forgot your password?
-                    </a>
+                <!-- Sign In Link -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Already have an account? 
+                        <a href="login.html" class="text-primary hover:underline font-semibold">Sign In</a>
+                    </p>
+                </div>
+                
+                <!-- Terms & Privacy -->
+                <div class="mt-4 text-center">
                     <p class="text-xs text-gray-500">
-                        By continuing, you agree to ChauFlow's 
+                        By creating an account, you agree to ChauFlow's 
                         <a href="#" class="text-primary hover:underline">Terms of Service</a> and 
                         <a href="#" class="text-primary hover:underline">Privacy Policy</a>
                     </p>
@@ -153,7 +168,7 @@
         
         <!-- Features Reminder -->
         <div class="mt-8 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-md border border-gray-200">
-            <p class="text-sm font-semibold text-gray-700 mb-3 text-center">Why drivers love ChauFlow:</p>
+            <p class="text-sm font-semibold text-gray-700 mb-3 text-center">What you'll get:</p>
             <div class="space-y-2">
                 <div class="flex items-center gap-2 text-sm text-gray-600">
                     <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,7 +180,7 @@
                     <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span>AI-powered receipt scanning</span>
+                    <span>Monthly & yearly summaries</span>
                 </div>
                 <div class="flex items-center gap-2 text-sm text-gray-600">
                     <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,24 +199,29 @@
         const SUPABASE_URL = 'https://bvrdimwnarfobmwvthyb.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cmRpbXduYXJmb2Jtd3Z0aHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMjAxMzcsImV4cCI6MjA3Nzc5NjEzN30.vweZ-F-sG4rYJT1CM1OH0QONmEt73_TMV0F-emMuj8k';
         
-        // Initialize Supabase client
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         // ============================================
         // DOM ELEMENTS
         // ============================================
-        const authForm = document.getElementById('auth-form');
+        const signupForm = document.getElementById('signup-form');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
-        const signinBtn = document.getElementById('signin-btn');
-        const googleSigninBtn = document.getElementById('google-signin-btn');
-        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const signupBtn = document.getElementById('signup-btn');
+        const googleSignupBtn = document.getElementById('google-signup-btn');
         const messageContainer = document.getElementById('message-container');
         const messageText = document.getElementById('message-text');
+        
+        // Error elements
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const confirmPasswordError = document.getElementById('confirm-password-error');
         
         // ============================================
         // UTILITY FUNCTIONS
         // ============================================
+        
         function showMessage(message, type = 'success') {
             messageContainer.classList.remove('hidden');
             messageContainer.classList.remove('bg-red-50', 'border-red-200', 'bg-green-50', 'border-green-200', 'bg-blue-50', 'border-blue-200');
@@ -219,8 +239,6 @@
             }
             
             messageText.textContent = message;
-            
-            // Scroll to message
             messageContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         
@@ -244,86 +262,142 @@
             }
         }
         
+        function showFieldError(errorElement, inputElement, message) {
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+            inputElement.classList.add('border-red-500', 'focus:ring-red-500');
+        }
+        
+        function hideFieldError(errorElement, inputElement) {
+            errorElement.classList.add('hidden');
+            inputElement.classList.remove('border-red-500', 'focus:ring-red-500');
+        }
+        
+        function hideAllFieldErrors() {
+            hideFieldError(emailError, emailInput);
+            hideFieldError(passwordError, passwordInput);
+            hideFieldError(confirmPasswordError, confirmPasswordInput);
+        }
+        
+        // ============================================
+        // VALIDATION FUNCTIONS
+        // ============================================
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function validateForm() {
+            hideAllFieldErrors();
+            let isValid = true;
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            // Email validation
+            if (!email) {
+                showFieldError(emailError, emailInput, 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showFieldError(emailError, emailInput, 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Password validation
+            if (!password) {
+                showFieldError(passwordError, passwordInput, 'Password is required');
+                isValid = false;
+            } else if (password.length < 6) {
+                showFieldError(passwordError, passwordInput, 'Password must be at least 6 characters');
+                isValid = false;
+            }
+            
+            // Confirm password validation
+            if (!confirmPassword) {
+                showFieldError(confirmPasswordError, confirmPasswordInput, 'Please confirm your password');
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                showFieldError(confirmPasswordError, confirmPasswordInput, 'Passwords do not match');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+        
         // ============================================
         // AUTH FUNCTIONS
         // ============================================
         
-        // Sign In with Email/Password
-        async function signIn(email, password) {
-            setLoading(signinBtn, true);
+        async function signUp(email, password) {
+            setLoading(signupBtn, true);
             hideMessage();
             
             try {
-                const { data, error } = await supabase.auth.signInWithPassword({
+                console.log('🚀 Starting signup process...');
+                
+                const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
-                });
-                
-                if (error) throw error;
-                
-                showMessage('✓ Successfully signed in! Redirecting...', 'success');
-                
-                // Redirect to intended page or dashboard after successful sign in
-                const urlParams = new URLSearchParams(window.location.search);
-                const redirectTo = urlParams.get('redirect') || 'dashboard.html';
-                setTimeout(() => {
-                    window.location.href = redirectTo;
-                }, 1500);
-                
-            } catch (error) {
-                showMessage(error.message, 'error');
-            } finally {
-                setLoading(signinBtn, false);
-            }
-        }
-        
-        // Sign Up - Moved to signup.html
-        // Removed: users now go to dedicated signup page
-        
-        // Sign In with Google
-        async function signInWithGoogle() {
-            setLoading(googleSigninBtn, true);
-            hideMessage();
-            
-            try {
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: 'google',
                     options: {
-                        redirectTo: window.location.origin + '/dashboard.html' // Redirect after Google auth
+                        emailRedirectTo: window.location.origin + '/dashboard.html'
                     }
                 });
                 
                 if (error) throw error;
                 
-                // The user will be redirected to Google for authentication
-                // After successful auth, they'll be redirected back to the redirectTo URL
+                console.log('✅ Signup successful!', { userId: data.user?.id, email: data.user?.email });
+                
+                showMessage('✓ Account created successfully! Redirecting to dashboard...', 'success');
+                
+                // Redirect to dashboard after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
                 
             } catch (error) {
-                showMessage(error.message, 'error');
-                setLoading(googleSigninBtn, false);
+                console.error('❌ Signup error:', error.message);
+                
+                // User-friendly error messages
+                let userMessage = error.message;
+                
+                if (error.message.includes('already registered')) {
+                    userMessage = 'This email is already registered. Try signing in instead.';
+                } else if (error.message.includes('weak password')) {
+                    userMessage = 'Password is too weak. Please use a stronger password.';
+                } else if (error.message.includes('invalid email')) {
+                    userMessage = 'Please enter a valid email address.';
+                }
+                
+                showMessage(userMessage, 'error');
+            } finally {
+                setLoading(signupBtn, false);
             }
         }
         
-        // Password Reset
-        async function resetPassword(email) {
-            if (!email) {
-                showMessage('Please enter your email address first', 'error');
-                return;
-            }
-            
+        async function signUpWithGoogle() {
+            setLoading(googleSignupBtn, true);
             hideMessage();
             
             try {
-                const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/reset-password.html',
+                console.log('🚀 Starting Google signup...');
+                
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin + '/dashboard.html'
+                    }
                 });
                 
                 if (error) throw error;
                 
-                showMessage('✓ Password reset email sent! Check your inbox.', 'success');
+                console.log('✅ Redirecting to Google...');
                 
             } catch (error) {
+                console.error('❌ Google signup error:', error.message);
                 showMessage(error.message, 'error');
+                setLoading(googleSignupBtn, false);
             }
         }
         
@@ -331,55 +405,65 @@
         // EVENT LISTENERS
         // ============================================
         
-        // Sign In Form Submit
-        authForm.addEventListener('submit', async (e) => {
+        // Signup Form Submit
+        signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Validate form
+            if (!validateForm()) {
+                return;
+            }
+            
             const email = emailInput.value.trim();
             const password = passwordInput.value;
             
-            if (email && password) {
-                await signIn(email, password);
+            await signUp(email, password);
+        });
+        
+        // Google Signup Button
+        googleSignupBtn.addEventListener('click', async () => {
+            await signUpWithGoogle();
+        });
+        
+        // Real-time validation on blur
+        emailInput.addEventListener('blur', () => {
+            const email = emailInput.value.trim();
+            if (email && !isValidEmail(email)) {
+                showFieldError(emailError, emailInput, 'Please enter a valid email address');
+            } else {
+                hideFieldError(emailError, emailInput);
             }
         });
         
-        // Sign Up Button - Now handled by signup.html
-        // Removed: signup functionality moved to dedicated signup page
-        
-        // Google Sign In Button
-        googleSigninBtn.addEventListener('click', async () => {
-            await signInWithGoogle();
+        passwordInput.addEventListener('blur', () => {
+            const password = passwordInput.value;
+            if (password && password.length < 6) {
+                showFieldError(passwordError, passwordInput, 'Password must be at least 6 characters');
+            } else {
+                hideFieldError(passwordError, passwordInput);
+            }
         });
         
-        // Forgot Password Link
-        forgotPasswordLink.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const email = emailInput.value.trim();
-            await resetPassword(email);
+        confirmPasswordInput.addEventListener('blur', () => {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            if (confirmPassword && password !== confirmPassword) {
+                showFieldError(confirmPasswordError, confirmPasswordInput, 'Passwords do not match');
+            } else {
+                hideFieldError(confirmPasswordError, confirmPasswordInput);
+            }
         });
         
         // ============================================
         // CHECK EXISTING SESSION
         // ============================================
-        // Check if user is already logged in
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                // User is already logged in, redirect to intended page or dashboard
-                const urlParams = new URLSearchParams(window.location.search);
-                const redirectTo = urlParams.get('redirect') || 'dashboard.html';
-                console.log('Already logged in, redirecting to:', redirectTo);
+                console.log('ℹ️ User already logged in, redirecting...');
                 showMessage('Already logged in. Redirecting...', 'info');
-                // Immediate redirect to prevent loops
-                window.location.replace(redirectTo);
-            }
-        });
-        
-        // Listen for auth state changes
-        supabase.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' && session) {
-                console.log('User signed in:', session.user);
-            }
-            if (event === 'SIGNED_OUT') {
-                console.log('User signed out');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
             }
         });
     </script>

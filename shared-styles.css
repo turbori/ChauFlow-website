@@ -1,0 +1,377 @@
+/* ============================================
+   ChauFlow - Shared Design System
+   ============================================
+   Ensures uniformity across all pages
+   ============================================ */
+
+/* Page Header / Hero Section */
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1rem; /* text-base */
+    color: #6B7280;
+    font-weight: 400;
+}
+
+/* Summary Cards (Top Stat Boxes) */
+.stat-card {
+    background: white;
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 1.5rem; /* p-6 */
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    transition: all 0.2s;
+    border: 1px solid #E5E7EB;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.stat-card-icon {
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-12 */
+    border-radius: 0.75rem; /* rounded-xl */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.stat-card-icon svg {
+    width: 1.5rem; /* w-6 */
+    height: 1.5rem; /* h-6 */
+}
+
+/* Income Card (Green) */
+.stat-card-income .stat-card-icon {
+    background-color: #D1FAE5; /* bg-green-100 */
+    color: #059669; /* text-green-600 */
+}
+
+/* Expense Card (Red) */
+.stat-card-expense .stat-card-icon {
+    background-color: #FEE2E2; /* bg-red-100 */
+    color: #DC2626; /* text-red-600 */
+}
+
+/* Net Profit / Balance (Blue) */
+.stat-card-balance .stat-card-icon {
+    background-color: #DBEAFE; /* bg-blue-100 */
+    color: #2563EB; /* text-blue-600 */
+}
+
+/* Entries / Count (Purple) */
+.stat-card-entries .stat-card-icon {
+    background-color: #EDE9FE; /* bg-purple-100 */
+    color: #7C3AED; /* text-purple-600 */
+}
+
+.stat-card-label {
+    font-size: 0.875rem; /* text-sm */
+    color: #6B7280; /* text-gray-600 */
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card-value {
+    font-size: 2rem; /* text-3xl */
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card-badge {
+    display: inline-block;
+    font-size: 0.75rem; /* text-xs */
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.stat-card-badge-green {
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.stat-card-badge-blue {
+    background-color: #DBEAFE;
+    color: #2563EB;
+}
+
+.stat-card-badge-purple {
+    background-color: #EDE9FE;
+    color: #7C3AED;
+}
+
+/* Buttons - Primary */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+    background-color: #2563EB;
+    color: white;
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 600;
+    font-size: 0.9375rem; /* text-[15px] */
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-primary:hover {
+    background-color: #1D4ED8;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Buttons - Secondary (Export, etc.) */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    color: #374151;
+    border: 2px solid #D1D5DB;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    border-color: #2563EB;
+    color: #2563EB;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Buttons - Danger (Add Expense) */
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #EF4444;
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-danger:hover {
+    background-color: #DC2626;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-danger:active {
+    transform: scale(0.98);
+}
+
+/* Buttons - Success (Add Asset) */
+.btn-success {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #10B981;
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-success:hover {
+    background-color: #059669;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transform: translateY(-1px);
+}
+
+.btn-success:active {
+    transform: scale(0.98);
+}
+
+/* Filter Section */
+.filter-section {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    border: 1px solid #E5E7EB;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+@media (max-width: 1024px) {
+    .filter-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.filter-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.filter-input {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    transition: all 0.2s;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #2563EB;
+    ring: 2px;
+    ring-color: rgba(37, 99, 235, 0.1);
+}
+
+/* Data Tables */
+.data-table {
+    width: 100%;
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    border: 1px solid #E5E7EB;
+}
+
+.data-table thead {
+    background-color: #F9FAFB;
+}
+
+.data-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.data-table td {
+    padding: 1rem 1.5rem;
+    font-size: 0.9375rem;
+    color: #1F2937;
+    border-top: 1px solid #E5E7EB;
+}
+
+.data-table tbody tr {
+    transition: background-color 0.15s;
+}
+
+.data-table tbody tr:hover {
+    background-color: #F9FAFB;
+}
+
+/* Insight Boxes */
+.insight-box {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #BFDBFE;
+}
+
+.insight-box-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.insight-box-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1F2937;
+}
+
+.insight-box-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background-color: #DBEAFE;
+    color: #2563EB;
+    border-radius: 9999px;
+    font-weight: 600;
+}
+
+/* Section Spacing */
+.section-spacing {
+    margin-bottom: 2rem;
+}
+
+.section-spacing-lg {
+    margin-bottom: 3rem;
+}
+
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: #6B7280;
+    font-size: 0.875rem;
+    margin-top: 4rem;
+}
+

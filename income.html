@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Overview | ChauFlow</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        accent: '#10B981',
+                        danger: '#EF4444',
+                        background: '#F9FAFB',
+                        textDark: '#1F2937'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-background min-h-screen">
+    
+    <!-- Navigation Header -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Nav -->
+                <div class="flex items-center gap-8">
+                    <h1 class="text-xl md:text-2xl font-bold text-primary">ChauFlow</h1>
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="dashboard.html" class="text-gray-600 hover:text-primary transition-colors duration-200">Dashboard</a>
+                        <a href="income.html" class="text-primary font-medium border-b-2 border-primary pb-1">Income</a>
+                        <a href="expenses.html" class="text-gray-600 hover:text-primary transition-colors duration-200">Expenses</a>
+                        <a href="balance-sheet.html" class="text-gray-600 hover:text-primary transition-colors duration-200">Balance Sheet</a>
+                        <button onclick="alert('Reports page coming soon!')" class="text-gray-600 hover:text-primary transition-colors duration-200 cursor-pointer bg-transparent border-0">Reports</button>
+                    </div>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center gap-3">
+                    <div class="hidden md:block text-right">
+                        <p class="text-xs text-gray-500 mb-0.5">Logged in as</p>
+                        <p class="text-sm font-medium text-gray-800" id="user-email">Loading...</p>
+                    </div>
+                    <div class="relative">
+                        <button 
+                            id="user-menu-btn"
+                            class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:shadow-md transition-all duration-200 font-medium"
+                            onclick="toggleUserMenu()"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                            <div class="px-4 py-2 border-b border-gray-100">
+                                <p class="text-xs text-gray-500">Signed in as</p>
+                                <p class="text-sm font-semibold text-gray-800 truncate" id="user-email-menu">Loading...</p>
+                            </div>
+                            <a href="dashboard.html" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                                Dashboard
+                            </a>
+                            <button class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 opacity-50 cursor-not-allowed">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                Settings
+                                <span class="ml-auto text-xs text-gray-400">Soon</span>
+                            </button>
+                            <div class="border-t border-gray-100 mt-1 pt-1">
+                                <button 
+                                    id="signout-btn"
+                                    class="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                    </svg>
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Income Overview</h1>
+                <p class="text-base text-gray-600">Track and manage all your income sources</p>
+            </div>
+            <div class="flex gap-3">
+                <button 
+                    onclick="exportIncome()" 
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg font-semibold text-[15px] hover:border-primary hover:text-primary hover:shadow-md transition-all duration-200 active:scale-95"
+                    title="Export income data as CSV"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Export
+                </button>
+                <button 
+                    onclick="openIncomeModal()" 
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-semibold text-[15px] hover:bg-blue-700 hover:shadow-md transition-all duration-200 active:scale-95"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Add Income
+                </button>
+            </div>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Total Income -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full" id="month-label">
+                        This Month
+                    </span>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Total Income</p>
+                <p id="total-income" class="text-3xl font-bold text-accent">$0.00</p>
+                <p class="text-xs text-gray-500 mt-2" id="income-comparison">—</p>
+            </div>
+            
+            <!-- Avg Per Trip -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <button class="group/tooltip relative" onmouseenter="showTooltip('avg-income-tip')" onmouseleave="hideTooltip('avg-income-tip')">
+                        <svg class="w-5 h-5 text-gray-400 hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div id="avg-income-tip" class="hidden absolute bottom-full right-0 mb-2 w-64 bg-gray-900 text-white text-xs rounded-lg py-2 px-3 z-50 shadow-xl">
+                            Calculated by dividing your total income by the number of trips logged. Helps you track your per-job earnings.
+                            <div class="absolute top-full right-4 -mt-1">
+                                <div class="border-4 border-transparent border-t-gray-900"></div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Avg Income Per Trip</p>
+                <p id="avg-per-trip" class="text-3xl font-bold text-primary">$0.00</p>
+                <p class="text-xs text-gray-500 mt-2" id="trip-count-label">0 trips</p>
+            </div>
+            
+            <!-- Total Entries -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                        Entries
+                    </span>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Total Entries</p>
+                <p id="total-entries" class="text-3xl font-bold text-purple-600">0</p>
+                <p class="text-xs text-gray-500 mt-2">Income records</p>
+            </div>
+        </div>
+        
+        <!-- Trip Insights Section -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 shadow-sm border border-blue-100 mb-8">
+            <div class="flex items-center gap-2 mb-5">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                <h3 class="text-lg font-bold text-gray-900">Trip Insights</h3>
+                <span class="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full font-semibold">This Month</span>
+            </div>
+            <div class="grid md:grid-cols-3 gap-4">
+                <!-- Top Source -->
+                <div class="bg-white rounded-xl p-4 border border-blue-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Top Income Source</p>
+                    </div>
+                    <p id="top-source" class="text-lg font-bold text-gray-900 mb-1">—</p>
+                    <p id="top-source-amount" class="text-sm text-gray-600">$0.00 earned</p>
+                </div>
+                
+                <!-- Most Active Day -->
+                <div class="bg-white rounded-xl p-4 border border-blue-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Most Active Day</p>
+                    </div>
+                    <p id="most-active-day" class="text-lg font-bold text-gray-900 mb-1">—</p>
+                    <p id="most-active-day-count" class="text-sm text-gray-600">0 trips</p>
+                </div>
+                
+                <!-- Busiest Time -->
+                <div class="bg-white rounded-xl p-4 border border-blue-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Total Hours</p>
+                    </div>
+                    <p id="total-hours" class="text-lg font-bold text-gray-900 mb-1">—</p>
+                    <p id="avg-hours-per-trip" class="text-sm text-gray-600">— avg per trip</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filters Section -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Search Bar -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                    <div class="relative">
+                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Search by description, source, or notes..."
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            oninput="applyFilters()"
+                        >
+                    </div>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="lg:w-64">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select 
+                        id="category-filter"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        onchange="applyFilters()"
+                    >
+                        <option value="">All Categories</option>
+                        <!-- Categories will be populated dynamically from actual income data -->
+                    </select>
+                </div>
+                
+                <!-- Date Range -->
+                <div class="lg:w-48">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                    <input 
+                        type="date" 
+                        id="date-from"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        onchange="applyFilters()"
+                    >
+                </div>
+                
+                <div class="lg:w-48">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                    <input 
+                        type="date" 
+                        id="date-to"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        onchange="applyFilters()"
+                    >
+                </div>
+                
+                <!-- Clear Filters -->
+                <div class="flex items-end">
+                    <button 
+                        onclick="clearFilters()"
+                        class="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium flex items-center gap-2"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Income Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Category</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Trip Details</th>
+                            <th class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Amount</th>
+                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="income-table-body" class="divide-y divide-gray-200">
+                        <!-- Loading state -->
+                        <tr>
+                            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                                <div class="flex flex-col items-center gap-3">
+                                    <svg class="w-8 h-8 animate-spin text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    <p>Loading income data...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </main>
+    
+    <!-- Add Income Modal (Smart Version with Autocomplete) -->
+    <div id="income-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 py-8">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 backdrop-blur-sm" onclick="closeIncomeModal()"></div>
+            
+            <!-- Modal panel -->
+            <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all max-w-lg w-full">
+                <div class="bg-white px-6 pt-6 pb-4">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-gray-900">Add Income</h3>
+                        <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <form id="income-form" class="space-y-4">
+                        <!-- Amount -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Amount *</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                                <input type="text" id="income-amount" inputmode="numeric" required
+                                    class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    placeholder="0"
+                                    oninput="formatCurrency(this)">
+                            </div>
+                        </div>
+                        
+                        <!-- Source -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Source *</label>
+                            <select id="income-source" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">Select income source</option>
+                                <optgroup label="Primary Driving Income">
+                                    <option value="Rideshare App Income">Rideshare App Income</option>
+                                    <option value="Black Car Jobs">Black Car Jobs</option>
+                                    <option value="Direct Client Income">Direct Client Income</option>
+                                    <option value="Airport Transfers">Airport Transfers</option>
+                                    <option value="Hourly Charters">Hourly Charters</option>
+                                    <option value="Long-Distance Trips">Long-Distance Trips</option>
+                                </optgroup>
+                                <optgroup label="Tips & Bonuses">
+                                    <option value="Cash Tips">Cash Tips</option>
+                                    <option value="Digital Tips">Digital Tips</option>
+                                    <option value="Referral Bonuses">Referral Bonuses</option>
+                                    <option value="Platform Bonuses">Platform Bonuses</option>
+                                </optgroup>
+                                <optgroup label="Miscellaneous Income">
+                                    <option value="Wait Time Charges">Wait Time Charges</option>
+                                    <option value="Additional Stop Fees">Additional Stop Fees</option>
+                                    <option value="Toll Reimbursements">Toll Reimbursements</option>
+                                    <option value="Cancellation Fees">Cancellation Fees</option>
+                                    <option value="Event Package Income">Event Package Income</option>
+                                </optgroup>
+                                <optgroup label="Optional Income">
+                                    <option value="Vehicle Rental Income">Vehicle Rental Income</option>
+                                    <option value="Vehicle Advertising">Vehicle Advertising</option>
+                                    <option value="Other Income">Other Income</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        
+                        <!-- Date -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Date *</label>
+                            <input type="date" id="income-date" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Description (Optional)</label>
+                            <input type="text" id="income-description"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="e.g., Evening shift, Airport run">
+                        </div>
+                        
+                        <!-- Optional Trip Details -->
+                        <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Trip Details (Optional)</p>
+                            
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Trips</label>
+                                    <input type="number" id="income-trips" min="0" step="1"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                                        placeholder="0">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Hours</label>
+                                    <input type="number" id="income-hours" min="0" step="0.5"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                                        placeholder="0.0">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-600 mb-1">Miles</label>
+                                    <input type="number" id="income-miles" min="0" step="0.1"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                                        placeholder="0.0">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Error Message -->
+                        <div id="income-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-3">
+                            <p class="text-sm text-red-600 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span id="income-error-message"></span>
+                            </p>
+                        </div>
+                        
+                        <!-- Success Message -->
+                        <div id="income-success" class="hidden bg-green-50 border border-green-200 rounded-lg p-3">
+                            <p class="text-sm text-green-600 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                Income added successfully!
+                            </p>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="flex gap-3 pt-2">
+                            <button type="button" onclick="closeIncomeModal()"
+                                class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
+                                Cancel
+                            </button>
+                            <button type="submit" id="income-submit-btn"
+                                class="flex-1 px-4 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Add Income
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="mt-16 py-8 px-4 bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto text-center text-sm text-gray-500">
+            <p>&copy; 2025 ChauFlow. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // ============================================
+        // Supabase Configuration
+        // ============================================
+        
+        const SUPABASE_URL = 'https://bvrdimwnarfobmwvthyb.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2cmRpbXduYXJmb2Jtd3Z0aHliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMjAxMzcsImV4cCI6MjA3Nzc5NjEzN30.vweZ-F-sG4rYJT1CM1OH0QONmEt73_TMV0F-emMuj8k';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        let currentUser = null;
+        let allIncomeData = [];
+        
+        // ============================================
+        // Authentication Check
+        // ============================================
+        
+        async function checkAuth() {
+            console.log('Checking auth on income page...');
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (error) {
+                console.error('Auth error:', error);
+                window.location.href = 'login.html?redirect=income.html';
+                return;
+            }
+            
+            if (!session) {
+                console.log('No session found, redirecting to login');
+                window.location.href = 'login.html?redirect=income.html';
+                return;
+            }
+            
+            console.log('Session found, loading page for user:', session.user.email);
+            currentUser = session.user;
+            const userEmailElement = document.getElementById('user-email');
+            const userEmailMenu = document.getElementById('user-email-menu');
+            
+            if (userEmailElement) {
+                userEmailElement.textContent = currentUser.email || 'Driver';
+            }
+            if (userEmailMenu) {
+                userEmailMenu.textContent = currentUser.email || 'Driver';
+            }
+            
+            // Load income data
+            await loadIncomeData();
+        }
+        
+        // ============================================
+        // User Menu Toggle
+        // ============================================
+        
+        function toggleUserMenu() {
+            const userMenu = document.getElementById('user-menu');
+            userMenu.classList.toggle('hidden');
+        }
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenuBtn = document.getElementById('user-menu-btn');
+            const userMenu = document.getElementById('user-menu');
+            
+            if (userMenuBtn && userMenu && !userMenuBtn.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+        
+        // Sign out
+        document.getElementById('signout-btn').addEventListener('click', async () => {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                alert('Error signing out: ' + error.message);
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Listen for auth state changes
+        supabase.auth.onAuthStateChange((event, session) => {
+            console.log('Auth state changed:', event, session ? 'Has session' : 'No session');
+            if (event === 'SIGNED_OUT') {
+                window.location.href = 'login.html';
+            }
+        });
+        
+        // ============================================
+        // Modal Functions
+        // ============================================
+        
+        const incomeModal = document.getElementById('income-modal');
+        const incomeForm = document.getElementById('income-form');
+        let editingIncomeId = null;
+        
+        function openIncomeModal(incomeId = null) {
+            editingIncomeId = incomeId;
+            incomeModal.classList.remove('hidden');
+            
+            // Update modal title and button
+            const modalTitle = incomeModal.querySelector('h3');
+            const submitBtn = document.getElementById('income-submit-btn');
+            
+            if (incomeId) {
+                // Edit mode - load existing data
+                modalTitle.textContent = 'Edit Income';
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Income';
+                loadIncomeForEdit(incomeId);
+            } else {
+                // New mode
+                modalTitle.textContent = 'Add Income';
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Income';
+                document.getElementById('income-date').valueAsDate = new Date();
+            }
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        async function loadIncomeForEdit(incomeId) {
+            try {
+                const { data, error } = await supabase
+                    .from('income')
+                    .select('*')
+                    .eq('id', incomeId)
+                    .eq('user_id', currentUser.id)
+                    .single();
+                
+                if (error) throw error;
+                
+                // Populate form with existing data
+                // Format amount properly (remove $ and commas, then re-add commas via formatCurrency)
+                const amountValue = parseFloat(data.amount).toString();
+                document.getElementById('income-amount').value = amountValue;
+                formatCurrency(document.getElementById('income-amount'));
+                
+                document.getElementById('income-source').value = data.source;
+                document.getElementById('income-date').value = data.date.split('T')[0];
+                document.getElementById('income-description').value = data.description || '';
+                document.getElementById('income-trips').value = data.trip_count || '';
+                document.getElementById('income-hours').value = data.hours_worked || '';
+                document.getElementById('income-miles').value = data.miles_driven || '';
+                
+            } catch (error) {
+                console.error('Error loading income for edit:', error);
+                alert('Failed to load income data. Please try again.');
+                closeIncomeModal();
+            }
+        }
+        
+        function closeIncomeModal() {
+            incomeModal.classList.add('hidden');
+            incomeForm.reset();
+            editingIncomeId = null;
+            document.getElementById('income-error').classList.add('hidden');
+            document.getElementById('income-success').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            
+            // Reset modal title
+            const modalTitle = incomeModal.querySelector('h3');
+            modalTitle.textContent = 'Add Income';
+        }
+        
+        // ============================================
+        // Add Income Form Handler
+        // ============================================
+        
+        incomeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('income-submit-btn');
+            const errorDiv = document.getElementById('income-error');
+            const errorMsg = document.getElementById('income-error-msg');
+            const successDiv = document.getElementById('income-success');
+            
+            // Hide previous messages
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+            
+            // Disable button
+            submitBtn.disabled = true;
+            const isEditing = editingIncomeId !== null;
+            submitBtn.innerHTML = isEditing 
+                ? '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Updating...'
+                : '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Adding...';
+            
+            try {
+                // Get form data
+                const amountValue = unformatCurrency(document.getElementById('income-amount'));
+                const amount = parseFloat(amountValue);
+                const source = document.getElementById('income-source').value;
+                const date = document.getElementById('income-date').value;
+                const tripCount = document.getElementById('income-trips').value || null;
+                const hoursWorked = document.getElementById('income-hours').value || null;
+                const milesDriven = document.getElementById('income-miles').value || null;
+                const description = document.getElementById('income-description').value || null;
+                
+                let data, error;
+                
+                if (isEditing) {
+                    // Update existing income
+                    const { data: updateData, error: updateError } = await supabase
+                        .from('income')
+                        .update({
+                            amount: amount,
+                            source: source,
+                            date: date,
+                            trip_count: tripCount,
+                            hours_worked: hoursWorked,
+                            miles_driven: milesDriven,
+                            description: description
+                        })
+                        .eq('id', editingIncomeId)
+                        .eq('user_id', currentUser.id)
+                        .select();
+                    
+                    data = updateData;
+                    error = updateError;
+                } else {
+                    // Insert new income
+                    const { data: insertData, error: insertError } = await supabase
+                        .from('income')
+                        .insert([{
+                            user_id: currentUser.id,
+                            amount: amount,
+                            source: source,
+                            date: date,
+                            trip_count: tripCount,
+                            hours_worked: hoursWorked,
+                            miles_driven: milesDriven,
+                            description: description
+                        }])
+                        .select();
+                    
+                    data = insertData;
+                    error = insertError;
+                }
+                
+                if (error) throw error;
+                
+                // Show success
+                successDiv.classList.remove('hidden');
+                successDiv.querySelector('p').textContent = isEditing 
+                    ? 'Income updated successfully!'
+                    : 'Income added successfully!';
+                
+                // Reset form
+                incomeForm.reset();
+                
+                // Reload data
+                await loadIncomeData();
+                
+                // Close modal after 1.5 seconds
+                setTimeout(() => {
+                    closeIncomeModal();
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error adding income:', error);
+                errorMsg.textContent = error.message || 'Failed to add income. Please try again.';
+                errorDiv.classList.remove('hidden');
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Income';
+            }
+        });
+        
+        // ============================================
+        // Load Income Data
+        // ============================================
+        
+        async function loadIncomeData() {
+            if (!currentUser) return;
+            
+            try {
+                // Get current month start and end
+                const now = new Date();
+                const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+                const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+                
+                // Fetch all income for the user
+                const { data: incomeData, error } = await supabase
+                    .from('income')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('date', { ascending: false });
+                
+                if (error) throw error;
+                
+                allIncomeData = incomeData;
+                
+                // Calculate summary stats for current month
+                const monthIncome = incomeData.filter(item => item.date >= monthStart && item.date <= monthEnd);
+                const totalIncome = monthIncome.reduce((sum, item) => sum + parseFloat(item.amount), 0);
+                const totalTrips = monthIncome.reduce((sum, item) => sum + (parseInt(item.trip_count) || 0), 0);
+                const avgPerTrip = totalTrips > 0 ? totalIncome / totalTrips : 0;
+                
+                // Update summary cards
+                document.getElementById('total-income').textContent = formatCurrencyDisplay(totalIncome);
+                document.getElementById('avg-per-trip').textContent = formatCurrencyDisplay(avgPerTrip);
+                document.getElementById('total-entries').textContent = formatNumber(incomeData.length);
+                document.getElementById('trip-count-label').textContent = `${totalTrips} trips`;
+                
+                // Clear date filters on initial load to show all data
+                document.getElementById('date-from').value = '';
+                document.getElementById('date-to').value = '';
+                
+                // Populate category filter with unique sources from data
+                populateCategoryFilter();
+                
+                // Apply filters (will render table)
+                applyFilters();
+                
+                // Calculate trip insights
+                calculateTripInsights(monthIncome);
+                
+            } catch (error) {
+                console.error('Error loading income data:', error);
+                console.error('Error details:', error.message, error.code);
+                document.getElementById('income-table-body').innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-red-500">
+                            <div class="flex flex-col items-center gap-3">
+                                <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="font-semibold">Error loading income data</p>
+                                <p class="text-sm text-gray-600">${error.message || 'Please check your connection and try again'}</p>
+                                <button onclick="location.reload()" class="mt-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    Refresh Page
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // ============================================
+        // Trip Insights Calculation
+        // ============================================
+        
+        function calculateTripInsights(monthIncome) {
+            if (!monthIncome || monthIncome.length === 0) {
+                document.getElementById('top-source').textContent = 'No data yet';
+                document.getElementById('top-source-amount').textContent = '$0.00 earned';
+                document.getElementById('most-active-day').textContent = 'No data yet';
+                document.getElementById('most-active-day-count').textContent = '0 trips';
+                document.getElementById('total-hours').textContent = '0 hrs';
+                document.getElementById('avg-hours-per-trip').textContent = '0 hrs avg per trip';
+                return;
+            }
+            
+            // Calculate top income source
+            const sourceMap = {};
+            monthIncome.forEach(item => {
+                if (!sourceMap[item.source]) {
+                    sourceMap[item.source] = 0;
+                }
+                sourceMap[item.source] += parseFloat(item.amount);
+            });
+            
+            let topSource = '';
+            let topSourceAmount = 0;
+            Object.keys(sourceMap).forEach(source => {
+                if (sourceMap[source] > topSourceAmount) {
+                    topSourceAmount = sourceMap[source];
+                    topSource = source;
+                }
+            });
+            
+            document.getElementById('top-source').textContent = topSource || '—';
+            document.getElementById('top-source-amount').textContent = formatCurrencyDisplay(topSourceAmount) + ' earned';
+            
+            // Calculate most active day
+            const dayMap = {};
+            monthIncome.forEach(item => {
+                const date = new Date(item.date);
+                const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+                if (!dayMap[dayName]) {
+                    dayMap[dayName] = 0;
+                }
+                dayMap[dayName] += parseInt(item.trip_count) || 0;
+            });
+            
+            let mostActiveDay = '';
+            let mostActiveDayCount = 0;
+            Object.keys(dayMap).forEach(day => {
+                if (dayMap[day] > mostActiveDayCount) {
+                    mostActiveDayCount = dayMap[day];
+                    mostActiveDay = day;
+                }
+            });
+            
+            document.getElementById('most-active-day').textContent = mostActiveDay || '—';
+            document.getElementById('most-active-day-count').textContent = `${mostActiveDayCount} trips`;
+            
+            // Calculate total hours and average
+            const totalHours = monthIncome.reduce((sum, item) => sum + (parseFloat(item.hours_worked) || 0), 0);
+            const totalTrips = monthIncome.reduce((sum, item) => sum + (parseInt(item.trip_count) || 0), 0);
+            const avgHoursPerTrip = totalTrips > 0 ? totalHours / totalTrips : 0;
+            
+            document.getElementById('total-hours').textContent = totalHours.toFixed(1) + ' hrs';
+            document.getElementById('avg-hours-per-trip').textContent = avgHoursPerTrip.toFixed(1) + ' hrs avg per trip';
+        }
+        
+        // ============================================
+        // Export Function
+        // ============================================
+        
+        function exportIncome() {
+            if (!allIncomeData || allIncomeData.length === 0) {
+                alert('No income data to export');
+                return;
+            }
+            
+            // Create CSV content
+            const headers = ['Date', 'Source', 'Description', 'Trips', 'Hours', 'Miles', 'Amount'];
+            const csvRows = [headers.join(',')];
+            
+            allIncomeData.forEach(item => {
+                const row = [
+                    item.date,
+                    `"${item.source}"`,
+                    `"${(item.description || '').replace(/"/g, '""')}"`,
+                    item.trip_count || 0,
+                    item.hours_worked || 0,
+                    item.miles_driven || 0,
+                    item.amount
+                ];
+                csvRows.push(row.join(','));
+            });
+            
+            const csvContent = csvRows.join('\n');
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            const now = new Date();
+            const filename = `ChauFlow_Income_${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}.csv`;
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Show success message
+            alert(`Income data exported successfully as ${filename}`);
+        }
+        
+        // ============================================
+        // Filter & Search Functions
+        // ============================================
+        
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            
+            console.log('Applying filters:', { searchTerm, categoryFilter, dateFrom, dateTo });
+            console.log('Total income data:', allIncomeData.length);
+            
+            let filteredData = allIncomeData.filter(item => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    item.source.toLowerCase().includes(searchTerm) ||
+                    (item.description && item.description.toLowerCase().includes(searchTerm));
+                
+                // Category filter
+                const matchesCategory = !categoryFilter || item.source === categoryFilter;
+                
+                // Date range filter - extract just the date part (YYYY-MM-DD) for comparison
+                // This handles cases where database might return timestamps
+                const itemDateOnly = item.date.split('T')[0]; // Get just YYYY-MM-DD part
+                
+                let matchesDate = true;
+                if (dateFrom && dateTo) {
+                    // Both dates set - check if item date is within range (inclusive)
+                    matchesDate = itemDateOnly >= dateFrom && itemDateOnly <= dateTo;
+                } else if (dateFrom) {
+                    // Only from date - check if item date is on or after
+                    matchesDate = itemDateOnly >= dateFrom;
+                } else if (dateTo) {
+                    // Only to date - check if item date is on or before
+                    matchesDate = itemDateOnly <= dateTo;
+                }
+                
+                const matches = matchesSearch && matchesCategory && matchesDate;
+                
+                // Debug logging for date comparisons
+                if (dateFrom || dateTo) {
+                    console.log('Date comparison:', {
+                        itemDate: item.date,
+                        itemDateOnly: itemDateOnly,
+                        dateFrom: dateFrom,
+                        dateTo: dateTo,
+                        'itemDateOnly >= dateFrom': dateFrom ? itemDateOnly >= dateFrom : 'N/A',
+                        'itemDateOnly <= dateTo': dateTo ? itemDateOnly <= dateTo : 'N/A',
+                        matchesDate,
+                        matches
+                    });
+                }
+                
+                if (!matches) {
+                    console.log('Item filtered out:', item.date, item.source, { matchesSearch, matchesCategory, matchesDate });
+                }
+                
+                return matches;
+            });
+            
+            console.log('Filtered results:', filteredData.length);
+            renderIncomeTable(filteredData);
+        }
+        
+        function populateCategoryFilter() {
+            // Get unique sources from actual income data
+            const uniqueSources = [...new Set(allIncomeData.map(item => item.source))].sort();
+            const categoryFilter = document.getElementById('category-filter');
+            
+            // Keep "All Categories" option
+            categoryFilter.innerHTML = '<option value="">All Categories</option>';
+            
+            // Add each unique source as an option
+            uniqueSources.forEach(source => {
+                const option = document.createElement('option');
+                option.value = source;
+                option.textContent = source;
+                categoryFilter.appendChild(option);
+            });
+        }
+        
+        function clearFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('category-filter').value = '';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
+            applyFilters();
+        }
+        
+        // ============================================
+        // Edit Income
+        // ============================================
+        
+        function editIncome(id) {
+            openIncomeModal(id);
+        }
+        
+        // ============================================
+        // Render Income Table
+        // ============================================
+        
+        function renderIncomeTable(data) {
+            const tbody = document.getElementById('income-table-body');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center">
+                            <div class="flex flex-col items-center gap-3">
+                                <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <p class="text-gray-500 font-medium">No income entries found</p>
+                                <button onclick="openIncomeModal()" class="mt-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    Add Your First Income
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = data.map(item => {
+                const icon = getCategoryIcon(item.source);
+                const tripDetails = [];
+                if (item.trip_count) tripDetails.push(`${item.trip_count} trips`);
+                if (item.hours_worked) tripDetails.push(`${formatNumber(item.hours_worked)}h`);
+                if (item.miles_driven) tripDetails.push(`${formatNumber(item.miles_driven)} mi`);
+                const tripDetailsText = tripDetails.length > 0 ? tripDetails.join(' • ') : '—';
+                
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${formatDateShort(item.date)}</div>
+                            <div class="text-xs text-gray-500">${formatDateRelative(item.date)}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                                    ${icon}
+                                </div>
+                                <span class="text-sm font-medium text-gray-900">${item.source}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-900 max-w-xs truncate">${item.description || '—'}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-600">${tripDetailsText}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <span class="text-lg font-bold text-accent">${formatCurrencyDisplay(item.amount)}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button 
+                                    onclick="editIncome('${item.id}')"
+                                    class="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors"
+                                    title="Edit"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </button>
+                                <button 
+                                    onclick="viewIncomeDetails('${item.id}')"
+                                    class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                    title="View Details"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                                <button 
+                                    onclick="deleteIncome('${item.id}')"
+                                    class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                    title="Delete"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // ============================================
+        // Action Functions
+        // ============================================
+        
+        function viewIncomeDetails(id) {
+            const item = allIncomeData.find(i => i.id === id);
+            if (!item) return;
+            
+            alert(`Income Details:\n\nAmount: ${formatCurrencyDisplay(item.amount)}\nSource: ${item.source}\nDate: ${formatDateShort(item.date)}\nTrips: ${item.trip_count || 'N/A'}\nHours: ${item.hours_worked || 'N/A'}\nMiles: ${item.miles_driven || 'N/A'}\nDescription: ${item.description || 'N/A'}`);
+        }
+        
+        async function deleteIncome(id) {
+            if (!confirm('Are you sure you want to delete this income entry?')) return;
+            
+            try {
+                const { error } = await supabase
+                    .from('income')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                await loadIncomeData();
+            } catch (error) {
+                console.error('Error deleting income:', error);
+                alert('Failed to delete income. Please try again.');
+            }
+        }
+        
+        // ============================================
+        // Helper Functions
+        // ============================================
+        
+        function getCategoryIcon(source) {
+            const iconMap = {
+                'Rideshare Trip': '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>',
+                'Black Car Service': '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>',
+                'Private Client': '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>',
+                'Delivery': '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>',
+                'Other': '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>'
+            };
+            return iconMap[source] || '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+        }
+        
+        function formatDateShort(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        
+        function formatDateRelative(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            return '';
+        }
+        
+        function formatNumber(number) {
+            if (number === null || number === undefined || isNaN(number)) {
+                return '0';
+            }
+            return parseFloat(number).toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+            });
+        }
+        
+        function formatCurrencyDisplay(number) {
+            if (number === null || number === undefined || isNaN(number)) {
+                return '$0.00';
+            }
+            return '$' + parseFloat(number).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
+        function formatCurrency(input) {
+            let value = input.value.replace(/[^\d]/g, '');
+            if (!value) {
+                input.value = '';
+                return;
+            }
+            let number = parseInt(value);
+            let formatted = number.toLocaleString('en-US');
+            input.value = formatted;
+        }
+        
+        function unformatCurrency(input) {
+            return input.value.replace(/,/g, '');
+        }
+        
+        // ============================================
+        // Initialize
+        // ============================================
+        
+        checkAuth();
+    </script>
+    
+    <!-- Smart Modal Enhancements -->
+    <script src="dashboard-smart-modals.js"></script>
+</body>
+</html>
+
