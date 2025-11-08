@@ -1738,20 +1738,20 @@
                 if (error) throw error;
                 
                 console.log('Equity transaction recorded:', data);
-                successDiv.classList.remove('hidden');
                 
                 // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Record Transaction';
                 
-                // Reload data and celebrate!
-                setTimeout(() => {
-                    loadOwnerEquity();
-                    updateNetWorth();
-                    closeEquityModal();
-                    // Trigger confetti celebration
-                    celebrateMoneyRain();
-                }, 800);
+                // Close modal immediately
+                closeEquityModal();
+                
+                // Trigger confetti celebration right away!
+                celebrateMoneyRain();
+                
+                // Reload data in background
+                loadOwnerEquity();
+                updateNetWorth();
                 
             } catch (error) {
                 console.error('Error recording equity transaction:', error);
@@ -2001,19 +2001,19 @@
                 if (paymentError) throw paymentError;
                 
                 console.log('Payment recorded:', paymentData);
-                successDiv.classList.remove('hidden');
                 
                 // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Record Payment';
                 
-                // Reload data and celebrate!
-                setTimeout(async () => {
-                    await loadLiabilities();
-                    closePaymentModal();
-                    // Trigger confetti celebration
-                    celebrateSuccess();
-                }, 800);
+                // Close modal immediately
+                closePaymentModal();
+                
+                // Trigger confetti celebration right away!
+                celebrateSuccess();
+                
+                // Reload data in background
+                loadLiabilities();
                 
             } catch (error) {
                 console.error('Error recording payment:', error);
@@ -2117,22 +2117,19 @@
                     }
                 }
                 
-                successDiv.classList.remove('hidden');
-                
-                // Reload both assets and liabilities
-                await loadAssets();
-                await loadLiabilities();
-                
                 // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Asset';
                 
-                // Close modal and celebrate!
-                setTimeout(() => {
-                    closeAssetModal();
-                    // Trigger confetti celebration
-                    celebrateMoneyRain();
-                }, 800);
+                // Close modal immediately
+                closeAssetModal();
+                
+                // Trigger confetti celebration right away!
+                celebrateMoneyRain();
+                
+                // Reload data in background
+                loadAssets();
+                loadLiabilities();
                 
             } catch (error) {
                 console.error('Error adding asset:', error);
@@ -2184,20 +2181,19 @@
                 if (error) throw error;
                 
                 console.log('Liability added:', data);
-                successDiv.classList.remove('hidden');
-                
-                await loadLiabilities();
                 
                 // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Liability';
                 
-                // Close modal and celebrate!
-                setTimeout(() => {
-                    closeLiabilityModal();
-                    // Trigger confetti celebration
-                    celebrateSuccess();
-                }, 800);
+                // Close modal immediately
+                closeLiabilityModal();
+                
+                // Trigger confetti celebration right away!
+                celebrateSuccess();
+                
+                // Reload data in background
+                loadLiabilities();
                 
             } catch (error) {
                 console.error('Error adding liability:', error);

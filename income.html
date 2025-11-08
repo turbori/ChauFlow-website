@@ -845,26 +845,19 @@
                 
                 if (error) throw error;
                 
-                // Show success
-                successDiv.classList.remove('hidden');
-                successDiv.querySelector('p').textContent = isEditing 
-                    ? 'Income updated successfully!'
-                    : 'Income added successfully!';
-                
                 // Reset form
                 incomeForm.reset();
                 
-                // Reload data
-                await loadIncomeData();
+                // Close modal immediately
+                closeIncomeModal();
                 
-                // Close modal and celebrate!
-                setTimeout(() => {
-                    closeIncomeModal();
-                    // Trigger confetti celebration (only for new income, not edits)
-                    if (!isEditing) {
-                        celebrateMoneyRain();
-                    }
-                }, 800);
+                // Trigger confetti celebration right away (only for new income, not edits)
+                if (!isEditing) {
+                    celebrateMoneyRain();
+                }
+                
+                // Reload data in background
+                loadIncomeData();
                 
             } catch (error) {
                 console.error('Error adding income:', error);

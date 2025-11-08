@@ -1104,23 +1104,16 @@
                 
                 console.log(isEditing ? 'Expense updated:' : 'Expense added:', data);
                 
-                // Show success
-                successDiv.classList.remove('hidden');
-                successDiv.querySelector('p').textContent = isEditing 
-                    ? 'Expense updated successfully!'
-                    : 'Expense added successfully!';
+                // Close modal immediately
+                closeExpenseModal();
                 
-                // Refresh data
-                await loadExpenseData();
+                // Trigger confetti celebration right away (only for new expenses, not edits)
+                if (!isEditing) {
+                    celebrateSuccess();
+                }
                 
-                // Close modal and celebrate!
-                setTimeout(() => {
-                    closeExpenseModal();
-                    // Trigger confetti celebration (only for new expenses, not edits)
-                    if (!isEditing) {
-                        celebrateSuccess();
-                    }
-                }, 800);
+                // Refresh data in background
+                loadExpenseData();
                 
             } catch (error) {
                 console.error('Error adding expense:', error);
