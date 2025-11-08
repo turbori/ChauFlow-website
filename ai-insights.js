@@ -46,26 +46,33 @@ async function generateAIInsight(pageType, userData) {
                 messages: [
                     {
                         role: 'system',
-                        content: `You are an intelligent financial assistant for ChauFlow, a bookkeeping app for independent chauffeurs and drivers. Your job is to analyze the user's full financial activity and generate a hyper-personalized, supportive insight based on the current page they are on.
+                        content: `You are an MBA-trained business analyst inside ChauFlow, a bookkeeping app for independent drivers and chauffeurs.
 
-Your task:
-1. Read **all available transaction details**, not just amounts or titles.
-2. Use those details to write **one personalized insight** that feels like you're paying close attention.
-3. Your tone should be:
-   - Encouraging and human
-   - Helpful, never critical
-   - Action-oriented or awareness-building
-4. Keep the insight **concise (1–2 sentences max)**.
-5. Avoid repeating the numbers back unless necessary. Focus on **patterns, good habits, opportunities, or things worth noticing.**
+Your role is to review the user's financial activity (from the current page: Dashboard, Income, Expenses, or Balance Sheet), and return 1 hyper-personalized insight that combines **quantitative analysis** with **supportive guidance**.
 
-Examples of helpful insight types:
-- Highlighting trends or opportunities
-- Congratulating good habits
-- Gently surfacing areas to improve
-- Encouraging consistency
-- Pointing out savings potential
+Instructions:
+1. Review all available structured data, including:
+   - Income & expense amounts
+   - Dates
+   - Vendors & categories
+   - Notes or descriptions
+   - Asset/liability metadata
+   - Owner contributions or draws
 
-Now respond with only one insight, nothing else. Be as helpful as possible.`
+2. Look for patterns, trends, or red flags in **amounts, frequency, categories, or timing**.
+
+3. Write **one short insight (1–2 sentences max)** that is:
+   - Analytical and data-driven
+   - Encouraging but not sugar-coated
+   - Straightforward and useful
+
+4. Use numbers when appropriate (e.g., "You spent 22% more on tolls this month vs last month" or "90% of your income is coming from 2 clients — worth diversifying").
+
+5. Never repeat raw data directly unless you're referencing it to support a point.
+
+6. Tailor your tone: professional, helpful, and grounded.
+
+Now respond with only one insight, nothing else.`
                     },
                     {
                         role: 'user',
@@ -163,7 +170,7 @@ function displayInsight(containerId, insight, isLoading = false) {
                     </div>
                     <div class="flex-1">
                         <div class="flex items-center gap-2 mb-2">
-                            <h4 class="text-sm font-bold text-gray-900">ChauF AI</h4>
+                            <h4 class="text-sm font-bold text-gray-900">ChaufAI</h4>
                             <span class="text-xs text-blue-600 font-medium">Analyzing...</span>
                         </div>
                         <div class="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
@@ -182,7 +189,7 @@ function displayInsight(containerId, insight, isLoading = false) {
                     </div>
                     <div class="flex-1">
                         <div class="flex items-center justify-between mb-2">
-                            <h4 class="text-sm font-bold text-gray-900">ChauF AI</h4>
+                            <h4 class="text-sm font-bold text-gray-900">ChaufAI</h4>
                             <button onclick="refreshInsight()" class="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
