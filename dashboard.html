@@ -247,7 +247,8 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Total Income</p>
                 <div class="flex items-baseline gap-2">
-                    <p id="total-income" class="text-3xl font-bold text-accent">$0.00</p>
+                    <div id="total-income-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-income" class="text-3xl font-bold text-accent hidden"></p>
                     <span id="income-trend" class="text-sm font-semibold"></span>
                 </div>
                 <p class="text-xs text-gray-500 mt-2">This month</p>
@@ -275,7 +276,8 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Total Expenses</p>
                 <div class="flex items-baseline gap-2">
-                    <p id="total-expenses" class="text-3xl font-bold text-danger">$0.00</p>
+                    <div id="total-expenses-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-expenses" class="text-3xl font-bold text-danger hidden"></p>
                     <span id="expense-trend" class="text-sm font-semibold"></span>
                 </div>
                 <p class="text-xs text-gray-500 mt-2">This month</p>
@@ -303,7 +305,8 @@
                 </div>
                 <p class="text-sm opacity-90 mb-1">Net Profit</p>
                 <div class="flex items-baseline gap-2">
-                    <p id="net-profit" class="text-3xl md:text-4xl font-bold">$0.00</p>
+                    <div id="net-profit-loading" class="h-10 w-32 bg-white/20 rounded animate-pulse"></div>
+                    <p id="net-profit" class="text-3xl md:text-4xl font-bold hidden"></p>
                     <span id="profit-trend" class="text-sm font-semibold opacity-90"></span>
                 </div>
                 <p class="text-xs opacity-80 mt-2">Income - Expenses</p>
@@ -398,7 +401,8 @@
                         </div>
                         <p class="text-xs text-gray-600 font-medium">What You Have</p>
                     </div>
-                    <p id="dashboard-total-assets" class="text-2xl font-bold text-green-600">$0.00</p>
+                    <div id="dashboard-total-assets-loading" class="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="dashboard-total-assets" class="text-2xl font-bold text-green-600 hidden"></p>
                     <p class="text-xs text-gray-500 mt-1">Cars, equipment, cash</p>
                 </div>
 
@@ -412,7 +416,8 @@
                         </div>
                         <p class="text-xs text-gray-600 font-medium">What You Owe</p>
                     </div>
-                    <p id="dashboard-total-liabilities" class="text-2xl font-bold text-red-600">$0.00</p>
+                    <div id="dashboard-total-liabilities-loading" class="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="dashboard-total-liabilities" class="text-2xl font-bold text-red-600 hidden"></p>
                     <p class="text-xs text-gray-500 mt-1">Loans, leases</p>
                 </div>
 
@@ -426,7 +431,8 @@
                         </div>
                         <p class="text-xs text-gray-600 font-medium">Money In/Out</p>
                     </div>
-                    <p id="dashboard-net-equity" class="text-2xl font-bold text-purple-600">$0.00</p>
+                    <div id="dashboard-net-equity-loading" class="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="dashboard-net-equity" class="text-2xl font-bold text-purple-600 hidden"></p>
                     <p class="text-xs text-gray-500 mt-1">Your investment</p>
                 </div>
 
@@ -440,7 +446,8 @@
                         </div>
                         <p class="text-xs opacity-90 font-medium">Business Value</p>
                     </div>
-                    <p id="dashboard-net-worth" class="text-2xl font-bold">$0.00</p>
+                    <div id="dashboard-net-worth-loading" class="h-8 w-24 bg-white/20 rounded animate-pulse"></div>
+                    <p id="dashboard-net-worth" class="text-2xl font-bold hidden"></p>
                     <p class="text-xs opacity-80 mt-1">Total worth</p>
                 </div>
             </div>
@@ -1163,10 +1170,28 @@
                 const totalExpenses = expenseData.reduce((sum, item) => sum + parseFloat(item.amount), 0);
                 const netProfit = totalIncome - totalExpenses;
                 
-                // Update stats cards
-                document.getElementById('total-income').textContent = formatCurrencyDisplay(totalIncome);
-                document.getElementById('total-expenses').textContent = formatCurrencyDisplay(totalExpenses);
-                document.getElementById('net-profit').textContent = formatCurrencyDisplay(netProfit);
+                // Hide loading skeletons
+                document.getElementById('total-income-loading')?.classList.add('hidden');
+                document.getElementById('total-expenses-loading')?.classList.add('hidden');
+                document.getElementById('net-profit-loading')?.classList.add('hidden');
+                
+                // Update and show stats cards
+                const incomeEl = document.getElementById('total-income');
+                const expensesEl = document.getElementById('total-expenses');
+                const profitEl = document.getElementById('net-profit');
+                
+                if (incomeEl) {
+                    incomeEl.textContent = formatCurrencyDisplay(totalIncome);
+                    incomeEl.classList.remove('hidden');
+                }
+                if (expensesEl) {
+                    expensesEl.textContent = formatCurrencyDisplay(totalExpenses);
+                    expensesEl.classList.remove('hidden');
+                }
+                if (profitEl) {
+                    profitEl.textContent = formatCurrencyDisplay(netProfit);
+                    profitEl.classList.remove('hidden');
+                }
                 
                 // Load Balance Sheet data
                 await loadBalanceSheetData();
@@ -1327,16 +1352,34 @@
                 // Calculate net worth
                 const netWorth = totalAssets - totalLiabilities;
                 
-                // Update dashboard cards
+                // Hide loading skeletons
+                document.getElementById('dashboard-total-assets-loading')?.classList.add('hidden');
+                document.getElementById('dashboard-total-liabilities-loading')?.classList.add('hidden');
+                document.getElementById('dashboard-net-equity-loading')?.classList.add('hidden');
+                document.getElementById('dashboard-net-worth-loading')?.classList.add('hidden');
+                
+                // Update and show dashboard cards
                 const dashboardTotalAssets = document.getElementById('dashboard-total-assets');
                 const dashboardTotalLiabilities = document.getElementById('dashboard-total-liabilities');
                 const dashboardNetEquity = document.getElementById('dashboard-net-equity');
                 const dashboardNetWorth = document.getElementById('dashboard-net-worth');
                 
-                if (dashboardTotalAssets) dashboardTotalAssets.textContent = formatCurrencyDisplay(totalAssets);
-                if (dashboardTotalLiabilities) dashboardTotalLiabilities.textContent = formatCurrencyDisplay(totalLiabilities);
-                if (dashboardNetEquity) dashboardNetEquity.textContent = formatCurrencyDisplay(netEquity);
-                if (dashboardNetWorth) dashboardNetWorth.textContent = formatCurrencyDisplay(netWorth);
+                if (dashboardTotalAssets) {
+                    dashboardTotalAssets.textContent = formatCurrencyDisplay(totalAssets);
+                    dashboardTotalAssets.classList.remove('hidden');
+                }
+                if (dashboardTotalLiabilities) {
+                    dashboardTotalLiabilities.textContent = formatCurrencyDisplay(totalLiabilities);
+                    dashboardTotalLiabilities.classList.remove('hidden');
+                }
+                if (dashboardNetEquity) {
+                    dashboardNetEquity.textContent = formatCurrencyDisplay(netEquity);
+                    dashboardNetEquity.classList.remove('hidden');
+                }
+                if (dashboardNetWorth) {
+                    dashboardNetWorth.textContent = formatCurrencyDisplay(netWorth);
+                    dashboardNetWorth.classList.remove('hidden');
+                }
                 
             } catch (error) {
                 console.error('Error loading balance sheet data:', error);

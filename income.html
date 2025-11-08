@@ -188,7 +188,8 @@
                     </span>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Total Income</p>
-                <p id="total-income" class="text-3xl font-bold text-accent">$0.00</p>
+                <div id="total-income-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                <p id="total-income" class="text-3xl font-bold text-accent hidden"></p>
                 <p class="text-xs text-gray-500 mt-2" id="income-comparison">—</p>
             </div>
             
@@ -213,7 +214,8 @@
                     </button>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Avg Income Per Trip</p>
-                <p id="avg-per-trip" class="text-3xl font-bold text-primary">$0.00</p>
+                <div id="avg-per-trip-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                <p id="avg-per-trip" class="text-3xl font-bold text-primary hidden"></p>
                 <p class="text-xs text-gray-500 mt-2" id="trip-count-label">0 trips</p>
             </div>
             
@@ -230,7 +232,8 @@
                     </span>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Total Entries</p>
-                <p id="total-entries" class="text-3xl font-bold text-purple-600">0</p>
+                <div id="total-entries-loading" class="h-10 w-20 bg-gray-200 rounded animate-pulse"></div>
+                <p id="total-entries" class="text-3xl font-bold text-purple-600 hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">Income records</p>
             </div>
         </div>
@@ -892,10 +895,29 @@
                 const totalTrips = monthIncome.reduce((sum, item) => sum + (parseInt(item.trip_count) || 0), 0);
                 const avgPerTrip = totalTrips > 0 ? totalIncome / totalTrips : 0;
                 
-                // Update summary cards
-                document.getElementById('total-income').textContent = formatCurrencyDisplay(totalIncome);
-                document.getElementById('avg-per-trip').textContent = formatCurrencyDisplay(avgPerTrip);
-                document.getElementById('total-entries').textContent = formatNumber(incomeData.length);
+                // Hide loading skeletons
+                document.getElementById('total-income-loading')?.classList.add('hidden');
+                document.getElementById('avg-per-trip-loading')?.classList.add('hidden');
+                document.getElementById('total-entries-loading')?.classList.add('hidden');
+                
+                // Update and show summary cards
+                const totalIncomeEl = document.getElementById('total-income');
+                const avgPerTripEl = document.getElementById('avg-per-trip');
+                const totalEntriesEl = document.getElementById('total-entries');
+                
+                if (totalIncomeEl) {
+                    totalIncomeEl.textContent = formatCurrencyDisplay(totalIncome);
+                    totalIncomeEl.classList.remove('hidden');
+                }
+                if (avgPerTripEl) {
+                    avgPerTripEl.textContent = formatCurrencyDisplay(avgPerTrip);
+                    avgPerTripEl.classList.remove('hidden');
+                }
+                if (totalEntriesEl) {
+                    totalEntriesEl.textContent = formatNumber(incomeData.length);
+                    totalEntriesEl.classList.remove('hidden');
+                }
+                
                 document.getElementById('trip-count-label').textContent = `${totalTrips} trips`;
                 
                 // Clear date filters on initial load to show all data
