@@ -194,7 +194,8 @@
                     </span>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Total Expenses</p>
-                <p id="total-expenses" class="text-3xl font-bold text-danger">$0.00</p>
+                <div id="total-expenses-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                <p id="total-expenses" class="text-3xl font-bold text-danger hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">—</p>
             </div>
 
@@ -208,7 +209,8 @@
                     </div>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Avg per Expense</p>
-                <p id="avg-expense" class="text-3xl font-bold text-primary">$0.00</p>
+                <div id="avg-expense-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                <p id="avg-expense" class="text-3xl font-bold text-primary hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">—</p>
             </div>
 
@@ -225,7 +227,8 @@
                     </span>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Total Entries</p>
-                <p id="entry-count" class="text-3xl font-bold text-purple-600">0</p>
+                <div id="entry-count-loading" class="h-10 w-20 bg-gray-200 rounded animate-pulse"></div>
+                <p id="entry-count" class="text-3xl font-bold text-purple-600 hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">Expense records</p>
             </div>
         </div>
@@ -705,10 +708,28 @@
             const count = monthlyExpenses.length;
             const average = count > 0 ? total / count : 0;
             
-            // Update summary cards
-            document.getElementById('total-expenses').textContent = formatCurrencyDisplay(total);
-            document.getElementById('avg-expense').textContent = formatCurrencyDisplay(average);
-            document.getElementById('entry-count').textContent = count.toString();
+            // Hide loading skeletons
+            document.getElementById('total-expenses-loading')?.classList.add('hidden');
+            document.getElementById('avg-expense-loading')?.classList.add('hidden');
+            document.getElementById('entry-count-loading')?.classList.add('hidden');
+            
+            // Update and show summary cards
+            const totalExpensesEl = document.getElementById('total-expenses');
+            const avgExpenseEl = document.getElementById('avg-expense');
+            const entryCountEl = document.getElementById('entry-count');
+            
+            if (totalExpensesEl) {
+                totalExpensesEl.textContent = formatCurrencyDisplay(total);
+                totalExpensesEl.classList.remove('hidden');
+            }
+            if (avgExpenseEl) {
+                avgExpenseEl.textContent = formatCurrencyDisplay(average);
+                avgExpenseEl.classList.remove('hidden');
+            }
+            if (entryCountEl) {
+                entryCountEl.textContent = count.toString();
+                entryCountEl.classList.remove('hidden');
+            }
         }
         
         // ============================================
