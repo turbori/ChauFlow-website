@@ -400,6 +400,31 @@
                     </tbody>
                 </table>
             </div>
+            
+            <!-- Pagination Controls -->
+            <div id="expense-pagination" class="hidden flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600">Showing</span>
+                    <span id="expense-range" class="text-sm font-medium text-gray-900">1-15</span>
+                    <span class="text-sm text-gray-600">of</span>
+                    <span id="expense-total" class="text-sm font-medium text-gray-900">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="expense-prev-page" onclick="changeExpensePage(-1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Previous
+                    </button>
+                    <span id="expense-page-info" class="text-sm text-gray-600 px-3">Page 1 of 1</span>
+                    <button id="expense-next-page" onclick="changeExpensePage(1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        Next
+                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
             <!-- Empty State -->
             <div id="empty-state" class="hidden py-16 text-center">
@@ -752,14 +777,31 @@
         }
         
         // ============================================
-        // Render Expense Table
+        // Render Expense Table with Pagination
         // ============================================
         
+        let allExpenseData = [];
+        let currentExpensePage = 1;
+        const expenseItemsPerPage = 15;
+        
         function renderExpenseTable(expenses) {
+            allExpenseData = expenses;
+            currentExpensePage = 1;
+            renderExpensePage();
+        }
+        
+        function renderExpensePage() {
             const tbody = document.getElementById('expenses-table-body');
             const emptyState = document.getElementById('empty-state');
+            const paginationContainer = document.getElementById('expense-pagination');
+            const rangeEl = document.getElementById('expense-range');
+            const totalEl = document.getElementById('expense-total');
+            const pageInfo = document.getElementById('expense-page-info');
+            const prevBtn = document.getElementById('expense-prev-page');
+            const nextBtn = document.getElementById('expense-next-page');
             
-            if (expenses.length === 0) {
+            // Handle empty state
+            if (allExpenseData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="6" class="px-6 py-12 text-center">
@@ -775,13 +817,39 @@
                         </td>
                     </tr>
                 `;
-                emptyState.classList.add('hidden');
+                if (emptyState) emptyState.classList.add('hidden');
+                if (paginationContainer) paginationContainer.classList.add('hidden');
                 return;
             }
             
-            emptyState.classList.add('hidden');
+            if (emptyState) emptyState.classList.add('hidden');
             
-            tbody.innerHTML = expenses.map(expense => {
+            // Calculate pagination
+            const totalPages = Math.ceil(allExpenseData.length / expenseItemsPerPage);
+            const startIndex = (currentExpensePage - 1) * expenseItemsPerPage;
+            const endIndex = startIndex + expenseItemsPerPage;
+            const pageData = allExpenseData.slice(startIndex, endIndex);
+            
+            // Update pagination info
+            if (rangeEl) rangeEl.textContent = `${startIndex + 1}-${Math.min(endIndex, allExpenseData.length)}`;
+            if (totalEl) totalEl.textContent = allExpenseData.length;
+            if (pageInfo) pageInfo.textContent = `Page ${currentExpensePage} of ${totalPages}`;
+            
+            // Update button states
+            if (prevBtn) prevBtn.disabled = currentExpensePage === 1;
+            if (nextBtn) nextBtn.disabled = currentExpensePage === totalPages;
+            
+            // Show/hide pagination
+            if (paginationContainer) {
+                if (totalPages > 1) {
+                    paginationContainer.classList.remove('hidden');
+                } else {
+                    paginationContainer.classList.add('hidden');
+                }
+            }
+            
+            // Render table rows
+            tbody.innerHTML = pageData.map(expense => {
                 const icon = getCategoryIcon(expense.category);
                 
                 return `
@@ -832,6 +900,21 @@
                     </tr>
                 `;
             }).join('');
+        }
+        
+        function changeExpensePage(direction) {
+            const totalPages = Math.ceil(allExpenseData.length / expenseItemsPerPage);
+            currentExpensePage += direction;
+            
+            // Ensure we stay within bounds
+            if (currentExpensePage < 1) currentExpensePage = 1;
+            if (currentExpensePage > totalPages) currentExpensePage = totalPages;
+            
+            // Render the new page
+            renderExpensePage();
+            
+            // Scroll to top of table
+            document.querySelector('.overflow-x-auto').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
         // ============================================

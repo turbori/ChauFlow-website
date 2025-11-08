@@ -424,6 +424,31 @@
                     </tbody>
                 </table>
             </div>
+            
+            <!-- Pagination Controls -->
+            <div id="income-pagination" class="hidden flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600">Showing</span>
+                    <span id="income-range" class="text-sm font-medium text-gray-900">1-10</span>
+                    <span class="text-sm text-gray-600">of</span>
+                    <span id="income-total" class="text-sm font-medium text-gray-900">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="income-prev-page" onclick="changeIncomePage(-1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Previous
+                    </button>
+                    <span id="income-page-info" class="text-sm text-gray-600 px-3">Page 1 of 1</span>
+                    <button id="income-next-page" onclick="changeIncomePage(1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        Next
+                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
         
     </main>
@@ -1262,13 +1287,30 @@
         }
         
         // ============================================
-        // Render Income Table
+        // Render Income Table with Pagination
         // ============================================
         
+        let allIncomeData = [];
+        let currentIncomePage = 1;
+        const incomeItemsPerPage = 15;
+        
         function renderIncomeTable(data) {
+            allIncomeData = data;
+            currentIncomePage = 1;
+            renderIncomePage();
+        }
+        
+        function renderIncomePage() {
             const tbody = document.getElementById('income-table-body');
+            const paginationContainer = document.getElementById('income-pagination');
+            const rangeEl = document.getElementById('income-range');
+            const totalEl = document.getElementById('income-total');
+            const pageInfo = document.getElementById('income-page-info');
+            const prevBtn = document.getElementById('income-prev-page');
+            const nextBtn = document.getElementById('income-next-page');
             
-            if (data.length === 0) {
+            // Handle empty state
+            if (allIncomeData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="6" class="px-6 py-12 text-center">
@@ -1284,10 +1326,36 @@
                         </td>
                     </tr>
                 `;
+                if (paginationContainer) paginationContainer.classList.add('hidden');
                 return;
             }
             
-            tbody.innerHTML = data.map(item => {
+            // Calculate pagination
+            const totalPages = Math.ceil(allIncomeData.length / incomeItemsPerPage);
+            const startIndex = (currentIncomePage - 1) * incomeItemsPerPage;
+            const endIndex = startIndex + incomeItemsPerPage;
+            const pageData = allIncomeData.slice(startIndex, endIndex);
+            
+            // Update pagination info
+            if (rangeEl) rangeEl.textContent = `${startIndex + 1}-${Math.min(endIndex, allIncomeData.length)}`;
+            if (totalEl) totalEl.textContent = allIncomeData.length;
+            if (pageInfo) pageInfo.textContent = `Page ${currentIncomePage} of ${totalPages}`;
+            
+            // Update button states
+            if (prevBtn) prevBtn.disabled = currentIncomePage === 1;
+            if (nextBtn) nextBtn.disabled = currentIncomePage === totalPages;
+            
+            // Show/hide pagination
+            if (paginationContainer) {
+                if (totalPages > 1) {
+                    paginationContainer.classList.remove('hidden');
+                } else {
+                    paginationContainer.classList.add('hidden');
+                }
+            }
+            
+            // Render table rows
+            tbody.innerHTML = pageData.map(item => {
                 const icon = getCategoryIcon(item.source);
                 const tripDetails = [];
                 if (item.trip_count) tripDetails.push(`${item.trip_count} trips`);
@@ -1343,6 +1411,21 @@
                     </tr>
                 `;
             }).join('');
+        }
+        
+        function changeIncomePage(direction) {
+            const totalPages = Math.ceil(allIncomeData.length / incomeItemsPerPage);
+            currentIncomePage += direction;
+            
+            // Ensure we stay within bounds
+            if (currentIncomePage < 1) currentIncomePage = 1;
+            if (currentIncomePage > totalPages) currentIncomePage = totalPages;
+            
+            // Render the new page
+            renderIncomePage();
+            
+            // Scroll to top of table
+            document.querySelector('.overflow-x-auto').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
         // ============================================
