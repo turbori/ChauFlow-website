@@ -185,7 +185,8 @@
                     </button>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">What You Own</p>
-                <p id="total-assets-summary" class="text-3xl font-bold text-accent">$0.00</p>
+                <div id="total-assets-summary-loading" class="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>
+                <p id="total-assets-summary" class="text-3xl font-bold text-accent hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">Total Assets</p>
             </div>
 
@@ -210,7 +211,8 @@
                     </button>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">What You Owe</p>
-                <p id="total-liabilities-summary" class="text-3xl font-bold text-danger">$0.00</p>
+                <div id="total-liabilities-summary-loading" class="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>
+                <p id="total-liabilities-summary" class="text-3xl font-bold text-danger hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">Total Liabilities</p>
             </div>
 
@@ -235,8 +237,9 @@
                     </button>
                 </div>
                 <p class="text-sm text-gray-500 mb-1">Business Net Worth</p>
-                <p id="net-worth" class="text-3xl font-bold text-primary">$0.00</p>
-                <p class="text-xs text-gray-500 mt-2" id="net-worth-formula">$0 - $0</p>
+                <div id="net-worth-loading" class="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>
+                <p id="net-worth" class="text-3xl font-bold text-primary hidden"></p>
+                <p class="text-xs text-gray-500 mt-2" id="net-worth-formula"></p>
             </div>
         </div>
 
@@ -1468,10 +1471,32 @@
             const totalLiabilities = allLiabilities.reduce((sum, liability) => sum + parseFloat(liability.current_balance), 0);
             const netWorth = totalAssets - totalLiabilities;
             
-            // Update summary cards
-            document.getElementById('total-assets-summary').textContent = formatCurrencyDisplay(totalAssets);
-            document.getElementById('total-liabilities-summary').textContent = formatCurrencyDisplay(totalLiabilities);
-            document.getElementById('net-worth').textContent = formatCurrencyDisplay(netWorth);
+            // Hide loading skeletons
+            const assetsLoading = document.getElementById('total-assets-summary-loading');
+            const liabilitiesLoading = document.getElementById('total-liabilities-summary-loading');
+            const netWorthLoading = document.getElementById('net-worth-loading');
+            
+            if (assetsLoading) assetsLoading.classList.add('hidden');
+            if (liabilitiesLoading) liabilitiesLoading.classList.add('hidden');
+            if (netWorthLoading) netWorthLoading.classList.add('hidden');
+            
+            // Show and update summary cards
+            const assetsEl = document.getElementById('total-assets-summary');
+            const liabilitiesEl = document.getElementById('total-liabilities-summary');
+            const netWorthEl = document.getElementById('net-worth');
+            
+            if (assetsEl) {
+                assetsEl.textContent = formatCurrencyDisplay(totalAssets);
+                assetsEl.classList.remove('hidden');
+            }
+            if (liabilitiesEl) {
+                liabilitiesEl.textContent = formatCurrencyDisplay(totalLiabilities);
+                liabilitiesEl.classList.remove('hidden');
+            }
+            if (netWorthEl) {
+                netWorthEl.textContent = formatCurrencyDisplay(netWorth);
+                netWorthEl.classList.remove('hidden');
+            }
             
             document.getElementById('net-worth-formula').textContent = 
                 `${formatCurrencyDisplay(totalAssets)} - ${formatCurrencyDisplay(totalLiabilities)} = ${formatCurrencyDisplay(netWorth)}`;
