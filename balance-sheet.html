@@ -295,23 +295,23 @@
             </div>
 
             <!-- LIABILITIES Column -->
-            <div class="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 shadow-sm border-2 border-orange-200">
+            <div class="bg-gradient-to-br from-red-50 to-white rounded-2xl p-6 shadow-sm border-2 border-red-200">
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                                <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                                     </svg>
                                 </div>
                                 What You Owe
                             </h2>
-                            <p class="text-sm text-orange-700 ml-12">Your business debts</p>
+                            <p class="text-sm text-red-700 ml-12">Your business debts</p>
                         </div>
                         <button 
                             onclick="openLiabilityModal()"
-                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all duration-200 shadow-sm hover:shadow-md"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -320,8 +320,8 @@
                         </button>
                     </div>
                     <!-- Help Text -->
-                    <div class="bg-orange-50 border border-orange-200 rounded-lg px-4 py-3">
-                        <p class="text-sm text-orange-800">
+                    <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                        <p class="text-sm text-red-800">
                             <span class="font-semibold">Examples:</span> Auto loan, credit card for gas, iPhone financing, business line of credit
                         </p>
                     </div>
@@ -365,7 +365,7 @@
                         <div class="flex gap-2">
                             <button 
                                 onclick="openEquityModal('contribution')"
-                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
+                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                 </svg>
@@ -373,7 +373,7 @@
                             </button>
                             <button 
                                 onclick="openEquityModal('draw')"
-                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md">
+                                class="inline-flex items-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all duration-200 shadow-sm hover:shadow-md">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                                 </svg>
@@ -385,17 +385,17 @@
                     <!-- Equity Summary Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <!-- Total Contributions -->
-                        <div class="bg-gradient-to-br from-green-50 to-white border-2 border-green-200 rounded-lg p-4">
-                            <p class="text-xs text-green-700 font-medium mb-2">Total Contributions</p>
-                            <p id="total-contributions" class="text-2xl font-bold text-green-600">$0.00</p>
-                            <p class="text-xs text-green-600 mt-1">Money you invested</p>
+                        <div class="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-lg p-4">
+                            <p class="text-xs text-blue-700 font-medium mb-2">Total Contributions</p>
+                            <p id="total-contributions" class="text-2xl font-bold text-blue-600">$0.00</p>
+                            <p class="text-xs text-blue-600 mt-1">Money you invested</p>
                         </div>
                         
                         <!-- Total Draws -->
-                        <div class="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-lg p-4">
-                            <p class="text-xs text-orange-700 font-medium mb-2">Total Draws</p>
-                            <p id="total-draws" class="text-2xl font-bold text-orange-600">$0.00</p>
-                            <p class="text-xs text-orange-600 mt-1">Money you took out</p>
+                        <div class="bg-gradient-to-br from-red-50 to-white border-2 border-red-200 rounded-lg p-4">
+                            <p class="text-xs text-red-700 font-medium mb-2">Total Draws</p>
+                            <p id="total-draws" class="text-2xl font-bold text-red-600">$0.00</p>
+                            <p class="text-xs text-red-600 mt-1">Money you took out</p>
                         </div>
                         
                         <!-- Net Equity -->
@@ -1691,11 +1691,11 @@
             
             listEl.innerHTML = transactions.map(transaction => {
                 const isContribution = transaction.transaction_type === 'contribution';
-                const iconBg = isContribution ? 'bg-green-50' : 'bg-orange-50';
-                const iconColor = isContribution ? 'text-green-600' : 'text-orange-600';
-                const amountColor = isContribution ? 'text-green-600' : 'text-orange-600';
+                const iconBg = isContribution ? 'bg-blue-50' : 'bg-red-50';
+                const iconColor = isContribution ? 'text-blue-600' : 'text-red-600';
+                const amountColor = isContribution ? 'text-blue-600' : 'text-red-600';
                 const typeLabel = isContribution ? 'Contribution' : 'Draw';
-                const typeBadgeBg = isContribution ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700';
+                const typeBadgeBg = isContribution ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700';
                 const icon = isContribution 
                     ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>'
                     : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>';
