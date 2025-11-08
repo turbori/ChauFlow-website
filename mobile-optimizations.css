@@ -1,0 +1,331 @@
+/* Mobile Optimizations for ChauFlow */
+/* This file contains mobile-specific styles to ensure all pages work perfectly on mobile devices */
+
+/* ============================================
+   GLOBAL MOBILE STYLES
+   ============================================ */
+
+/* Ensure proper touch targets (minimum 44x44px) */
+@media (max-width: 768px) {
+    button,
+    a,
+    input,
+    select {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Improve text readability on mobile */
+    body {
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+    
+    /* Prevent horizontal scrolling */
+    body {
+        overflow-x: hidden;
+    }
+    
+    /* Make sure containers don't overflow */
+    .container,
+    .max-w-7xl {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* ============================================
+   NAVIGATION MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Ensure mobile menu is accessible */
+    #mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999;
+        background-color: white;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Make nav buttons easier to tap */
+    nav button {
+        padding: 0.75rem;
+    }
+}
+
+/* ============================================
+   CARDS & SUMMARY SECTIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Stack cards vertically on mobile */
+    .grid.md\:grid-cols-2,
+    .grid.md\:grid-cols-3,
+    .grid.md\:grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Reduce padding on cards for mobile */
+    .rounded-2xl {
+        padding: 1rem !important;
+    }
+    
+    /* Make stat cards more compact */
+    .text-3xl {
+        font-size: 1.875rem;
+    }
+    
+    .text-4xl {
+        font-size: 2.25rem;
+    }
+}
+
+/* ============================================
+   TABLES MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Ensure tables scroll horizontally */
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    
+    /* Make table text smaller on mobile */
+    table {
+        font-size: 0.875rem;
+    }
+    
+    /* Reduce table cell padding */
+    table td,
+    table th {
+        padding: 0.5rem;
+    }
+    
+    /* Make action buttons more compact */
+    table button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================
+   MODALS MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make modals full-screen on mobile */
+    .fixed.inset-0 > div {
+        margin: 0;
+        max-height: 100vh;
+        border-radius: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Ensure modal content is scrollable */
+    .modal-content {
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+}
+
+/* ============================================
+   FORMS MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make form inputs full width */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+        width: 100%;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Stack form fields vertically */
+    .grid.grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   AI INSIGHTS MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    #ai-insight-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    #ai-insight-container .rounded-2xl {
+        padding: 1rem;
+    }
+    
+    #ai-insight-container .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+}
+
+/* ============================================
+   BUTTONS MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make primary action buttons more prominent */
+    .bg-danger,
+    .bg-primary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Stack buttons vertically on mobile */
+    .flex.gap-4 {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .flex.gap-4 > button,
+    .flex.gap-4 > a {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   PAGINATION MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make pagination controls more compact */
+    .flex.items-center.justify-between {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    /* Center pagination buttons */
+    .flex.gap-2 {
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   BALANCE SHEET MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Stack balance sheet columns vertically */
+    .grid.lg\:grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Make asset/liability cards more compact */
+    .bg-green-50,
+    .bg-red-50,
+    .bg-blue-50 {
+        padding: 1rem;
+    }
+}
+
+/* ============================================
+   QUICK FILTERS MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make filter buttons wrap and stack */
+    .flex.flex-wrap.gap-2 {
+        justify-content: center;
+    }
+    
+    .flex.flex-wrap.gap-2 > button {
+        flex: 0 0 calc(50% - 0.5rem);
+        font-size: 0.75rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* ============================================
+   CHART & BREAKDOWN MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make expense breakdown more compact */
+    #expense-breakdown .space-y-3 {
+        gap: 0.75rem;
+    }
+    
+    /* Adjust progress bar text size */
+    #expense-breakdown .text-sm {
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+}
+
+/* Show only on mobile */
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+}
+
+/* Prevent text selection on buttons (better mobile UX) */
+button {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/* Improve tap highlighting */
+button,
+a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   SCROLLBAR STYLING (MOBILE)
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Thin scrollbars for better mobile experience */
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 2px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
