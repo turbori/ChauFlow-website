@@ -848,13 +848,15 @@
                 // Reset form
                 incomeForm.reset();
                 
-                // Close modal immediately
-                closeIncomeModal();
-                
-                // Trigger confetti celebration right away (only for new income, not edits)
+                // Trigger confetti FIRST (only for new income, not edits)
                 if (!isEditing) {
                     celebrateMoneyRain();
                 }
+                
+                // Then close modal after short delay
+                setTimeout(() => {
+                    closeIncomeModal();
+                }, 300);
                 
                 // Reload data in background
                 loadIncomeData();

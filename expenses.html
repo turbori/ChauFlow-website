@@ -1104,13 +1104,15 @@
                 
                 console.log(isEditing ? 'Expense updated:' : 'Expense added:', data);
                 
-                // Close modal immediately
-                closeExpenseModal();
-                
-                // Trigger confetti celebration right away (only for new expenses, not edits)
+                // Trigger confetti FIRST (only for new expenses, not edits)
                 if (!isEditing) {
                     celebrateSuccess();
                 }
+                
+                // Then close modal after short delay
+                setTimeout(() => {
+                    closeExpenseModal();
+                }, 300);
                 
                 // Refresh data in background
                 loadExpenseData();

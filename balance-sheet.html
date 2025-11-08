@@ -1738,16 +1738,17 @@
                 if (error) throw error;
                 
                 console.log('Equity transaction recorded:', data);
-                
                 // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Record Transaction';
                 
-                // Close modal immediately
-                closeEquityModal();
-                
-                // Trigger confetti celebration right away!
+                // Trigger confetti FIRST!
                 celebrateMoneyRain();
+                
+                // Then close modal after short delay
+                setTimeout(() => {
+                    closeEquityModal();
+                }, 300);
                 
                 // Reload data in background
                 loadOwnerEquity();
@@ -2001,16 +2002,17 @@
                 if (paymentError) throw paymentError;
                 
                 console.log('Payment recorded:', paymentData);
-                
                 // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Record Payment';
                 
-                // Close modal immediately
-                closePaymentModal();
-                
-                // Trigger confetti celebration right away!
+                // Trigger confetti FIRST!
                 celebrateSuccess();
+                
+                // Then close modal after short delay
+                setTimeout(() => {
+                    closePaymentModal();
+                }, 300);
                 
                 // Reload data in background
                 loadLiabilities();
@@ -2121,11 +2123,13 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Asset';
                 
-                // Close modal immediately
-                closeAssetModal();
-                
-                // Trigger confetti celebration right away!
+                // Trigger confetti FIRST!
                 celebrateMoneyRain();
+                
+                // Then close modal after short delay
+                setTimeout(() => {
+                    closeAssetModal();
+                }, 300);
                 
                 // Reload data in background
                 loadAssets();
@@ -2186,11 +2190,13 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Liability';
                 
-                // Close modal immediately
-                closeLiabilityModal();
-                
-                // Trigger confetti celebration right away!
+                // Trigger confetti FIRST!
                 celebrateSuccess();
+                
+                // Then close modal after short delay
+                setTimeout(() => {
+                    closeLiabilityModal();
+                }, 300);
                 
                 // Reload data in background
                 loadLiabilities();
