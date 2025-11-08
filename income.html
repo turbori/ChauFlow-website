@@ -901,10 +901,9 @@
                 
                 allIncomeData = incomeData;
                 
-                // Calculate summary stats for current month
-                const monthIncome = incomeData.filter(item => item.date >= monthStart && item.date <= monthEnd);
-                const totalIncome = monthIncome.reduce((sum, item) => sum + parseFloat(item.amount), 0);
-                const totalTrips = monthIncome.reduce((sum, item) => sum + (parseInt(item.trip_count) || 0), 0);
+                // Calculate summary stats for the filtered data
+                const totalIncome = incomeData.reduce((sum, item) => sum + parseFloat(item.amount), 0);
+                const totalTrips = incomeData.reduce((sum, item) => sum + (parseInt(item.trip_count) || 0), 0);
                 const avgPerTrip = totalTrips > 0 ? totalIncome / totalTrips : 0;
                 
                 // Hide loading skeletons
@@ -943,7 +942,7 @@
                 applyFilters();
                 
                 // Calculate trip insights
-                calculateTripInsights(monthIncome);
+                calculateTripInsights(incomeData);
                 
             } catch (error) {
                 console.error('Error loading income data:', error);
