@@ -1740,6 +1740,10 @@
                 console.log('Equity transaction recorded:', data);
                 successDiv.classList.remove('hidden');
                 
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Record Transaction';
+                
                 // Reload data and celebrate!
                 setTimeout(() => {
                     loadOwnerEquity();
@@ -1999,6 +2003,10 @@
                 console.log('Payment recorded:', paymentData);
                 successDiv.classList.remove('hidden');
                 
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Record Payment';
+                
                 // Reload data and celebrate!
                 setTimeout(async () => {
                     await loadLiabilities();
@@ -2115,6 +2123,10 @@
                 await loadAssets();
                 await loadLiabilities();
                 
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Asset';
+                
                 // Close modal and celebrate!
                 setTimeout(() => {
                     closeAssetModal();
@@ -2175,6 +2187,10 @@
                 successDiv.classList.remove('hidden');
                 
                 await loadLiabilities();
+                
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Liability';
                 
                 // Close modal and celebrate!
                 setTimeout(() => {
