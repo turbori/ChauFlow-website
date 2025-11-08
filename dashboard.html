@@ -540,9 +540,9 @@
             </div>
             
             <!-- Profit Trend -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-                <h3 class="text-xl font-bold text-textDark mb-2">Current Month Summary</h3>
-                <p class="text-xs text-gray-500 mb-6">Your activity this month</p>
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 h-fit">
+                <h3 id="summary-title" class="text-xl font-bold text-textDark mb-2">Current Month Summary</h3>
+                <p id="summary-subtitle" class="text-xs text-gray-500 mb-6">Your activity this month</p>
                 
                 <div class="space-y-4">
                     <div>
@@ -1206,9 +1206,35 @@
             event.target.classList.remove('bg-gray-100', 'text-gray-700');
             event.target.classList.add('bg-primary', 'text-white');
             
+            // Update summary title based on filter
+            updateSummaryTitle(filterType);
+            
             // Reload data with new filter
             loadDashboardData();
             loadRecentActivity();
+        }
+        
+        function updateSummaryTitle(filterType) {
+            const titleEl = document.getElementById('summary-title');
+            const subtitleEl = document.getElementById('summary-subtitle');
+            
+            if (!titleEl || !subtitleEl) return;
+            
+            const titles = {
+                'today': { title: 'Today\'s Summary', subtitle: 'Your activity today' },
+                'yesterday': { title: 'Yesterday\'s Summary', subtitle: 'Your activity yesterday' },
+                'thisMonth': { title: 'Current Month Summary', subtitle: 'Your activity this month' },
+                'lastMonth': { title: 'Last Month Summary', subtitle: 'Your activity last month' },
+                'last30Days': { title: 'Last 30 Days Summary', subtitle: 'Your activity over the last 30 days' },
+                'last90Days': { title: 'Last 90 Days Summary', subtitle: 'Your activity over the last 90 days' },
+                'thisYear': { title: 'Year to Date Summary', subtitle: 'Your activity this year' },
+                'lastYear': { title: 'Last Year Summary', subtitle: 'Your activity last year' },
+                'allTime': { title: 'All Time Summary', subtitle: 'Your complete activity history' }
+            };
+            
+            const config = titles[filterType] || titles['thisMonth'];
+            titleEl.textContent = config.title;
+            subtitleEl.textContent = config.subtitle;
         }
         
         function getDashboardDateRange() {
