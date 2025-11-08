@@ -287,7 +287,7 @@
             <div id="net-profit-card" class="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300 group relative">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg id="net-profit-icon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                         </svg>
                     </div>
@@ -1202,17 +1202,25 @@
                 
                 // Update Net Profit card styling based on value
                 const netProfitCard = document.getElementById('net-profit-card');
+                const netProfitIcon = document.getElementById('net-profit-icon');
                 const netProfitBadge = document.getElementById('net-profit-badge');
-                if (netProfitCard && netProfitBadge) {
+                
+                if (netProfitCard && netProfitIcon) {
                     if (netProfit > 0) {
+                        // Profit - Green with upward arrow
                         netProfitCard.className = 'bg-gradient-to-br from-green-600 to-green-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
-                        netProfitBadge.textContent = 'Profit';
+                        netProfitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>';
+                        if (netProfitBadge) netProfitBadge.textContent = 'Profit';
                     } else if (netProfit < 0) {
+                        // Loss - Red with downward arrow
                         netProfitCard.className = 'bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
-                        netProfitBadge.textContent = 'Loss';
+                        netProfitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"></path>';
+                        if (netProfitBadge) netProfitBadge.textContent = 'Loss';
                     } else {
+                        // Break Even - Gray with neutral icon
                         netProfitCard.className = 'bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
-                        netProfitBadge.textContent = 'Break Even';
+                        netProfitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"></path>';
+                        if (netProfitBadge) netProfitBadge.textContent = 'Break Even';
                     }
                 }
                 
