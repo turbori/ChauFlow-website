@@ -29,6 +29,10 @@
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="confetti-celebration.js"></script>
+    
     <!-- Skeleton Loader Styles -->
     <style>
         @keyframes shimmer {
@@ -1038,19 +1042,19 @@
                 
                 if (error) throw error;
                 
-                // Show success
-                successDiv.classList.remove('hidden');
-                
                 // Reset form
                 incomeForm.reset();
                 
-                // Reload dashboard data
-                await loadDashboardData();
+                // Trigger confetti FIRST!
+                celebrateMoneyRain();
                 
-                // Close modal after 2 seconds
+                // Then close modal after short delay
                 setTimeout(() => {
                     closeIncomeModal();
-                }, 2000);
+                }, 300);
+                
+                // Reload dashboard data in background
+                loadDashboardData();
                 
             } catch (error) {
                 console.error('Error adding income:', error);
@@ -1107,19 +1111,19 @@
                 
                 if (error) throw error;
                 
-                // Show success
-                successDiv.classList.remove('hidden');
-                
                 // Reset form
                 expenseForm.reset();
                 
-                // Reload dashboard data
-                await loadDashboardData();
+                // Trigger confetti FIRST!
+                celebrateSuccess();
                 
-                // Close modal after 2 seconds
+                // Then close modal after short delay
                 setTimeout(() => {
                     closeExpenseModal();
-                }, 2000);
+                }, 300);
+                
+                // Reload dashboard data in background
+                loadDashboardData();
                 
             } catch (error) {
                 console.error('Error adding expense:', error);
