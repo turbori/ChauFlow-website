@@ -33,6 +33,10 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="confetti-celebration.js"></script>
     
+    <!-- Configuration (API Keys) -->
+    <script src="config.js"></script>
+    <script src="ai-insights.js"></script>
+    
     <!-- Skeleton Loader Styles -->
     <style>
         @keyframes shimmer {
@@ -186,8 +190,8 @@
                                 <span class="ml-auto text-xs text-gray-400">Soon</span>
                             </button>
                             <div class="border-t border-gray-100 mt-1 pt-1">
-                                <button 
-                                    id="signout-btn"
+                    <button 
+                        id="signout-btn"
                                     class="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 font-medium"
                                 >
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -360,7 +364,7 @@
                             Your income minus expenses this month. This shows how much your business keeps after costs.
                             <div class="absolute top-full right-4 -mt-1">
                                 <div class="border-4 border-transparent border-t-gray-900"></div>
-                            </div>
+                </div>
                         </div>
                     </button>
                 </div>
@@ -430,26 +434,26 @@
         
         <!-- Balance Sheet Snapshot -->
         <div class="bg-blue-50 rounded-2xl p-6 shadow-sm border-2 border-blue-100 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
+                <div class="flex items-center justify-between mb-6">
+                            <div>
                     <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
                         <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
                             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                             </svg>
-                        </div>
+                            </div>
                         Your Business Value
                     </h3>
                     <p class="text-sm text-gray-600 ml-12">What you have vs. what you owe</p>
-                </div>
+                        </div>
                 <a href="balance-sheet.html" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg">
                     View Details
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
-            </div>
-
+                    </div>
+                    
             <!-- Balance Sheet Summary Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- What You Have -->
@@ -459,14 +463,14 @@
                             <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                        </div>
+                            </div>
                         <p class="text-xs text-gray-600 font-medium">What You Have</p>
-                    </div>
+                            </div>
                     <div id="dashboard-total-assets-loading" class="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
                     <p id="dashboard-total-assets" class="text-2xl font-bold text-green-600 hidden"></p>
                     <p class="text-xs text-gray-500 mt-1">Cars, equipment, cash</p>
-                </div>
-
+                    </div>
+                    
                 <!-- What You Owe -->
                 <div class="bg-white border border-red-200 rounded-xl p-4">
                     <div class="flex items-center gap-2 mb-2">
@@ -474,13 +478,13 @@
                             <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                             </svg>
-                        </div>
+                            </div>
                         <p class="text-xs text-gray-600 font-medium">What You Owe</p>
-                    </div>
+                            </div>
                     <div id="dashboard-total-liabilities-loading" class="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
                     <p id="dashboard-total-liabilities" class="text-2xl font-bold text-red-600 hidden"></p>
                     <p class="text-xs text-gray-500 mt-1">Loans, leases</p>
-                </div>
+                        </div>
 
                 <!-- Money In/Out -->
                 <div class="bg-white border border-purple-200 rounded-xl p-4">
@@ -495,8 +499,8 @@
                     <div id="dashboard-net-equity-loading" class="h-8 w-24 bg-gray-200 rounded animate-pulse"></div>
                     <p id="dashboard-net-equity" class="text-2xl font-bold text-purple-600 hidden"></p>
                     <p class="text-xs text-gray-500 mt-1">Your investment</p>
-                </div>
-
+                    </div>
+                    
                 <!-- Business Value -->
                 <div class="bg-blue-600 rounded-xl p-4 text-white">
                     <div class="flex items-center gap-2 mb-2">
@@ -504,22 +508,22 @@
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                        </div>
+                            </div>
                         <p class="text-xs opacity-90 font-medium">Business Value</p>
-                    </div>
+                            </div>
                     <div id="dashboard-net-worth-loading" class="h-8 w-24 bg-white/20 rounded animate-pulse"></div>
                     <p id="dashboard-net-worth" class="text-2xl font-bold hidden"></p>
                     <p class="text-xs opacity-80 mt-1">Total worth</p>
-                </div>
-            </div>
-
+                        </div>
+                    </div>
+                    
             <!-- Quick Tip -->
             <div class="mt-4 bg-white border border-blue-200 rounded-lg px-4 py-3">
                 <p class="text-sm text-blue-800">
                     💡 <strong>Why this matters:</strong> Banks and lenders look at your business value when you apply for loans or financing. Keep this updated!
                 </p>
-            </div>
-        </div>
+                            </div>
+                            </div>
         
         <!-- Recent Activity & Profit Chart -->
         <div class="grid lg:grid-cols-3 gap-6">
@@ -529,7 +533,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-bold text-textDark">Recent Activity</h3>
                     <span id="activity-count" class="text-sm text-gray-500">0 items</span>
-                </div>
+                        </div>
                 
                 <div id="recent-activity" class="space-y-3 mb-4">
                     <!-- Loading state -->
@@ -605,6 +609,11 @@
             </div>
         </div>
         
+        <!-- AI Insight -->
+        <div id="ai-insight-container" class="mt-8">
+            <!-- AI insight will be inserted here -->
+        </div>
+        
         <!-- Educational Tip -->
         <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4">
             <div class="flex items-start gap-3">
@@ -642,7 +651,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                     </svg>
                     Track An Expense
-                </button>
+            </button>
             </div>
             <div class="mt-6 pt-6 border-t border-white/20">
                 <p class="text-sm text-blue-200">
@@ -1497,9 +1506,52 @@
                 // Load recent activity
                 await loadRecentActivity();
                 
+                // Load AI Insight
+                await loadDashboardInsight({
+                    totalIncome,
+                    totalExpenses,
+                    netProfit,
+                    trips: totalTrips,
+                    hours: totalHours,
+                    miles: totalMiles,
+                    topExpense: topCategory ? `${topCategory} ($${formatCurrencyDisplay(topAmount)})` : 'N/A',
+                    lastMonthIncome: 0, // Will be calculated by trends
+                    lastMonthExpenses: 0,
+                    lastMonthProfit: 0
+                });
+                
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
             }
+        }
+        
+        // ============================================
+        // Load Dashboard AI Insight
+        // ============================================
+        
+        async function loadDashboardInsight(data) {
+            try {
+                // Show loading state
+                displayInsight('ai-insight-container', '', true);
+                
+                // Generate insight
+                const insight = await generateAIInsight('dashboard', data);
+                
+                // Display insight
+                displayInsight('ai-insight-container', insight, false);
+                
+            } catch (error) {
+                console.error('Error loading AI insight:', error);
+                // Hide container on error
+                document.getElementById('ai-insight-container').innerHTML = '';
+            }
+        }
+        
+        // Refresh insight function (called from UI)
+        async function refreshInsight() {
+            clearInsightCache('dashboard');
+            // Reload dashboard data to get fresh insight
+            await loadDashboardData();
         }
         
         // ============================================
