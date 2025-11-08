@@ -165,6 +165,34 @@
             <h1 class="text-4xl font-bold text-gray-900 mb-2">Business Net Worth</h1>
             <p class="text-base text-gray-600">Track what you own and what you owe</p>
         </div>
+        
+        <!-- Quick Filters -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-3">Quick Filters</label>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="applyBalanceSheetQuickFilter('thisMonth')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    This Month
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('lastMonth')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last Month
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('last30Days')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last 30 Days
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('last90Days')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last 90 Days
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('thisYear')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    This Year
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('lastYear')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last Year
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('allTime')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                    All Time
+                </button>
+            </div>
+        </div>
 
         <!-- Summary Cards - 3 Metrics -->
         <div class="grid md:grid-cols-3 gap-6 mb-8">
@@ -1402,16 +1430,99 @@
         }
         
         // ============================================
+        // Quick Filter Functions
+        // ============================================
+        
+        let currentBalanceSheetFilter = 'allTime'; // Default to All Time for Balance Sheet
+        
+        function applyBalanceSheetQuickFilter(filterType) {
+            currentBalanceSheetFilter = filterType;
+            
+            // Update button styles
+            document.querySelectorAll('.balance-sheet-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-100', 'text-gray-700');
+            event.target.classList.add('bg-primary', 'text-white');
+            
+            // Reload data with new filter
+            loadAssets();
+            loadLiabilities();
+            loadOwnerEquity();
+        }
+        
+        function getBalanceSheetDateRange() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            switch (currentBalanceSheetFilter) {
+                case 'thisMonth':
+                    return {
+                        start: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0],
+                        end: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0]
+                    };
+                case 'lastMonth':
+                    return {
+                        start: new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0],
+                        end: new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0]
+                    };
+                case 'last30Days':
+                    const last30 = new Date(today);
+                    last30.setDate(today.getDate() - 30);
+                    return {
+                        start: last30.toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'last90Days':
+                    const last90 = new Date(today);
+                    last90.setDate(today.getDate() - 90);
+                    return {
+                        start: last90.toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'thisYear':
+                    return {
+                        start: new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'lastYear':
+                    return {
+                        start: new Date(now.getFullYear() - 1, 0, 1).toISOString().split('T')[0],
+                        end: new Date(now.getFullYear() - 1, 11, 31).toISOString().split('T')[0]
+                    };
+                case 'allTime':
+                default:
+                    return { start: null, end: null };
+            }
+        }
+        
+        // ============================================
         // Load Assets
         // ============================================
         
         async function loadAssets() {
             try {
-                const { data, error } = await supabase
+                // Get date range from quick filter
+                const dateRange = getBalanceSheetDateRange();
+                
+                let query = supabase
                     .from('assets')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('created_at', { ascending: false });
+                    .eq('user_id', currentUser.id);
+                
+                // Apply date filter if not "All Time"
+                if (dateRange.start) {
+                    query = query.gte('created_at', dateRange.start);
+                }
+                if (dateRange.end) {
+                    // Add one day to include items created on end date
+                    const endDate = new Date(dateRange.end);
+                    endDate.setDate(endDate.getDate() + 1);
+                    query = query.lt('created_at', endDate.toISOString().split('T')[0]);
+                }
+                
+                const { data, error } = await query.order('created_at', { ascending: false });
                 
                 if (error) throw error;
                 
@@ -1431,11 +1542,26 @@
         
         async function loadLiabilities() {
             try {
-                const { data, error } = await supabase
+                // Get date range from quick filter
+                const dateRange = getBalanceSheetDateRange();
+                
+                let query = supabase
                     .from('liabilities')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('created_at', { ascending: false });
+                    .eq('user_id', currentUser.id);
+                
+                // Apply date filter if not "All Time"
+                if (dateRange.start) {
+                    query = query.gte('created_at', dateRange.start);
+                }
+                if (dateRange.end) {
+                    // Add one day to include items created on end date
+                    const endDate = new Date(dateRange.end);
+                    endDate.setDate(endDate.getDate() + 1);
+                    query = query.lt('created_at', endDate.toISOString().split('T')[0]);
+                }
+                
+                const { data, error } = await query.order('created_at', { ascending: false });
                 
                 if (error) throw error;
                 
@@ -1771,11 +1897,23 @@
             if (!currentUser) return;
             
             try {
-                const { data, error } = await supabase
+                // Get date range from quick filter
+                const dateRange = getBalanceSheetDateRange();
+                
+                let query = supabase
                     .from('owner_equity')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('transaction_date', { ascending: false });
+                    .eq('user_id', currentUser.id);
+                
+                // Apply date filter if not "All Time"
+                if (dateRange.start) {
+                    query = query.gte('transaction_date', dateRange.start);
+                }
+                if (dateRange.end) {
+                    query = query.lte('transaction_date', dateRange.end);
+                }
+                
+                const { data, error } = await query.order('transaction_date', { ascending: false });
                 
                 if (error) throw error;
                 
