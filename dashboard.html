@@ -68,6 +68,10 @@
             transition: all 0.3s ease;
         }
     </style>
+    
+    <!-- Global Date Filter Scripts -->
+    <script src="global-date-filter.js"></script>
+    <script src="global-filter-ui.js"></script>
 </head>
 <body class="bg-background min-h-screen">
     
@@ -284,7 +288,7 @@
             </div>
             
             <!-- Card 3: Net Profit -->
-            <div id="net-profit-card" class="bg-gradient-to-br from-primary to-blue-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300 group relative">
+            <div id="net-profit-card" class="bg-primary rounded-2xl p-6 shadow-lg text-white transition-all duration-300 group relative">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                         <svg id="net-profit-icon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -368,7 +372,7 @@
         </div>
         
         <!-- Balance Sheet Snapshot -->
-        <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 shadow-sm border-2 border-blue-100 mb-8">
+        <div class="bg-blue-50 rounded-2xl p-6 shadow-sm border-2 border-blue-100 mb-8">
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -437,7 +441,7 @@
                 </div>
 
                 <!-- Business Value -->
-                <div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-4 text-white">
+                <div class="bg-blue-600 rounded-xl p-4 text-white">
                     <div class="flex items-center gap-2 mb-2">
                         <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1140,28 +1144,32 @@
                 document.getElementById('stats-skeleton')?.classList.remove('hidden');
                 document.getElementById('stats-cards')?.classList.add('hidden');
                 
-                // Get current month start and end
-                const now = new Date();
-                const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
-                const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+                // Get date filter from global filter
+                const dateFilter = GlobalDateFilter.getSupabaseFilter();
                 
-                // Fetch income for current month
-                const { data: incomeData, error: incomeError } = await supabase
+                // Build income query with global filter
+                let incomeQuery = supabase
                     .from('income')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .gte('date', monthStart)
-                    .lte('date', monthEnd);
+                    .eq('user_id', currentUser.id);
+                
+                // Apply global date filter
+                incomeQuery = GlobalDateFilter.applyToQuery(incomeQuery, 'date');
+                
+                const { data: incomeData, error: incomeError } = await incomeQuery;
                 
                 if (incomeError) throw incomeError;
                 
-                // Fetch expenses for current month
-                const { data: expenseData, error: expenseError } = await supabase
+                // Build expenses query with global filter
+                let expenseQuery = supabase
                     .from('expenses')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .gte('date', monthStart)
-                    .lte('date', monthEnd);
+                    .eq('user_id', currentUser.id);
+                
+                // Apply global date filter
+                expenseQuery = GlobalDateFilter.applyToQuery(expenseQuery, 'date');
+                
+                const { data: expenseData, error: expenseError } = await expenseQuery;
                 
                 if (expenseError) throw expenseError;
                 
@@ -1208,17 +1216,17 @@
                 if (netProfitCard && netProfitIcon) {
                     if (netProfit > 0) {
                         // Profit - Green with upward arrow
-                        netProfitCard.className = 'bg-gradient-to-br from-green-600 to-green-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
+                        netProfitCard.className = 'bg-green-600 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
                         netProfitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>';
                         if (netProfitBadge) netProfitBadge.textContent = 'Profit';
                     } else if (netProfit < 0) {
                         // Loss - Red with downward arrow
-                        netProfitCard.className = 'bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
+                        netProfitCard.className = 'bg-red-600 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
                         netProfitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"></path>';
                         if (netProfitBadge) netProfitBadge.textContent = 'Loss';
                     } else {
                         // Break Even - Gray with neutral icon
-                        netProfitCard.className = 'bg-gradient-to-br from-gray-600 to-gray-700 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
+                        netProfitCard.className = 'bg-gray-600 rounded-2xl p-6 shadow-lg text-white transition-all duration-300';
                         netProfitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"></path>';
                         if (netProfitBadge) netProfitBadge.textContent = 'Break Even';
                     }

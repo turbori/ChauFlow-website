@@ -28,6 +28,14 @@
     
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="confetti-celebration.js"></script>
+    
+    <!-- Global Date Filter Scripts -->
+    <script src="global-date-filter.js"></script>
+    <script src="global-filter-ui.js"></script>
 </head>
 <body class="bg-background min-h-screen">
     
@@ -239,7 +247,7 @@
         </div>
         
         <!-- Trip Insights Section -->
-        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 shadow-sm border border-blue-100 mb-8">
+        <div class="bg-blue-50 rounded-2xl p-6 shadow-sm border border-blue-100 mb-8">
             <div class="flex items-center gap-2 mb-5">
                 <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -849,10 +857,14 @@
                 // Reload data
                 await loadIncomeData();
                 
-                // Close modal after 1.5 seconds
+                // Close modal and celebrate!
                 setTimeout(() => {
                     closeIncomeModal();
-                }, 1500);
+                    // Trigger confetti celebration (only for new income, not edits)
+                    if (!isEditing) {
+                        celebrateMoneyRain();
+                    }
+                }, 800);
                 
             } catch (error) {
                 console.error('Error adding income:', error);
@@ -873,17 +885,17 @@
             if (!currentUser) return;
             
             try {
-                // Get current month start and end
-                const now = new Date();
-                const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
-                const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
-                
-                // Fetch all income for the user
-                const { data: incomeData, error } = await supabase
+                // Build income query with global filter
+                let incomeQuery = supabase
                     .from('income')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('date', { ascending: false });
+                    .eq('user_id', currentUser.id);
+                
+                // Apply global date filter
+                incomeQuery = GlobalDateFilter.applyToQuery(incomeQuery, 'date');
+                
+                // Fetch all income for the user
+                const { data: incomeData, error } = await incomeQuery.order('date', { ascending: false });
                 
                 if (error) throw error;
                 

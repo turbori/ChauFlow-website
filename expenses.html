@@ -28,6 +28,14 @@
     
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="confetti-celebration.js"></script>
+    
+    <!-- Global Date Filter Scripts -->
+    <script src="global-date-filter.js"></script>
+    <script src="global-filter-ui.js"></script>
 </head>
 <body class="bg-background min-h-screen">
     
@@ -236,7 +244,7 @@
         <!-- Top Vendor & Expense Breakdown -->
         <div class="grid md:grid-cols-3 gap-6 mb-8">
             <!-- Top Vendor Highlight -->
-            <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 shadow-sm border border-orange-100">
+            <div class="bg-orange-50 rounded-2xl p-6 shadow-sm border border-orange-100">
                 <div class="flex items-center gap-2 mb-4">
                     <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
@@ -661,11 +669,16 @@
         
         async function loadExpenseData() {
             try {
-                const { data, error } = await supabase
+                // Build expense query with global filter
+                let expenseQuery = supabase
                     .from('expenses')
                     .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('date', { ascending: false });
+                    .eq('user_id', currentUser.id);
+                
+                // Apply global date filter
+                expenseQuery = GlobalDateFilter.applyToQuery(expenseQuery, 'date');
+                
+                const { data, error } = await expenseQuery.order('date', { ascending: false });
                 
                 if (error) {
                     console.error('Error loading expenses:', error);
@@ -1100,10 +1113,14 @@
                 // Refresh data
                 await loadExpenseData();
                 
-                // Reset form after 1.5 seconds
+                // Close modal and celebrate!
                 setTimeout(() => {
                     closeExpenseModal();
-                }, 1500);
+                    // Trigger confetti celebration (only for new expenses, not edits)
+                    if (!isEditing) {
+                        celebrateSuccess();
+                    }
+                }, 800);
                 
             } catch (error) {
                 console.error('Error adding expense:', error);

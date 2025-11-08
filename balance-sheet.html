@@ -28,6 +28,10 @@
     
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="confetti-celebration.js"></script>
 </head>
 <body class="bg-background min-h-screen">
     
@@ -247,7 +251,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             <!-- ASSETS Column -->
-            <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl p-6 shadow-sm border-2 border-green-200">
+            <div class="bg-green-50 rounded-2xl p-6 shadow-sm border-2 border-green-200">
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
@@ -298,7 +302,7 @@
             </div>
 
             <!-- LIABILITIES Column -->
-            <div class="bg-gradient-to-br from-red-50 to-white rounded-2xl p-6 shadow-sm border-2 border-red-200">
+            <div class="bg-red-50 rounded-2xl p-6 shadow-sm border-2 border-red-200">
                 <div class="mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <div>
@@ -404,7 +408,7 @@
                         </div>
                         
                         <!-- Net Equity -->
-                        <div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-4 text-white shadow-lg ring-2 ring-blue-200 hover:shadow-xl transition-all duration-200">
+                        <div class="bg-blue-600 rounded-lg p-4 text-white shadow-lg ring-2 ring-blue-200 hover:shadow-xl transition-all duration-200">
                             <p class="text-xs text-blue-100 font-medium mb-2">Net Owner's Equity</p>
                             <div id="net-equity-loading" class="h-8 w-24 bg-white/20 rounded animate-pulse"></div>
                             <p id="net-equity" class="text-2xl font-bold hidden"></p>
@@ -672,6 +676,87 @@
                             <textarea id="asset-notes" rows="3"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
                                 placeholder="e.g., VIN: 1GNSKCKD5JR123456, 45,000 miles, excellent condition, garaged"></textarea>
+                        </div>
+                        
+                        <!-- Loan/Financing Section -->
+                        <div class="border-t border-gray-200 pt-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="has-loan" class="w-4 h-4 text-primary rounded focus:ring-primary" onchange="toggleLoanFields()">
+                                    <span class="text-sm font-semibold text-gray-700">Did you take out a loan for this asset?</span>
+                                </label>
+                                <button type="button" class="group relative" onmouseenter="showTooltip('loan-tip')" onmouseleave="hideTooltip('loan-tip')">
+                                    <svg class="w-4 h-4 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div id="loan-tip" class="hidden absolute bottom-full right-0 mb-2 w-72 bg-gray-900 text-white text-xs rounded-lg py-2 px-3 z-50">
+                                        If you financed this asset, we'll automatically add it to "What You Owe" so you don't have to do it separately!
+                                        <div class="absolute top-full right-4 -mt-1">
+                                            <div class="border-4 border-transparent border-t-gray-900"></div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                            
+                            <!-- Loan Fields (Hidden by default) -->
+                            <div id="loan-fields" class="hidden space-y-4 bg-orange-50 border border-orange-200 rounded-lg p-4">
+                                <div class="flex items-start gap-2 mb-3">
+                                    <svg class="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <p class="text-xs text-orange-800">
+                                        <strong>We'll add this loan to "What You Owe"</strong> automatically. This saves you time!
+                                    </p>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Lender/Bank</label>
+                                        <input type="text" id="loan-lender"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            placeholder="e.g., Chase Bank">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Current Balance Owed</label>
+                                        <div class="relative">
+                                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                                            <input type="text" id="loan-balance" inputmode="numeric"
+                                                class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                placeholder="0"
+                                                oninput="formatCurrency(this)">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate (Optional)</label>
+                                        <div class="relative">
+                                            <input type="text" id="loan-interest-rate" inputmode="decimal"
+                                                class="w-full px-4 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                placeholder="0.00">
+                                            <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">%</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Payment (Optional)</label>
+                                        <div class="relative">
+                                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                                            <input type="text" id="loan-monthly-payment" inputmode="numeric"
+                                                class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                                placeholder="0"
+                                                oninput="formatCurrency(this)">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Loan Notes (Optional)</label>
+                                    <textarea id="loan-notes" rows="2"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                                        placeholder="e.g., 60-month term, started Jan 2023"></textarea>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Error Message -->
@@ -1655,12 +1740,14 @@
                 console.log('Equity transaction recorded:', data);
                 successDiv.classList.remove('hidden');
                 
-                // Reload data after short delay
+                // Reload data and celebrate!
                 setTimeout(() => {
                     loadOwnerEquity();
                     updateNetWorth();
                     closeEquityModal();
-                }, 1500);
+                    // Trigger confetti celebration
+                    celebrateMoneyRain();
+                }, 800);
                 
             } catch (error) {
                 console.error('Error recording equity transaction:', error);
@@ -1912,11 +1999,13 @@
                 console.log('Payment recorded:', paymentData);
                 successDiv.classList.remove('hidden');
                 
-                // Reload data
+                // Reload data and celebrate!
                 setTimeout(async () => {
                     await loadLiabilities();
                     closePaymentModal();
-                }, 1500);
+                    // Trigger confetti celebration
+                    celebrateSuccess();
+                }, 800);
                 
             } catch (error) {
                 console.error('Error recording payment:', error);
@@ -1950,33 +2039,88 @@
             try {
                 const valueInput = unformatCurrency(document.getElementById('asset-value'));
                 const value = parseFloat(valueInput);
+                const assetName = document.getElementById('asset-name').value;
                 
-                const { data, error } = await supabase
+                // Add the asset
+                const { data: assetData, error: assetError } = await supabase
                     .from('assets')
                     .insert([
                         {
                             user_id: currentUser.id,
-                            asset_name: document.getElementById('asset-name').value,
+                            asset_name: assetName,
                             asset_type: document.getElementById('asset-type').value,
                             current_value: value,
                             purchase_date: document.getElementById('asset-purchase-date').value || null,
-                            purchase_price: document.getElementById('asset-purchase-price').value ? parseFloat(document.getElementById('asset-purchase-price').value) : null,
+                            purchase_price: document.getElementById('asset-purchase-price').value ? parseFloat(unformatCurrency(document.getElementById('asset-purchase-price'))) : null,
                             track_depreciation: document.getElementById('track-depreciation')?.checked || false,
                             notes: document.getElementById('asset-notes').value || null
                         }
                     ])
                     .select();
                 
-                if (error) throw error;
+                if (assetError) throw assetError;
                 
-                console.log('Asset added:', data);
+                console.log('Asset added:', assetData);
+                
+                // Check if user wants to add a loan for this asset
+                const hasLoan = document.getElementById('has-loan')?.checked;
+                if (hasLoan) {
+                    const loanBalance = document.getElementById('loan-balance')?.value;
+                    const loanLender = document.getElementById('loan-lender')?.value;
+                    
+                    if (loanBalance && parseFloat(unformatCurrency(document.getElementById('loan-balance'))) > 0) {
+                        // Add the liability
+                        const liabilityName = `${assetName} Loan`;
+                        const loanBalanceValue = parseFloat(unformatCurrency(document.getElementById('loan-balance')));
+                        const interestRate = document.getElementById('loan-interest-rate')?.value ? parseFloat(document.getElementById('loan-interest-rate').value) : null;
+                        const monthlyPayment = document.getElementById('loan-monthly-payment')?.value ? parseFloat(unformatCurrency(document.getElementById('loan-monthly-payment'))) : null;
+                        const loanNotes = document.getElementById('loan-notes')?.value || null;
+                        
+                        // Build notes
+                        let fullNotes = loanNotes || '';
+                        if (loanLender) {
+                            fullNotes = `Lender: ${loanLender}${fullNotes ? '\n' + fullNotes : ''}`;
+                        }
+                        fullNotes = `Loan for: ${assetName}${fullNotes ? '\n' + fullNotes : ''}`;
+                        
+                        const { data: liabilityData, error: liabilityError } = await supabase
+                            .from('liabilities')
+                            .insert([
+                                {
+                                    user_id: currentUser.id,
+                                    liability_name: liabilityName,
+                                    liability_type: 'loan',
+                                    current_balance: loanBalanceValue,
+                                    interest_rate: interestRate,
+                                    monthly_payment: monthlyPayment,
+                                    notes: fullNotes
+                                }
+                            ])
+                            .select();
+                        
+                        if (liabilityError) {
+                            console.error('Error adding liability:', liabilityError);
+                            // Don't throw - asset was added successfully
+                            errorMsg.textContent = 'Asset added, but there was an error adding the loan. You can add it manually from "What You Owe".';
+                            errorDiv.classList.remove('hidden');
+                        } else {
+                            console.log('Liability added:', liabilityData);
+                        }
+                    }
+                }
+                
                 successDiv.classList.remove('hidden');
                 
+                // Reload both assets and liabilities
                 await loadAssets();
+                await loadLiabilities();
                 
+                // Close modal and celebrate!
                 setTimeout(() => {
                     closeAssetModal();
-                }, 1500);
+                    // Trigger confetti celebration
+                    celebrateMoneyRain();
+                }, 800);
                 
             } catch (error) {
                 console.error('Error adding asset:', error);
@@ -2032,9 +2176,12 @@
                 
                 await loadLiabilities();
                 
+                // Close modal and celebrate!
                 setTimeout(() => {
                     closeLiabilityModal();
-                }, 1500);
+                    // Trigger confetti celebration
+                    celebrateSuccess();
+                }, 800);
                 
             } catch (error) {
                 console.error('Error adding liability:', error);
@@ -2188,6 +2335,20 @@
                 option.textContent = asset.asset_name;
                 linkedAssetSelect.appendChild(option);
             });
+        }
+        
+        // Toggle loan fields
+        function toggleLoanFields() {
+            const hasLoan = document.getElementById('has-loan');
+            const loanFields = document.getElementById('loan-fields');
+            
+            if (hasLoan && loanFields) {
+                if (hasLoan.checked) {
+                    loanFields.classList.remove('hidden');
+                } else {
+                    loanFields.classList.add('hidden');
+                }
+            }
         }
         
         // Toggle depreciation fields
