@@ -252,6 +252,34 @@
             <p class="text-base text-gray-600">Here's your bookkeeping overview</p>
         </div>
         
+        <!-- Quick Filters -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-3">Quick Filters</label>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="applyDashboardQuickFilter('thisMonth')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                    This Month
+                </button>
+                <button onclick="applyDashboardQuickFilter('lastMonth')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last Month
+                </button>
+                <button onclick="applyDashboardQuickFilter('last30Days')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last 30 Days
+                </button>
+                <button onclick="applyDashboardQuickFilter('last90Days')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last 90 Days
+                </button>
+                <button onclick="applyDashboardQuickFilter('thisYear')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    This Year
+                </button>
+                <button onclick="applyDashboardQuickFilter('lastYear')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Last Year
+                </button>
+                <button onclick="applyDashboardQuickFilter('allTime')" class="dashboard-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    All Time
+                </button>
+            </div>
+        </div>
+        
         <!-- Skeleton Loaders for Stats Cards -->
         <div id="stats-skeleton" class="grid md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
@@ -1171,6 +1199,73 @@
         });
         
         // ============================================
+        // Quick Filter Functions
+        // ============================================
+        
+        let currentDashboardFilter = 'thisMonth'; // Default to This Month
+        
+        function applyDashboardQuickFilter(filterType) {
+            currentDashboardFilter = filterType;
+            
+            // Update button styles
+            document.querySelectorAll('.dashboard-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-100', 'text-gray-700');
+            event.target.classList.add('bg-primary', 'text-white');
+            
+            // Reload data with new filter
+            loadDashboardData();
+            loadRecentActivity();
+        }
+        
+        function getDashboardDateRange() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            switch (currentDashboardFilter) {
+                case 'thisMonth':
+                    return {
+                        start: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0],
+                        end: new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0]
+                    };
+                case 'lastMonth':
+                    return {
+                        start: new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0],
+                        end: new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0]
+                    };
+                case 'last30Days':
+                    const last30 = new Date(today);
+                    last30.setDate(today.getDate() - 30);
+                    return {
+                        start: last30.toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'last90Days':
+                    const last90 = new Date(today);
+                    last90.setDate(today.getDate() - 90);
+                    return {
+                        start: last90.toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'thisYear':
+                    return {
+                        start: new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'lastYear':
+                    return {
+                        start: new Date(now.getFullYear() - 1, 0, 1).toISOString().split('T')[0],
+                        end: new Date(now.getFullYear() - 1, 11, 31).toISOString().split('T')[0]
+                    };
+                case 'allTime':
+                default:
+                    return { start: null, end: null };
+            }
+        }
+        
+        // ============================================
         // Load Dashboard Data
         // ============================================
         
@@ -1182,30 +1277,40 @@
                 document.getElementById('stats-skeleton')?.classList.remove('hidden');
                 document.getElementById('stats-cards')?.classList.add('hidden');
                 
-                // Get date filter from global filter
-                const dateFilter = GlobalDateFilter.getSupabaseFilter();
+                // Get date range from quick filter
+                const dateRange = getDashboardDateRange();
                 
-                // Build income query with global filter
+                // Build income query with date filter
                 let incomeQuery = supabase
                     .from('income')
                     .select('*')
                     .eq('user_id', currentUser.id);
                 
-                // Apply global date filter
-                incomeQuery = GlobalDateFilter.applyToQuery(incomeQuery, 'date');
+                // Apply date filter if not "All Time"
+                if (dateRange.start) {
+                    incomeQuery = incomeQuery.gte('date', dateRange.start);
+                }
+                if (dateRange.end) {
+                    incomeQuery = incomeQuery.lte('date', dateRange.end);
+                }
                 
                 const { data: incomeData, error: incomeError } = await incomeQuery;
                 
                 if (incomeError) throw incomeError;
                 
-                // Build expenses query with global filter
+                // Build expenses query with date filter
                 let expenseQuery = supabase
                     .from('expenses')
                     .select('*')
                     .eq('user_id', currentUser.id);
                 
-                // Apply global date filter
-                expenseQuery = GlobalDateFilter.applyToQuery(expenseQuery, 'date');
+                // Apply date filter if not "All Time"
+                if (dateRange.start) {
+                    expenseQuery = expenseQuery.gte('date', dateRange.start);
+                }
+                if (dateRange.end) {
+                    expenseQuery = expenseQuery.lte('date', dateRange.end);
+                }
                 
                 const { data: expenseData, error: expenseError } = await expenseQuery;
                 
