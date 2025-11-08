@@ -528,14 +528,31 @@
             <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-bold text-textDark">Recent Activity</h3>
-                    <a href="#" class="text-sm text-primary hover:underline font-medium">View All</a>
+                    <span id="activity-count" class="text-sm text-gray-500">0 items</span>
                 </div>
                 
-                <div id="recent-activity" class="space-y-3">
+                <div id="recent-activity" class="space-y-3 mb-4">
                     <!-- Loading state -->
                     <div class="text-center py-8 text-gray-500">
                         <p>Loading activity...</p>
                     </div>
+                </div>
+                
+                <!-- Pagination Controls -->
+                <div id="activity-pagination" class="hidden flex items-center justify-between pt-4 border-t border-gray-200">
+                    <button id="prev-page" onclick="changeActivityPage(-1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Previous
+                    </button>
+                    <span id="page-info" class="text-sm text-gray-600">Page 1 of 1</span>
+                    <button id="next-page" onclick="changeActivityPage(1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        Next
+                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
             
@@ -1575,97 +1592,69 @@
         }
         
         // ============================================
-        // Load Recent Activity
+        // Load Recent Activity with Pagination
         // ============================================
+        
+        let allActivityData = [];
+        let currentActivityPage = 1;
+        const itemsPerPage = 10;
         
         async function loadRecentActivity() {
             if (!currentUser) return;
             
             try {
-                // Fetch recent income
-                const { data: recentIncome, error: incomeError } = await supabase
+                // Get date range from filter
+                const dateRange = getDashboardDateRange();
+                
+                // Fetch income with date filter
+                let incomeQuery = supabase
                     .from('income')
                     .select('*')
-                    .eq('user_id', currentUser.id)
+                    .eq('user_id', currentUser.id);
+                
+                if (dateRange.start) {
+                    incomeQuery = incomeQuery.gte('date', dateRange.start);
+                }
+                if (dateRange.end) {
+                    incomeQuery = incomeQuery.lte('date', dateRange.end);
+                }
+                
+                const { data: recentIncome, error: incomeError } = await incomeQuery
                     .order('created_at', { ascending: false })
-                    .limit(5);
+                    .limit(100); // Fetch more for pagination
                 
                 if (incomeError) throw incomeError;
                 
-                // Fetch recent expenses
-                const { data: recentExpenses, error: expenseError } = await supabase
+                // Fetch expenses with date filter
+                let expenseQuery = supabase
                     .from('expenses')
                     .select('*')
-                    .eq('user_id', currentUser.id)
+                    .eq('user_id', currentUser.id);
+                
+                if (dateRange.start) {
+                    expenseQuery = expenseQuery.gte('date', dateRange.start);
+                }
+                if (dateRange.end) {
+                    expenseQuery = expenseQuery.lte('date', dateRange.end);
+                }
+                
+                const { data: recentExpenses, error: expenseError } = await expenseQuery
                     .order('created_at', { ascending: false })
-                    .limit(5);
+                    .limit(100); // Fetch more for pagination
                 
                 if (expenseError) throw expenseError;
                 
                 // Combine and sort by date
-                const allActivity = [
+                allActivityData = [
                     ...recentIncome.map(item => ({ ...item, type: 'income' })),
                     ...recentExpenses.map(item => ({ ...item, type: 'expense' }))
-                ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 10);
+                ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                 
-                // Display activity
-                const activityContainer = document.getElementById('recent-activity');
+                // Reset to page 1 when data reloads
+                currentActivityPage = 1;
                 
-                if (allActivity.length === 0) {
-                    activityContainer.innerHTML = `
-                        <div class="text-center py-8">
-                            <p class="text-gray-500 mb-4">No activity yet</p>
-                            <button onclick="openIncomeModal()" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700">
-                                Add Your First Entry
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                activityContainer.innerHTML = allActivity.map(item => {
-                    const isIncome = item.type === 'income';
-                    const icon = isIncome ? getSourceIcon(item.source) : getCategoryIcon(item.category);
-                    const title = isIncome ? item.source : (item.vendor || item.category);
-                    const subtitle = formatDate(item.created_at);
-                    const amount = parseFloat(item.amount);
-                    const formattedAmount = formatCurrencyDisplay(amount);
-                    const amountColor = isIncome ? 'text-accent' : 'text-danger';
-                    const bgColor = isIncome ? 'bg-green-100' : 'bg-red-100';
-                    const iconColor = isIncome ? 'text-green-600' : 'text-red-600';
-                    
-                    // Additional details
-                    let details = '';
-                    if (isIncome) {
-                        const tripInfo = [];
-                        if (item.trip_count) tripInfo.push(`${item.trip_count} trips`);
-                        if (item.hours_worked) tripInfo.push(`${formatNumber(item.hours_worked)}h`);
-                        if (item.miles_driven) tripInfo.push(`${formatNumber(item.miles_driven)} mi`);
-                        if (tripInfo.length > 0) {
-                            details = `<span class="text-xs text-gray-400 ml-1">• ${tripInfo.join(' • ')}</span>`;
-                        }
-                    } else if (item.description) {
-                        details = `<span class="text-xs text-gray-400 ml-1">• ${item.description.substring(0, 30)}${item.description.length > 30 ? '...' : ''}</span>`;
-                    }
-                    
-                    return `
-                        <div class="activity-item flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 hover:shadow-sm transition-all duration-200 border border-transparent hover:border-gray-200">
-                            <div class="flex items-center gap-3 flex-1 min-w-0">
-                                <div class="w-10 h-10 ${bgColor} rounded-lg flex items-center justify-center ${iconColor} flex-shrink-0">
-                                    ${icon}
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-semibold text-gray-900 truncate">${title}</p>
-                                    <div class="flex items-center text-xs text-gray-500">
-                                        <span>${subtitle}</span>
-                                        ${details}
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="text-lg font-bold ${amountColor} ml-4 flex-shrink-0">${isIncome ? '+' : '-'}${formattedAmount}</span>
-                        </div>
-                    `;
-                }).join('');
+                // Render the first page
+                renderActivityPage();
                 
             } catch (error) {
                 console.error('Error loading recent activity:', error);
@@ -1675,6 +1664,122 @@
                     </div>
                 `;
             }
+        }
+        
+        function renderActivityPage() {
+            const activityContainer = document.getElementById('recent-activity');
+            const paginationContainer = document.getElementById('activity-pagination');
+            const activityCount = document.getElementById('activity-count');
+            const pageInfo = document.getElementById('page-info');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            
+            // Update count
+            if (activityCount) {
+                activityCount.textContent = `${allActivityData.length} item${allActivityData.length !== 1 ? 's' : ''}`;
+            }
+            
+            // Handle empty state
+            if (allActivityData.length === 0) {
+                activityContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <p class="text-gray-500 mb-4">No activity yet</p>
+                        <button onclick="openIncomeModal()" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700">
+                            Add Your First Entry
+                        </button>
+                    </div>
+                `;
+                if (paginationContainer) paginationContainer.classList.add('hidden');
+                return;
+            }
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(allActivityData.length / itemsPerPage);
+            const startIndex = (currentActivityPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = allActivityData.slice(startIndex, endIndex);
+            
+            // Update pagination info
+            if (pageInfo) {
+                pageInfo.textContent = `Page ${currentActivityPage} of ${totalPages}`;
+            }
+            
+            // Update button states
+            if (prevBtn) {
+                prevBtn.disabled = currentActivityPage === 1;
+            }
+            if (nextBtn) {
+                nextBtn.disabled = currentActivityPage === totalPages;
+            }
+            
+            // Show/hide pagination
+            if (paginationContainer) {
+                if (totalPages > 1) {
+                    paginationContainer.classList.remove('hidden');
+                } else {
+                    paginationContainer.classList.add('hidden');
+                }
+            }
+            
+            // Render activity items
+            activityContainer.innerHTML = pageData.map(item => {
+                const isIncome = item.type === 'income';
+                const icon = isIncome ? getSourceIcon(item.source) : getCategoryIcon(item.category);
+                const title = isIncome ? item.source : (item.vendor || item.category);
+                const subtitle = formatDate(item.created_at);
+                const amount = parseFloat(item.amount);
+                const formattedAmount = formatCurrencyDisplay(amount);
+                const amountColor = isIncome ? 'text-accent' : 'text-danger';
+                const bgColor = isIncome ? 'bg-green-100' : 'bg-red-100';
+                const iconColor = isIncome ? 'text-green-600' : 'text-red-600';
+                
+                // Additional details
+                let details = '';
+                if (isIncome) {
+                    const tripInfo = [];
+                    if (item.trip_count) tripInfo.push(`${item.trip_count} trips`);
+                    if (item.hours_worked) tripInfo.push(`${formatNumber(item.hours_worked)}h`);
+                    if (item.miles_driven) tripInfo.push(`${formatNumber(item.miles_driven)} mi`);
+                    if (tripInfo.length > 0) {
+                        details = `<span class="text-xs text-gray-400 ml-1">• ${tripInfo.join(' • ')}</span>`;
+                    }
+                } else if (item.description) {
+                    details = `<span class="text-xs text-gray-400 ml-1">• ${item.description.substring(0, 30)}${item.description.length > 30 ? '...' : ''}</span>`;
+                }
+                
+                return `
+                    <div class="activity-item flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 hover:shadow-sm transition-all duration-200 border border-transparent hover:border-gray-200">
+                        <div class="flex items-center gap-3 flex-1 min-w-0">
+                            <div class="w-10 h-10 ${bgColor} rounded-lg flex items-center justify-center ${iconColor} flex-shrink-0">
+                                ${icon}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-semibold text-gray-900 truncate">${title}</p>
+                                <div class="flex items-center text-xs text-gray-500">
+                                    <span>${subtitle}</span>
+                                    ${details}
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold ${amountColor} ml-4 flex-shrink-0">${isIncome ? '+' : '-'}${formattedAmount}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function changeActivityPage(direction) {
+            const totalPages = Math.ceil(allActivityData.length / itemsPerPage);
+            currentActivityPage += direction;
+            
+            // Ensure we stay within bounds
+            if (currentActivityPage < 1) currentActivityPage = 1;
+            if (currentActivityPage > totalPages) currentActivityPage = totalPages;
+            
+            // Render the new page
+            renderActivityPage();
+            
+            // Scroll to top of activity section
+            document.getElementById('recent-activity').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         
         // ============================================
