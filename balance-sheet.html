@@ -32,6 +32,8 @@
     <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="confetti-celebration.js"></script>
+    <script src="config.js"></script>
+    <script src="ai-insights.js"></script>
 </head>
 <body class="bg-background min-h-screen">
     
@@ -279,6 +281,11 @@
                 <p id="net-worth" class="text-3xl font-bold text-primary hidden"></p>
                 <p class="text-xs text-gray-500 mt-2" id="net-worth-formula"></p>
             </div>
+        </div>
+
+        <!-- ChaufAI Insight -->
+        <div id="ai-insight-container" class="mb-8">
+            <!-- AI insight will be loaded here -->
         </div>
 
         <!-- Two Column Layout -->
@@ -1371,9 +1378,7 @@
             }
             
             // Load data
-            loadAssets();
-            loadLiabilities();
-            loadOwnerEquity();
+            await loadAllBalanceSheetData();
         }
         
         // Listen for auth state changes
@@ -1453,9 +1458,7 @@
             event.target.classList.add('bg-primary', 'text-white');
             
             // Reload data with new filter
-            loadAssets();
-            loadLiabilities();
-            loadOwnerEquity();
+            await loadAllBalanceSheetData();
         }
         
         function getBalanceSheetDateRange() {
@@ -1516,7 +1519,163 @@
         }
         
         // ============================================
-        // Load Assets
+        // Load All Balance Sheet Data (Coordinated)
+        // ============================================
+        
+        async function loadAllBalanceSheetData() {
+            try {
+                // Show loading state for AI insight
+                displayInsight('ai-insight-container', '', true);
+                
+                // Load all data in parallel
+                const [assetsData, liabilitiesData, equityData] = await Promise.all([
+                    loadAssetsData(),
+                    loadLiabilitiesData(),
+                    loadOwnerEquityData()
+                ]);
+                
+                // Render all sections
+                renderAssets(assetsData.assets, assetsData.totalAssets);
+                renderLiabilities(liabilitiesData.liabilities, liabilitiesData.totalLiabilities);
+                renderOwnerEquity(equityData.transactions, equityData.totalContributions, equityData.totalDraws, equityData.netEquity);
+                
+                // Update net worth
+                const netWorth = assetsData.totalAssets - liabilitiesData.totalLiabilities;
+                updateNetWorth(netWorth, assetsData.totalAssets, liabilitiesData.totalLiabilities);
+                
+                // Prepare data for AI insight
+                const insightData = {
+                    summary: {
+                        totalAssets: assetsData.totalAssets,
+                        totalLiabilities: liabilitiesData.totalLiabilities,
+                        netWorth: netWorth,
+                        totalContributions: equityData.totalContributions,
+                        totalDraws: equityData.totalDraws,
+                        netEquity: equityData.netEquity
+                    },
+                    assets: assetsData.assets.slice(0, 10).map(a => ({
+                        name: a.asset_name,
+                        type: a.asset_type,
+                        value: parseFloat(a.current_value),
+                        date: a.purchase_date,
+                        description: a.description || ''
+                    })),
+                    liabilities: liabilitiesData.liabilities.slice(0, 10).map(l => ({
+                        name: l.liability_name,
+                        type: l.liability_type,
+                        balance: parseFloat(l.current_balance),
+                        date: l.date_incurred,
+                        description: l.description || ''
+                    })),
+                    equity: equityData.transactions.slice(0, 10).map(e => ({
+                        type: e.transaction_type,
+                        amount: parseFloat(e.amount),
+                        date: e.transaction_date,
+                        description: e.description || ''
+                    }))
+                };
+                
+                // Load AI insight
+                await loadBalanceSheetInsight(insightData);
+                
+            } catch (error) {
+                console.error('Error loading balance sheet data:', error);
+            }
+        }
+        
+        // ============================================
+        // Load Assets Data (Returns data without rendering)
+        // ============================================
+        
+        async function loadAssetsData() {
+            const dateRange = getBalanceSheetDateRange();
+            
+            let query = supabase
+                .from('assets')
+                .select('*')
+                .eq('user_id', currentUser.id);
+            
+            if (dateRange.start) {
+                query = query.gte('purchase_date', dateRange.start);
+            }
+            if (dateRange.end) {
+                query = query.lte('purchase_date', dateRange.end);
+            }
+            
+            const { data, error } = await query.order('purchase_date', { ascending: false });
+            
+            if (error) throw error;
+            
+            const totalAssets = data.reduce((sum, asset) => sum + parseFloat(asset.current_value), 0);
+            
+            return { assets: data, totalAssets };
+        }
+        
+        // ============================================
+        // Load Liabilities Data (Returns data without rendering)
+        // ============================================
+        
+        async function loadLiabilitiesData() {
+            const dateRange = getBalanceSheetDateRange();
+            
+            let query = supabase
+                .from('liabilities')
+                .select('*')
+                .eq('user_id', currentUser.id);
+            
+            if (dateRange.start) {
+                query = query.gte('created_at', dateRange.start);
+            }
+            if (dateRange.end) {
+                const endDate = new Date(dateRange.end);
+                endDate.setDate(endDate.getDate() + 1);
+                query = query.lt('created_at', endDate.toISOString().split('T')[0]);
+            }
+            
+            const { data, error } = await query.order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            
+            const totalLiabilities = data.reduce((sum, liability) => sum + parseFloat(liability.current_balance), 0);
+            
+            return { liabilities: data, totalLiabilities };
+        }
+        
+        // ============================================
+        // Load Owner Equity Data (Returns data without rendering)
+        // ============================================
+        
+        async function loadOwnerEquityData() {
+            const dateRange = getBalanceSheetDateRange();
+            
+            let query = supabase
+                .from('owner_equity')
+                .select('*')
+                .eq('user_id', currentUser.id);
+            
+            if (dateRange.start) {
+                query = query.gte('transaction_date', dateRange.start);
+            }
+            if (dateRange.end) {
+                query = query.lte('transaction_date', dateRange.end);
+            }
+            
+            const { data, error } = await query.order('transaction_date', { ascending: false });
+            
+            if (error) throw error;
+            
+            const contributions = data.filter(t => t.transaction_type === 'contribution');
+            const draws = data.filter(t => t.transaction_type === 'draw');
+            
+            const totalContributions = contributions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+            const totalDraws = draws.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+            const netEquity = totalContributions - totalDraws;
+            
+            return { transactions: data, totalContributions, totalDraws, netEquity };
+        }
+        
+        // ============================================
+        // Load Assets (Legacy - calls loadAllBalanceSheetData)
         // ============================================
         
         async function loadAssets() {
@@ -1597,7 +1756,21 @@
         // Render Assets
         // ============================================
         
-        function renderAssets() {
+        function renderAssets(assets, totalAssets) {
+            // Update global variable for legacy compatibility
+            allAssets = assets || [];
+            
+            // Hide loading skeleton
+            document.getElementById('total-assets-summary-loading')?.classList.add('hidden');
+            
+            // Update and show summary
+            const summaryEl = document.getElementById('total-assets-summary');
+            if (summaryEl) {
+                summaryEl.textContent = formatCurrencyDisplay(totalAssets);
+                summaryEl.classList.remove('hidden');
+            }
+            
+            // Render list
             const container = document.getElementById('assets-list');
             const emptyState = document.getElementById('assets-empty');
             
@@ -1642,7 +1815,21 @@
         // Render Liabilities
         // ============================================
         
-        function renderLiabilities() {
+        function renderLiabilities(liabilities, totalLiabilities) {
+            // Update global variable for legacy compatibility
+            allLiabilities = liabilities || [];
+            
+            // Hide loading skeleton
+            document.getElementById('total-liabilities-summary-loading')?.classList.add('hidden');
+            
+            // Update and show summary
+            const summaryEl = document.getElementById('total-liabilities-summary');
+            if (summaryEl) {
+                summaryEl.textContent = formatCurrencyDisplay(totalLiabilities);
+                summaryEl.classList.remove('hidden');
+            }
+            
+            // Render list
             const container = document.getElementById('liabilities-list');
             const emptyState = document.getElementById('liabilities-empty');
             
@@ -1698,33 +1885,20 @@
         // Update Net Worth
         // ============================================
         
-        function updateNetWorth() {
-            const totalAssets = allAssets.reduce((sum, asset) => sum + parseFloat(asset.current_value), 0);
-            const totalLiabilities = allLiabilities.reduce((sum, liability) => sum + parseFloat(liability.current_balance), 0);
-            const netWorth = totalAssets - totalLiabilities;
+        function updateNetWorth(netWorth, totalAssets, totalLiabilities) {
+            // If no parameters provided, calculate from global variables (legacy compatibility)
+            if (netWorth === undefined) {
+                totalAssets = allAssets.reduce((sum, asset) => sum + parseFloat(asset.current_value), 0);
+                totalLiabilities = allLiabilities.reduce((sum, liability) => sum + parseFloat(liability.current_balance), 0);
+                netWorth = totalAssets - totalLiabilities;
+            }
             
-            // Hide loading skeletons
-            const assetsLoading = document.getElementById('total-assets-summary-loading');
-            const liabilitiesLoading = document.getElementById('total-liabilities-summary-loading');
+            // Hide loading skeleton
             const netWorthLoading = document.getElementById('net-worth-loading');
-            
-            if (assetsLoading) assetsLoading.classList.add('hidden');
-            if (liabilitiesLoading) liabilitiesLoading.classList.add('hidden');
             if (netWorthLoading) netWorthLoading.classList.add('hidden');
             
-            // Show and update summary cards
-            const assetsEl = document.getElementById('total-assets-summary');
-            const liabilitiesEl = document.getElementById('total-liabilities-summary');
+            // Show and update net worth card
             const netWorthEl = document.getElementById('net-worth');
-            
-            if (assetsEl) {
-                assetsEl.textContent = formatCurrencyDisplay(totalAssets);
-                assetsEl.classList.remove('hidden');
-            }
-            if (liabilitiesEl) {
-                liabilitiesEl.textContent = formatCurrencyDisplay(totalLiabilities);
-                liabilitiesEl.classList.remove('hidden');
-            }
             if (netWorthEl) {
                 netWorthEl.textContent = formatCurrencyDisplay(netWorth);
                 netWorthEl.classList.remove('hidden');
@@ -1972,6 +2146,55 @@
             } catch (error) {
                 console.error('Error loading owner equity:', error);
             }
+        }
+        
+        // ============================================
+        // Load Balance Sheet AI Insight
+        // ============================================
+        
+        async function loadBalanceSheetInsight(data) {
+            try {
+                const insight = await generateAIInsight('balanceSheet', data);
+                displayInsight('ai-insight-container', insight, false);
+            } catch (error) {
+                console.error('Error loading Balance Sheet insight:', error);
+                displayInsight('ai-insight-container', 'Unable to generate insight at this time. Please try again later.', false);
+            }
+        }
+        
+        function refreshInsight() {
+            clearInsightCache('balanceSheet');
+            loadAssets();
+            loadLiabilities();
+            loadOwnerEquity();
+        }
+        
+        function renderOwnerEquity(transactions, totalContributions, totalDraws, netEquity) {
+            // Hide loading skeletons
+            document.getElementById('total-contributions-loading')?.classList.add('hidden');
+            document.getElementById('total-draws-loading')?.classList.add('hidden');
+            document.getElementById('net-equity-loading')?.classList.add('hidden');
+            
+            // Update and show summary cards
+            const contributionsEl = document.getElementById('total-contributions');
+            const drawsEl = document.getElementById('total-draws');
+            const netEquityEl = document.getElementById('net-equity');
+            
+            if (contributionsEl) {
+                contributionsEl.textContent = formatCurrencyDisplay(totalContributions);
+                contributionsEl.classList.remove('hidden');
+            }
+            if (drawsEl) {
+                drawsEl.textContent = formatCurrencyDisplay(totalDraws);
+                drawsEl.classList.remove('hidden');
+            }
+            if (netEquityEl) {
+                netEquityEl.textContent = formatCurrencyDisplay(netEquity);
+                netEquityEl.classList.remove('hidden');
+            }
+            
+            // Render transactions list
+            renderEquityList(transactions);
         }
         
         function renderEquityList(transactions) {
