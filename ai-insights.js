@@ -219,3 +219,11 @@ function clearInsightCache(pageType = null) {
     }
 }
 
+// ============================================
+// Expose functions globally
+// ============================================
+
+window.generateAIInsight = generateAIInsight;
+window.displayInsight = displayInsight;
+window.clearInsightCache = clearInsightCache;
+
