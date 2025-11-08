@@ -170,6 +170,12 @@
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-3">Quick Filters</label>
             <div class="flex flex-wrap gap-2">
+                <button onclick="applyBalanceSheetQuickFilter('today')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Today
+                </button>
+                <button onclick="applyBalanceSheetQuickFilter('yesterday')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
+                    Yesterday
+                </button>
                 <button onclick="applyBalanceSheetQuickFilter('thisMonth')" class="balance-sheet-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
                     This Month
                 </button>
@@ -1457,6 +1463,18 @@
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             
             switch (currentBalanceSheetFilter) {
+                case 'today':
+                    return {
+                        start: today.toISOString().split('T')[0],
+                        end: today.toISOString().split('T')[0]
+                    };
+                case 'yesterday':
+                    const yesterday = new Date(today);
+                    yesterday.setDate(today.getDate() - 1);
+                    return {
+                        start: yesterday.toISOString().split('T')[0],
+                        end: yesterday.toISOString().split('T')[0]
+                    };
                 case 'thisMonth':
                     return {
                         start: new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0],
