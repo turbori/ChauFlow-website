@@ -33,6 +33,10 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="confetti-celebration.js"></script>
     
+    <!-- Configuration (API Keys) -->
+    <script src="config.js"></script>
+    <script src="ai-insights.js"></script>
+
     <!-- Global Date Filter Scripts -->
     <script src="global-date-filter.js"></script>
     <script src="global-filter-ui.js"></script>
@@ -242,6 +246,11 @@
                 <p id="total-entries" class="text-3xl font-bold text-purple-600 hidden"></p>
                 <p class="text-xs text-gray-500 mt-2">Income records</p>
             </div>
+        </div>
+        
+        <!-- AI Insight -->
+        <div id="ai-insight-container" class="mb-8">
+            <!-- AI insight will be inserted here -->
         </div>
         
         <!-- Trip Insights Section -->
@@ -967,6 +976,17 @@
                 
                 // Calculate trip insights
                 calculateTripInsights(incomeData);
+                
+                // Load AI Insight
+                await loadIncomeInsight({
+                    totalIncome,
+                    tripCount: totalTrips,
+                    avgPerTrip,
+                    sourceBreakdown: getSourceBreakdown(incomeData),
+                    topSource: getTopSource(incomeData),
+                    topSourceAmount: getTopSourceAmount(incomeData),
+                    timePeriod: getTimePeriodLabel()
+                });
                 
             } catch (error) {
                 console.error('Error loading income data:', error);
