@@ -245,24 +245,10 @@
             </div>
         </div>
 
-        <!-- Top Vendor & Expense Breakdown -->
-        <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <!-- Top Vendor Highlight -->
-            <div class="bg-orange-50 rounded-2xl p-6 shadow-sm border border-orange-100">
-                <div class="flex items-center gap-2 mb-4">
-                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Top Vendor</h3>
-                    <span class="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded-full font-semibold ml-auto">This Month</span>
-                </div>
-                <p id="top-vendor-name" class="text-2xl font-bold text-gray-900 mb-2">—</p>
-                <p id="top-vendor-amount" class="text-sm text-gray-600 mb-1">$0.00 spent</p>
-                <p id="top-vendor-count" class="text-xs text-gray-500">0 transactions</p>
-            </div>
-            
+        <!-- Expense Breakdown -->
+        <div class="mb-8">
             <!-- Expense Breakdown Chart -->
-            <div class="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
                 <div class="flex items-center justify-between mb-5">
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -795,44 +781,8 @@
                 entryCountEl.classList.remove('hidden');
             }
             
-            // Update Top Vendor
-            updateTopVendor(monthlyExpenses);
-            
             // Update Expense Breakdown
             updateExpenseBreakdown(monthlyExpenses);
-        }
-        
-        // ============================================
-        // Update Top Vendor
-        // ============================================
-        
-        function updateTopVendor(expenses) {
-            const vendorTotals = {};
-            
-            expenses.forEach(expense => {
-                const vendor = expense.vendor || 'Unknown';
-                vendorTotals[vendor] = (vendorTotals[vendor] || 0) + parseFloat(expense.amount);
-            });
-            
-            const topVendor = Object.entries(vendorTotals)
-                .sort((a, b) => b[1] - a[1])[0];
-            
-            const vendorNameEl = document.getElementById('top-vendor-name');
-            const vendorAmountEl = document.getElementById('top-vendor-amount');
-            const vendorCountEl = document.getElementById('top-vendor-count');
-            
-            if (topVendor && vendorNameEl && vendorAmountEl && vendorCountEl) {
-                const [name, amount] = topVendor;
-                const count = expenses.filter(e => (e.vendor || 'Unknown') === name).length;
-                
-                vendorNameEl.textContent = name;
-                vendorAmountEl.textContent = formatCurrencyDisplay(amount);
-                vendorCountEl.textContent = `${count} transaction${count !== 1 ? 's' : ''}`;
-            } else if (vendorNameEl && vendorAmountEl && vendorCountEl) {
-                vendorNameEl.textContent = '—';
-                vendorAmountEl.textContent = '$0.00 spent';
-                vendorCountEl.textContent = '0 transactions';
-            }
         }
         
         // ============================================
