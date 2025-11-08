@@ -977,16 +977,16 @@
                 // Calculate trip insights
                 calculateTripInsights(incomeData);
                 
-                // Load AI Insight
-                await loadIncomeInsight({
-                    totalIncome,
-                    tripCount: totalTrips,
-                    avgPerTrip,
-                    sourceBreakdown: getSourceBreakdown(incomeData),
-                    topSource: getTopSource(incomeData),
-                    topSourceAmount: getTopSourceAmount(incomeData),
-                    timePeriod: getTimePeriodLabel()
-                });
+                // Load AI Insight with full transaction data
+                await loadIncomeInsight(incomeData.slice(0, 20).map(item => ({
+                    amount: parseFloat(item.amount),
+                    source: item.source,
+                    description: item.description || '',
+                    date: item.date,
+                    trip_count: item.trip_count || 0,
+                    hours_worked: item.hours_worked || 0,
+                    miles_driven: item.miles_driven || 0
+                })));
                 
             } catch (error) {
                 console.error('Error loading income data:', error);

@@ -46,7 +46,26 @@ async function generateAIInsight(pageType, userData) {
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a financial advisor for chauffeur business owners. Provide brief, actionable insights in 1-2 sentences. Be encouraging and specific. Use simple language.'
+                        content: `You are an intelligent financial assistant for ChauFlow, a bookkeeping app for independent chauffeurs and drivers. Your job is to analyze the user's full financial activity and generate a hyper-personalized, supportive insight based on the current page they are on.
+
+Your task:
+1. Read **all available transaction details**, not just amounts or titles.
+2. Use those details to write **one personalized insight** that feels like you're paying close attention.
+3. Your tone should be:
+   - Encouraging and human
+   - Helpful, never critical
+   - Action-oriented or awareness-building
+4. Keep the insight **concise (1–2 sentences max)**.
+5. Avoid repeating the numbers back unless necessary. Focus on **patterns, good habits, opportunities, or things worth noticing.**
+
+Examples of helpful insight types:
+- Highlighting trends or opportunities
+- Congratulating good habits
+- Gently surfacing areas to improve
+- Encouraging consistency
+- Pointing out savings potential
+
+Now respond with only one insight, nothing else. Be as helpful as possible.`
                     },
                     {
                         role: 'user',
@@ -84,88 +103,13 @@ async function generateAIInsight(pageType, userData) {
 // ============================================
 
 function buildPrompt(pageType, userData) {
-    switch (pageType) {
-        case 'dashboard':
-            return `
-Analyze this chauffeur's business dashboard data and provide ONE actionable insight:
-
-Current Month:
-- Total Income: $${userData.totalIncome || 0}
-- Total Expenses: $${userData.totalExpenses || 0}
-- Net Profit: $${userData.netProfit || 0}
-- Trips: ${userData.trips || 0}
-- Hours Worked: ${userData.hours || 0}
-- Miles Driven: ${userData.miles || 0}
-
-Last Month:
-- Total Income: $${userData.lastMonthIncome || 0}
-- Total Expenses: $${userData.lastMonthExpenses || 0}
-- Net Profit: $${userData.lastMonthProfit || 0}
-
-Top Expense Category: ${userData.topExpense || 'N/A'}
-
-Provide a brief, encouraging insight about their business health or a trend to watch.`;
-
-        case 'income':
-            return `
-Analyze this chauffeur's income data and provide ONE actionable insight:
-
-Total Income: $${userData.totalIncome || 0}
-Number of Trips: ${userData.tripCount || 0}
-Average per Trip: $${userData.avgPerTrip || 0}
-
-Income Sources Breakdown:
-${userData.sourceBreakdown || 'No data'}
-
-Top Income Source: ${userData.topSource || 'N/A'} ($${userData.topSourceAmount || 0})
-
-Time Period: ${userData.timePeriod || 'This month'}
-
-Provide a brief insight about income patterns or growth opportunities.`;
-
-        case 'expenses':
-            return `
-Analyze this chauffeur's expense data and provide ONE actionable insight:
-
-Total Expenses: $${userData.totalExpenses || 0}
-Number of Entries: ${userData.entryCount || 0}
-Average Expense: $${userData.avgExpense || 0}
-
-Expense Categories Breakdown:
-${userData.categoryBreakdown || 'No data'}
-
-Top Expense Category: ${userData.topCategory || 'N/A'} ($${userData.topCategoryAmount || 0})
-
-Time Period: ${userData.timePeriod || 'This month'}
-
-Provide a brief insight about spending patterns, potential savings, or tax deductions.`;
-
-        case 'balanceSheet':
-            return `
-Analyze this chauffeur's balance sheet and provide ONE actionable insight:
-
-Assets:
-- Total: $${userData.totalAssets || 0}
-- Count: ${userData.assetCount || 0}
-
-Liabilities:
-- Total: $${userData.totalLiabilities || 0}
-- Count: ${userData.liabilityCount || 0}
-
-Net Worth: $${userData.netWorth || 0}
-
-Owner's Equity:
-- Total Contributions: $${userData.totalContributions || 0}
-- Total Draws: $${userData.totalDraws || 0}
-- Net Equity: $${userData.netEquity || 0}
-
-Debt-to-Asset Ratio: ${userData.debtRatio || 0}%
-
-Provide a brief insight about financial health, equity position, or debt management.`;
-
-        default:
-            return 'Provide a general financial insight for a chauffeur business owner.';
-    }
+    // Format the data as JSON for the AI to analyze
+    const promptData = {
+        page: pageType.charAt(0).toUpperCase() + pageType.slice(1),
+        data: userData
+    };
+    
+    return `Input:\n${JSON.stringify(promptData, null, 2)}`;
 }
 
 // ============================================

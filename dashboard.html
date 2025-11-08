@@ -365,7 +365,7 @@
                             <div class="absolute top-full right-4 -mt-1">
                                 <div class="border-4 border-transparent border-t-gray-900"></div>
                 </div>
-                        </div>
+            </div>
                     </button>
                 </div>
                 <p class="text-sm opacity-90 mb-1">Net Profit</p>
@@ -1506,18 +1506,18 @@
                 // Load recent activity
                 await loadRecentActivity();
                 
-                // Load AI Insight
+                // Load AI Insight with full transaction data
                 await loadDashboardInsight({
-                    totalIncome,
-                    totalExpenses,
-                    netProfit,
-                    trips: totalTrips,
-                    hours: totalHours,
-                    miles: totalMiles,
-                    topExpense: topCategory ? `${topCategory} ($${formatCurrencyDisplay(topAmount)})` : 'N/A',
-                    lastMonthIncome: 0, // Will be calculated by trends
-                    lastMonthExpenses: 0,
-                    lastMonthProfit: 0
+                    summary: {
+                        totalIncome,
+                        totalExpenses,
+                        netProfit,
+                        trips: totalTrips,
+                        hours: totalHours,
+                        miles: totalMiles
+                    },
+                    recentIncome: incomeData.slice(0, 10), // Last 10 income entries
+                    recentExpenses: expenseData.slice(0, 10) // Last 10 expense entries
                 });
                 
             } catch (error) {

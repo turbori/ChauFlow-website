@@ -737,16 +737,14 @@
                 updateSummaryCards();
                 renderExpenseTable(allExpenseData);
                 
-                // Load AI Insight
-                await loadExpenseInsight({
-                    totalExpenses: allExpenseData.reduce((sum, e) => sum + parseFloat(e.amount), 0),
-                    entryCount: allExpenseData.length,
-                    avgExpense: allExpenseData.length > 0 ? allExpenseData.reduce((sum, e) => sum + parseFloat(e.amount), 0) / allExpenseData.length : 0,
-                    categoryBreakdown: getCategoryBreakdown(allExpenseData),
-                    topCategory: getTopCategory(allExpenseData),
-                    topCategoryAmount: getTopCategoryAmount(allExpenseData),
-                    timePeriod: getExpenseTimePeriodLabel()
-                });
+                // Load AI Insight with full transaction data
+                await loadExpenseInsight(allExpenseData.slice(0, 20).map(item => ({
+                    amount: parseFloat(item.amount),
+                    category: item.category,
+                    vendor: item.vendor || '',
+                    description: item.description || '',
+                    date: item.date
+                })));
                 
             } catch (error) {
                 console.error('Exception loading expenses:', error);
