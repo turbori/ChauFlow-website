@@ -33,6 +33,10 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="confetti-celebration.js"></script>
     
+    <!-- Configuration (API Keys) -->
+    <script src="config.js"></script>
+    <script src="ai-insights.js"></script>
+
     <!-- Global Date Filter Scripts -->
     <script src="global-date-filter.js"></script>
     <script src="global-filter-ui.js"></script>
@@ -274,6 +278,11 @@
                     <p class="text-sm text-gray-500 text-center py-4">No expense data yet</p>
                 </div>
             </div>
+        </div>
+        
+        <!-- AI Insight -->
+        <div id="ai-insight-container" class="mb-8">
+            <!-- AI insight will be inserted here -->
         </div>
 
         <!-- Filters -->
@@ -727,6 +736,17 @@
                 
                 updateSummaryCards();
                 renderExpenseTable(allExpenseData);
+                
+                // Load AI Insight
+                await loadExpenseInsight({
+                    totalExpenses: allExpenseData.reduce((sum, e) => sum + parseFloat(e.amount), 0),
+                    entryCount: allExpenseData.length,
+                    avgExpense: allExpenseData.length > 0 ? allExpenseData.reduce((sum, e) => sum + parseFloat(e.amount), 0) / allExpenseData.length : 0,
+                    categoryBreakdown: getCategoryBreakdown(allExpenseData),
+                    topCategory: getTopCategory(allExpenseData),
+                    topCategoryAmount: getTopCategoryAmount(allExpenseData),
+                    timePeriod: getExpenseTimePeriodLabel()
+                });
                 
             } catch (error) {
                 console.error('Exception loading expenses:', error);
@@ -1405,6 +1425,82 @@
         // ============================================
         
         checkAuth();
+        
+        // ============================================
+        // AI Insight Helper Functions
+        // ============================================
+        
+        function getCategoryBreakdown(data) {
+            const breakdown = {};
+            data.forEach(item => {
+                const category = item.category || 'Other';
+                breakdown[category] = (breakdown[category] || 0) + parseFloat(item.amount);
+            });
+            
+            return Object.entries(breakdown)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(([category, amount]) => `${category}: $${formatNumber(amount)}`)
+                .join(', ');
+        }
+        
+        function getTopCategory(data) {
+            const breakdown = {};
+            data.forEach(item => {
+                const category = item.category || 'Other';
+                breakdown[category] = (breakdown[category] || 0) + parseFloat(item.amount);
+            });
+            
+            const sorted = Object.entries(breakdown).sort((a, b) => b[1] - a[1]);
+            return sorted.length > 0 ? sorted[0][0] : 'N/A';
+        }
+        
+        function getTopCategoryAmount(data) {
+            const breakdown = {};
+            data.forEach(item => {
+                const category = item.category || 'Other';
+                breakdown[category] = (breakdown[category] || 0) + parseFloat(item.amount);
+            });
+            
+            const sorted = Object.entries(breakdown).sort((a, b) => b[1] - a[1]);
+            return sorted.length > 0 ? sorted[0][1] : 0;
+        }
+        
+        function getExpenseTimePeriodLabel() {
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            
+            if (!dateFrom && !dateTo) return 'All time';
+            if (dateFrom && dateTo) return `${dateFrom} to ${dateTo}`;
+            if (dateFrom) return `From ${dateFrom}`;
+            if (dateTo) return `Until ${dateTo}`;
+            return 'This period';
+        }
+        
+        async function loadExpenseInsight(data) {
+            try {
+                // Show loading state
+                displayInsight('ai-insight-container', '', true);
+                
+                // Generate insight
+                const insight = await generateAIInsight('expenses', data);
+                
+                // Display insight
+                displayInsight('ai-insight-container', insight, false);
+                
+            } catch (error) {
+                console.error('Error loading AI insight:', error);
+                // Hide container on error
+                document.getElementById('ai-insight-container').innerHTML = '';
+            }
+        }
+        
+        // Refresh insight function (called from UI)
+        async function refreshInsight() {
+            clearInsightCache('expenses');
+            // Reload expense data to get fresh insight
+            await loadExpenseData();
+        }
     </script>
     
     <!-- Smart Modal Enhancements -->
