@@ -794,6 +794,103 @@
                 entryCountEl.textContent = count.toString();
                 entryCountEl.classList.remove('hidden');
             }
+            
+            // Update Top Vendor
+            updateTopVendor(monthlyExpenses);
+            
+            // Update Expense Breakdown
+            updateExpenseBreakdown(monthlyExpenses);
+        }
+        
+        // ============================================
+        // Update Top Vendor
+        // ============================================
+        
+        function updateTopVendor(expenses) {
+            const vendorTotals = {};
+            
+            expenses.forEach(expense => {
+                const vendor = expense.vendor || 'Unknown';
+                vendorTotals[vendor] = (vendorTotals[vendor] || 0) + parseFloat(expense.amount);
+            });
+            
+            const topVendor = Object.entries(vendorTotals)
+                .sort((a, b) => b[1] - a[1])[0];
+            
+            const vendorNameEl = document.getElementById('top-vendor-name');
+            const vendorAmountEl = document.getElementById('top-vendor-amount');
+            const vendorCountEl = document.getElementById('top-vendor-count');
+            
+            if (topVendor && vendorNameEl && vendorAmountEl && vendorCountEl) {
+                const [name, amount] = topVendor;
+                const count = expenses.filter(e => (e.vendor || 'Unknown') === name).length;
+                
+                vendorNameEl.textContent = name;
+                vendorAmountEl.textContent = formatCurrencyDisplay(amount);
+                vendorCountEl.textContent = `${count} transaction${count !== 1 ? 's' : ''}`;
+            } else if (vendorNameEl && vendorAmountEl && vendorCountEl) {
+                vendorNameEl.textContent = '—';
+                vendorAmountEl.textContent = '$0.00 spent';
+                vendorCountEl.textContent = '0 transactions';
+            }
+        }
+        
+        // ============================================
+        // Update Expense Breakdown
+        // ============================================
+        
+        function updateExpenseBreakdown(expenses) {
+            const breakdownEl = document.getElementById('expense-breakdown');
+            if (!breakdownEl) return;
+            
+            if (expenses.length === 0) {
+                breakdownEl.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No expense data yet</p>';
+                return;
+            }
+            
+            // Calculate category totals
+            const categoryTotals = {};
+            const total = expenses.reduce((sum, expense) => {
+                const category = expense.category || 'Other';
+                categoryTotals[category] = (categoryTotals[category] || 0) + parseFloat(expense.amount);
+                return sum + parseFloat(expense.amount);
+            }, 0);
+            
+            // Sort by amount and get top 5
+            const sortedCategories = Object.entries(categoryTotals)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+            
+            // Render breakdown bars
+            breakdownEl.innerHTML = sortedCategories.map(([category, amount]) => {
+                const percentage = ((amount / total) * 100).toFixed(1);
+                const categoryColors = {
+                    'Gas': 'bg-blue-500',
+                    'Tolls': 'bg-purple-500',
+                    'Parking': 'bg-green-500',
+                    'Car Wash': 'bg-yellow-500',
+                    'Maintenance & Repairs': 'bg-red-500',
+                    'Insurance': 'bg-indigo-500',
+                    'Vehicle Maintenance & Repairs': 'bg-orange-500',
+                    'Interest Expense': 'bg-pink-500'
+                };
+                const color = categoryColors[category] || 'bg-gray-500';
+                
+                return `
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="font-medium text-gray-700">${category}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-900 font-semibold">${formatCurrencyDisplay(amount)}</span>
+                                <span class="text-gray-500 text-xs">${percentage}%</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="${color} h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
         
         // ============================================
