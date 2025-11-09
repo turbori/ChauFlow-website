@@ -285,9 +285,11 @@
         </div>
         
         <!-- Stats Cards -->
-        <div id="stats-cards" class="hidden grid md:grid-cols-3 gap-6 mb-8">
+        <div id="stats-cards" class="hidden mb-8">
+            <!-- Mobile: Horizontal Scroll, Desktop: Grid -->
+            <div class="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
             <!-- Card 1: Total Income -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative flex-shrink-0 w-[280px] md:w-auto">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -316,7 +318,7 @@
             </div>
             
             <!-- Card 2: Total Expenses -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative flex-shrink-0 w-[280px] md:w-auto">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
                         <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,7 +347,7 @@
             </div>
             
             <!-- Card 3: Net Profit -->
-            <div id="net-profit-card" class="bg-primary rounded-2xl p-6 shadow-lg text-white transition-all duration-300 group relative">
+            <div id="net-profit-card" class="bg-primary rounded-2xl p-6 shadow-lg text-white transition-all duration-300 group relative flex-shrink-0 w-[280px] md:w-auto">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                         <svg id="net-profit-icon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -371,6 +373,7 @@
                     <span id="profit-trend" class="text-sm font-semibold opacity-90"></span>
                 </div>
                 <p class="text-xs opacity-80 mt-2">Income - Expenses</p>
+            </div>
             </div>
         </div>
         
