@@ -1048,29 +1048,121 @@
         // Modal Functions
         // ============================================
         
-        function openIncomeModal() {
+        let editingIncomeId = null;
+        
+        function openIncomeModal(incomeId = null) {
+            editingIncomeId = incomeId;
             incomeModal.classList.remove('hidden');
-            document.getElementById('income-date').valueAsDate = new Date();
+            
+            // Update modal title and button
+            const modalTitle = incomeModal.querySelector('h2');
+            const submitBtn = document.getElementById('income-submit-btn');
+            
+            if (incomeId) {
+                // Edit mode - load existing data
+                modalTitle.textContent = 'Edit Income';
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Income';
+                loadIncomeForEdit(incomeId);
+            } else {
+                // New mode
+                modalTitle.textContent = 'Add Income';
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Income';
+                document.getElementById('income-date').valueAsDate = new Date();
+            }
+            
             document.body.style.overflow = 'hidden';
+        }
+        
+        async function loadIncomeForEdit(incomeId) {
+            try {
+                const { data, error } = await supabase
+                    .from('income')
+                    .select('*')
+                    .eq('id', incomeId)
+                    .eq('user_id', currentUser.id)
+                    .single();
+                
+                if (error) throw error;
+                
+                // Populate form with existing data
+                document.getElementById('income-amount').value = parseFloat(data.amount).toFixed(2);
+                document.getElementById('income-source').value = data.source;
+                document.getElementById('income-date').value = data.date.split('T')[0];
+                document.getElementById('income-description').value = data.description || '';
+                document.getElementById('income-trips').value = data.trip_count || '';
+                document.getElementById('income-hours').value = data.hours_worked || '';
+                document.getElementById('income-miles').value = data.miles_driven || '';
+                
+            } catch (error) {
+                console.error('Error loading income for edit:', error);
+                alert('Failed to load income data. Please try again.');
+                closeIncomeModal();
+            }
         }
         
         function closeIncomeModal() {
             incomeModal.classList.add('hidden');
             incomeForm.reset();
+            editingIncomeId = null;
             document.getElementById('income-error').classList.add('hidden');
             document.getElementById('income-success').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
         
-        function openExpenseModal() {
+        let editingExpenseId = null;
+        
+        function openExpenseModal(expenseId = null) {
+            editingExpenseId = expenseId;
             expenseModal.classList.remove('hidden');
-            document.getElementById('expense-date').valueAsDate = new Date();
+            
+            // Update modal title and button
+            const modalTitle = expenseModal.querySelector('h2');
+            const submitBtn = document.getElementById('expense-submit-btn');
+            
+            if (expenseId) {
+                // Edit mode - load existing data
+                modalTitle.textContent = 'Edit Expense';
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Expense';
+                loadExpenseForEdit(expenseId);
+            } else {
+                // New mode
+                modalTitle.textContent = 'Add Expense';
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Expense';
+                document.getElementById('expense-date').valueAsDate = new Date();
+            }
+            
             document.body.style.overflow = 'hidden';
+        }
+        
+        async function loadExpenseForEdit(expenseId) {
+            try {
+                const { data, error } = await supabase
+                    .from('expenses')
+                    .select('*')
+                    .eq('id', expenseId)
+                    .eq('user_id', currentUser.id)
+                    .single();
+                
+                if (error) throw error;
+                
+                // Populate form with existing data
+                document.getElementById('expense-amount').value = parseFloat(data.amount).toFixed(2);
+                document.getElementById('expense-category').value = data.category;
+                document.getElementById('expense-date').value = data.date.split('T')[0];
+                document.getElementById('expense-vendor').value = data.vendor || '';
+                document.getElementById('expense-description').value = data.description || '';
+                
+            } catch (error) {
+                console.error('Error loading expense for edit:', error);
+                alert('Failed to load expense data. Please try again.');
+                closeExpenseModal();
+            }
         }
         
         function closeExpenseModal() {
             expenseModal.classList.add('hidden');
             expenseForm.reset();
+            editingExpenseId = null;
             document.getElementById('expense-error').classList.add('hidden');
             document.getElementById('expense-success').classList.add('hidden');
             document.body.style.overflow = 'auto';
@@ -1107,20 +1199,46 @@
                 const hours = document.getElementById('income-hours').value || null;
                 const miles = document.getElementById('income-miles').value || null;
                 
-                // Insert into Supabase
-                const { data, error } = await supabase
-                    .from('income')
-                    .insert([{
-                        user_id: currentUser.id,
-                        amount: amount,
-                        source: source,
-                        date: date,
-                        description: description,
-                        trip_count: trips ? parseInt(trips) : null,
-                        hours_worked: hours ? parseFloat(hours) : null,
-                        miles_driven: miles ? parseFloat(miles) : null
-                    }])
-                    .select();
+                let data, error;
+                
+                if (editingIncomeId) {
+                    // Update existing income
+                    const { data: updateData, error: updateError } = await supabase
+                        .from('income')
+                        .update({
+                            amount: amount,
+                            source: source,
+                            date: date,
+                            description: description,
+                            trip_count: trips ? parseInt(trips) : null,
+                            hours_worked: hours ? parseFloat(hours) : null,
+                            miles_driven: miles ? parseFloat(miles) : null
+                        })
+                        .eq('id', editingIncomeId)
+                        .eq('user_id', currentUser.id)
+                        .select();
+                    
+                    data = updateData;
+                    error = updateError;
+                } else {
+                    // Insert new income
+                    const { data: insertData, error: insertError } = await supabase
+                        .from('income')
+                        .insert([{
+                            user_id: currentUser.id,
+                            amount: amount,
+                            source: source,
+                            date: date,
+                            description: description,
+                            trip_count: trips ? parseInt(trips) : null,
+                            hours_worked: hours ? parseFloat(hours) : null,
+                            miles_driven: miles ? parseFloat(miles) : null
+                        }])
+                        .select();
+                    
+                    data = insertData;
+                    error = insertError;
+                }
                 
                 if (error) throw error;
                 
@@ -1178,18 +1296,42 @@
                 const vendor = document.getElementById('expense-vendor').value || null;
                 const description = document.getElementById('expense-description').value || null;
                 
-                // Insert into Supabase
-                const { data, error } = await supabase
-                    .from('expenses')
-                    .insert([{
-                        user_id: currentUser.id,
-                        amount: amount,
-                        category: category,
-                        date: date,
-                        vendor: vendor,
-                        description: description
-                    }])
-                    .select();
+                let data, error;
+                
+                if (editingExpenseId) {
+                    // Update existing expense
+                    const { data: updateData, error: updateError } = await supabase
+                        .from('expenses')
+                        .update({
+                            amount: amount,
+                            category: category,
+                            date: date,
+                            vendor: vendor,
+                            description: description
+                        })
+                        .eq('id', editingExpenseId)
+                        .eq('user_id', currentUser.id)
+                        .select();
+                    
+                    data = updateData;
+                    error = updateError;
+                } else {
+                    // Insert new expense
+                    const { data: insertData, error: insertError } = await supabase
+                        .from('expenses')
+                        .insert([{
+                            user_id: currentUser.id,
+                            amount: amount,
+                            category: category,
+                            date: date,
+                            vendor: vendor,
+                            description: description
+                        }])
+                        .select();
+                    
+                    data = insertData;
+                    error = insertError;
+                }
                 
                 if (error) throw error;
                 
@@ -1878,11 +2020,11 @@
         
         function editActivity(type, id) {
             if (type === 'income') {
-                // Redirect to income page with edit mode
-                window.location.href = `income.html?edit=${id}`;
+                // Open income modal in edit mode
+                openIncomeModal(parseInt(id));
             } else if (type === 'expense') {
-                // Redirect to expenses page with edit mode
-                window.location.href = `expenses.html?edit=${id}`;
+                // Open expense modal in edit mode
+                openExpenseModal(parseInt(id));
             }
         }
         
