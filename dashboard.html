@@ -2035,11 +2035,11 @@
         function editActivity(type, id) {
             console.log('editActivity called:', type, id); // Debug log
             if (type === 'income') {
-                // Open income modal in edit mode
-                openIncomeModal(parseInt(id));
+                // Open income modal in edit mode (keep as string for UUID)
+                openIncomeModal(id);
             } else if (type === 'expense') {
-                // Open expense modal in edit mode
-                openExpenseModal(parseInt(id));
+                // Open expense modal in edit mode (keep as string for UUID)
+                openExpenseModal(id);
             }
         }
         
