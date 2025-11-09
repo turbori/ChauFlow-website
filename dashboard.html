@@ -139,20 +139,11 @@
                 
                 <!-- User Menu & Mobile Menu Button -->
                 <div class="flex items-center gap-3">
-                    <!-- Mobile Menu Button (replaces user menu on mobile) -->
-                    <button id="mobile-nav-btn" class="md:hidden flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:shadow-md transition-all duration-200 font-medium">
-                        <svg id="mobile-menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                        <svg id="mobile-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
                     <div class="hidden md:block text-right">
                         <p class="text-xs text-gray-500 mb-0.5">Logged in as</p>
                         <p class="text-sm font-medium text-gray-800" id="user-email">Loading...</p>
                     </div>
-                    <div class="relative">
+                    <div class="relative hidden md:block">
                         <button 
                             id="user-menu-btn"
                             class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:shadow-md transition-all duration-200 font-medium"
@@ -246,19 +237,49 @@
         </div>
     </nav>
     
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 safe-area-bottom shadow-lg">
+        <div class="grid grid-cols-4 h-16">
+            <a href="dashboard.html" class="flex flex-col items-center justify-center text-primary bg-blue-50">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span class="text-xs font-semibold">Home</span>
+            </a>
+            <a href="income.html" class="flex flex-col items-center justify-center text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-xs font-medium">Income</span>
+            </a>
+            <a href="expenses.html" class="flex flex-col items-center justify-center text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <span class="text-xs font-medium">Expenses</span>
+            </a>
+            <a href="balance-sheet.html" class="flex flex-col items-center justify-center text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-xs font-medium">Balance</span>
+            </a>
+        </div>
+    </nav>
+    
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
+    <main class="max-w-7xl mx-auto px-4 py-6 md:py-8 pb-20 md:pb-8">
         
         <!-- Welcome Section -->
-        <div class="mb-8">
-            <h2 class="text-4xl font-bold text-gray-900 mb-2">Welcome back!</h2>
-            <p class="text-base text-gray-600">Here's your bookkeeping overview</p>
+        <div class="mb-4 md:mb-8">
+            <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-1">Welcome back!</h2>
+            <p class="text-sm md:text-base text-gray-600">Here's your bookkeeping overview</p>
         </div>
         
         <!-- Quick Filters -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
-            <label for="dashboard-filter-select" class="block text-sm font-medium text-gray-700 mb-3">Time Period</label>
-            <select id="dashboard-filter-select" onchange="applyDashboardQuickFilter(this.value)" class="w-full md:w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700 font-medium">
+        <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 mb-4 md:mb-6">
+            <label for="dashboard-filter-select" class="block text-xs md:text-sm font-medium text-gray-700 mb-2 md:mb-3">Time Period</label>
+            <select id="dashboard-filter-select" onchange="applyDashboardQuickFilter(this.value)" class="w-full md:w-64 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700 font-medium">
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
                 <option value="thisMonth" selected>This Month</option>
@@ -285,11 +306,9 @@
         </div>
         
         <!-- Stats Cards -->
-        <div id="stats-cards" class="hidden mb-8">
-            <!-- Mobile: Horizontal Scroll, Desktop: Grid -->
-            <div class="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
+        <div id="stats-cards" class="hidden grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
             <!-- Card 1: Total Income -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative flex-shrink-0 w-[280px] md:w-auto">
+            <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -318,7 +337,7 @@
             </div>
             
             <!-- Card 2: Total Expenses -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative flex-shrink-0 w-[280px] md:w-auto">
+            <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
                         <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -347,7 +366,7 @@
             </div>
             
             <!-- Card 3: Net Profit -->
-            <div id="net-profit-card" class="bg-primary rounded-2xl p-6 shadow-lg text-white transition-all duration-300 group relative flex-shrink-0 w-[280px] md:w-auto">
+            <div id="net-profit-card" class="bg-primary rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg text-white transition-all duration-300 group relative">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
                         <svg id="net-profit-icon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -373,7 +392,6 @@
                     <span id="profit-trend" class="text-sm font-semibold opacity-90"></span>
                 </div>
                 <p class="text-xs opacity-80 mt-2">Income - Expenses</p>
-            </div>
             </div>
         </div>
         
