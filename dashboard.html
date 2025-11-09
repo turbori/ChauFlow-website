@@ -306,11 +306,12 @@
         </div>
         
         <!-- Stats Cards -->
-        <div id="stats-cards" class="hidden grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
+        <div id="stats-cards" class="hidden mb-6 md:mb-8">
+            <div class="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-6">
             <!-- Card 1: Total Income -->
-            <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+            <div class="bg-white rounded-lg md:rounded-2xl p-3 md:p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
+                <div class="flex flex-col md:flex-row items-start md:justify-between mb-2 md:mb-4">
+                    <div class="w-8 h-8 md:w-12 md:h-12 bg-green-100 rounded-lg md:rounded-xl flex items-center justify-center mb-2 md:mb-0">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -327,19 +328,19 @@
                         </div>
                     </button>
                 </div>
-                <p class="text-sm text-gray-500 mb-1">Total Income</p>
-                <div class="flex items-baseline gap-2">
-                    <div id="total-income-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-                    <p id="total-income" class="text-3xl font-bold text-accent hidden"></p>
-                    <span id="income-trend" class="text-sm font-semibold"></span>
+                <p class="text-xs md:text-sm text-gray-500 mb-1">Total Income</p>
+                <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                    <div id="total-income-loading" class="h-8 md:h-10 w-20 md:w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-income" class="text-lg md:text-3xl font-bold text-accent hidden"></p>
+                    <span id="income-trend" class="text-xs md:text-sm font-semibold"></span>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">This month</p>
+                <p class="text-xs text-gray-500 mt-1 md:mt-2 hidden md:block">This month</p>
             </div>
             
             <!-- Card 2: Total Expenses -->
-            <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+            <div class="bg-white rounded-lg md:rounded-2xl p-3 md:p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 group relative">
+                <div class="flex flex-col md:flex-row items-start md:justify-between mb-2 md:mb-4">
+                    <div class="w-8 h-8 md:w-12 md:h-12 bg-red-100 rounded-lg md:rounded-xl flex items-center justify-center mb-2 md:mb-0">
                         <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
@@ -356,19 +357,19 @@
                         </div>
                     </button>
                 </div>
-                <p class="text-sm text-gray-500 mb-1">Total Expenses</p>
-                <div class="flex items-baseline gap-2">
-                    <div id="total-expenses-loading" class="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-                    <p id="total-expenses" class="text-3xl font-bold text-danger hidden"></p>
-                    <span id="expense-trend" class="text-sm font-semibold"></span>
+                <p class="text-xs md:text-sm text-gray-500 mb-1">Total Expenses</p>
+                <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                    <div id="total-expenses-loading" class="h-8 md:h-10 w-20 md:w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-expenses" class="text-lg md:text-3xl font-bold text-danger hidden"></p>
+                    <span id="expense-trend" class="text-xs md:text-sm font-semibold"></span>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">This month</p>
+                <p class="text-xs text-gray-500 mt-1 md:mt-2 hidden md:block">This month</p>
             </div>
             
             <!-- Card 3: Net Profit -->
-            <div id="net-profit-card" class="bg-primary rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg text-white transition-all duration-300 group relative">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <div id="net-profit-card" class="bg-primary rounded-lg md:rounded-2xl p-3 md:p-6 shadow-lg text-white transition-all duration-300 group relative">
+                <div class="flex flex-col md:flex-row items-start md:justify-between mb-2 md:mb-4">
+                    <div class="w-8 h-8 md:w-12 md:h-12 bg-white/20 rounded-lg md:rounded-xl flex items-center justify-center mb-2 md:mb-0">
                         <svg id="net-profit-icon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                         </svg>
@@ -385,13 +386,14 @@
             </div>
                     </button>
                 </div>
-                <p class="text-sm opacity-90 mb-1">Net Profit</p>
-                <div class="flex items-baseline gap-2">
-                    <div id="net-profit-loading" class="h-10 w-32 bg-white/20 rounded animate-pulse"></div>
-                    <p id="net-profit" class="text-3xl md:text-4xl font-bold hidden"></p>
-                    <span id="profit-trend" class="text-sm font-semibold opacity-90"></span>
+                <p class="text-xs md:text-sm opacity-90 mb-1">Net Profit</p>
+                <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
+                    <div id="net-profit-loading" class="h-8 md:h-10 w-20 md:w-32 bg-white/20 rounded animate-pulse"></div>
+                    <p id="net-profit" class="text-lg md:text-3xl font-bold hidden"></p>
+                    <span id="profit-trend" class="text-xs md:text-sm font-semibold opacity-90"></span>
                 </div>
-                <p class="text-xs opacity-80 mt-2">Income - Expenses</p>
+                <p class="text-xs opacity-80 mt-1 md:mt-2 hidden md:block">Income - Expenses</p>
+            </div>
             </div>
         </div>
         
