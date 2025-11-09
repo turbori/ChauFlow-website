@@ -1492,45 +1492,11 @@
                 // Wait for auth to complete
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                try {
-                    // Fetch the expense entry
-                    const { data, error } = await supabase
-                        .from('expenses')
-                        .select('*')
-                        .eq('id', editId)
-                        .eq('user_id', currentUser.id)
-                        .single();
-                    
-                    if (error) throw error;
-                    
-                    if (data) {
-                        // Set editing mode
-                        editingExpenseId = data.id;
-                        
-                        // Open modal and populate with data
-                        openExpenseModal();
-                        
-                        // Wait for modal to open
-                        await new Promise(resolve => setTimeout(resolve, 300));
-                        
-                        // Populate form fields
-                        document.getElementById('expense-category').value = data.category;
-                        document.getElementById('expense-amount').value = data.amount;
-                        document.getElementById('expense-date').value = data.date.split('T')[0];
-                        document.getElementById('expense-vendor').value = data.vendor || '';
-                        document.getElementById('expense-description').value = data.description || '';
-                        
-                        // Update modal title
-                        document.querySelector('#expense-modal h2').textContent = 'Edit Expense';
-                        document.querySelector('#expense-modal button[type="submit"]').innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Expense';
-                        
-                        // Clear URL parameter
-                        window.history.replaceState({}, document.title, 'expenses.html');
-                    }
-                } catch (error) {
-                    console.error('Error loading expense for edit:', error);
-                    alert('Failed to load expense data. Please try again.');
-                }
+                // Open modal with edit mode (this will automatically load the data)
+                openExpenseModal(parseInt(editId));
+                
+                // Clear URL parameter
+                window.history.replaceState({}, document.title, 'expenses.html');
             }
         }
         

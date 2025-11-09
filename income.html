@@ -1620,47 +1620,11 @@
                 // Wait for auth to complete
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                try {
-                    // Fetch the income entry
-                    const { data, error } = await supabase
-                        .from('income')
-                        .select('*')
-                        .eq('id', editId)
-                        .eq('user_id', currentUser.id)
-                        .single();
-                    
-                    if (error) throw error;
-                    
-                    if (data) {
-                        // Set editing mode
-                        editingIncomeId = data.id;
-                        
-                        // Open modal and populate with data
-                        openIncomeModal();
-                        
-                        // Wait for modal to open
-                        await new Promise(resolve => setTimeout(resolve, 300));
-                        
-                        // Populate form fields
-                        document.getElementById('income-source').value = data.source;
-                        document.getElementById('income-amount').value = data.amount;
-                        document.getElementById('income-date').value = data.date.split('T')[0];
-                        document.getElementById('income-description').value = data.description || '';
-                        document.getElementById('income-trips').value = data.trip_count || '';
-                        document.getElementById('income-hours').value = data.hours_worked || '';
-                        document.getElementById('income-miles').value = data.miles_driven || '';
-                        
-                        // Update modal title
-                        document.querySelector('#income-modal h2').textContent = 'Edit Income';
-                        document.querySelector('#income-modal button[type="submit"]').innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Income';
-                        
-                        // Clear URL parameter
-                        window.history.replaceState({}, document.title, 'income.html');
-                    }
-                } catch (error) {
-                    console.error('Error loading income for edit:', error);
-                    alert('Failed to load income data. Please try again.');
-                }
+                // Open modal with edit mode (this will automatically load the data)
+                openIncomeModal(parseInt(editId));
+                
+                // Clear URL parameter
+                window.history.replaceState({}, document.title, 'income.html');
             }
         }
         
