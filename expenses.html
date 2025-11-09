@@ -278,36 +278,18 @@
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
             <!-- Quick Date Filters -->
             <div class="mb-4 pb-4 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-700 mb-3">Quick Filters</label>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="applyQuickFilter('today')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Today
-                    </button>
-                    <button onclick="applyQuickFilter('yesterday')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Yesterday
-                    </button>
-                    <button onclick="applyQuickFilter('thisMonth')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        This Month
-                    </button>
-                    <button onclick="applyQuickFilter('lastMonth')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last Month
-                    </button>
-                    <button onclick="applyQuickFilter('last30Days')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last 30 Days
-                    </button>
-                    <button onclick="applyQuickFilter('last90Days')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last 90 Days
-                    </button>
-                    <button onclick="applyQuickFilter('thisYear')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        This Year
-                    </button>
-                    <button onclick="applyQuickFilter('lastYear')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last Year
-                    </button>
-                    <button onclick="applyQuickFilter('allTime')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        All Time
-                    </button>
-                </div>
+                <label for="expense-filter-select" class="block text-sm font-medium text-gray-700 mb-3">Time Period</label>
+                <select id="expense-filter-select" onchange="applyQuickFilter(this.value)" class="w-full md:w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700 font-medium">
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="thisMonth" selected>This Month</option>
+                    <option value="lastMonth">Last Month</option>
+                    <option value="last30Days">Last 30 Days</option>
+                    <option value="last90Days">Last 90 Days</option>
+                    <option value="thisYear">This Year</option>
+                    <option value="lastYear">Last Year</option>
+                    <option value="allTime">All Time</option>
+                </select>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">

@@ -103,6 +103,24 @@
                                 </svg>
                                 Dashboard
                             </a>
+                            <a href="income.html" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Income
+                            </a>
+                            <a href="expenses.html" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                                Expenses
+                            </a>
+                            <a href="balance-sheet.html" class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                                Balance Sheet
+                            </a>
                             <button class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 opacity-50 cursor-not-allowed">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -308,36 +326,18 @@
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
             <!-- Quick Date Filters -->
             <div class="mb-4 pb-4 border-b border-gray-200">
-                <label class="block text-sm font-medium text-gray-700 mb-3">Quick Filters</label>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="applyQuickFilter('today')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Today
-                    </button>
-                    <button onclick="applyQuickFilter('yesterday')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Yesterday
-                    </button>
-                    <button onclick="applyQuickFilter('thisMonth')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        This Month
-                    </button>
-                    <button onclick="applyQuickFilter('lastMonth')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last Month
-                    </button>
-                    <button onclick="applyQuickFilter('last30Days')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last 30 Days
-                    </button>
-                    <button onclick="applyQuickFilter('last90Days')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last 90 Days
-                    </button>
-                    <button onclick="applyQuickFilter('thisYear')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        This Year
-                    </button>
-                    <button onclick="applyQuickFilter('lastYear')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        Last Year
-                    </button>
-                    <button onclick="applyQuickFilter('allTime')" class="quick-filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors duration-200">
-                        All Time
-                    </button>
-                </div>
+                <label for="income-filter-select" class="block text-sm font-medium text-gray-700 mb-3">Time Period</label>
+                <select id="income-filter-select" onchange="applyQuickFilter(this.value)" class="w-full md:w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700 font-medium">
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="thisMonth" selected>This Month</option>
+                    <option value="lastMonth">Last Month</option>
+                    <option value="last30Days">Last 30 Days</option>
+                    <option value="last90Days">Last 90 Days</option>
+                    <option value="thisYear">This Year</option>
+                    <option value="lastYear">Last Year</option>
+                    <option value="allTime">All Time</option>
+                </select>
             </div>
             
             <div class="flex flex-col lg:flex-row gap-4">
