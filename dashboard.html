@@ -272,14 +272,14 @@
         
         <!-- Welcome Section -->
         <div class="mb-4 md:mb-8">
-            <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-1">Welcome back!</h2>
-            <p class="text-sm md:text-base text-gray-600">Here's your bookkeeping overview</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Welcome back!</h2>
+            <p class="text-base md:text-lg text-gray-600">Here's your bookkeeping overview</p>
         </div>
         
         <!-- Quick Filters -->
         <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 mb-4 md:mb-6">
-            <label for="dashboard-filter-select" class="block text-xs md:text-sm font-medium text-gray-700 mb-2 md:mb-3">Time Period</label>
-            <select id="dashboard-filter-select" onchange="applyDashboardQuickFilter(this.value)" class="w-full md:w-64 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700 font-medium">
+            <label for="dashboard-filter-select" class="block text-sm md:text-sm font-semibold text-gray-700 mb-3">Time Period</label>
+            <select id="dashboard-filter-select" onchange="applyDashboardQuickFilter(this.value)" class="w-full md:w-64 px-4 py-3.5 text-base border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 font-medium shadow-sm">
                 <option value="today">Today</option>
                 <option value="yesterday">Yesterday</option>
                 <option value="thisMonth" selected>This Month</option>
@@ -328,11 +328,11 @@
                         </div>
                     </button>
                 </div>
-                <p class="text-xs md:text-sm text-gray-500 mb-1">Total Income</p>
-                <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                    <div id="total-income-loading" class="h-8 md:h-10 w-20 md:w-32 bg-gray-200 rounded animate-pulse"></div>
-                    <p id="total-income" class="text-lg md:text-3xl font-bold text-accent hidden"></p>
-                    <span id="income-trend" class="text-xs md:text-sm font-semibold"></span>
+                <p class="text-xs md:text-sm text-gray-600 mb-1 font-medium">Total Income</p>
+                <div class="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
+                    <div id="total-income-loading" class="h-7 md:h-10 w-16 md:w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-income" class="text-base md:text-3xl font-bold text-accent hidden leading-tight"></p>
+                    <span id="income-trend" class="text-xs md:text-sm font-semibold mt-0.5 md:mt-0"></span>
                 </div>
                 <p class="text-xs text-gray-500 mt-1 md:mt-2 hidden md:block">This month</p>
             </div>
@@ -357,11 +357,11 @@
                         </div>
                     </button>
                 </div>
-                <p class="text-xs md:text-sm text-gray-500 mb-1">Total Expenses</p>
-                <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                    <div id="total-expenses-loading" class="h-8 md:h-10 w-20 md:w-32 bg-gray-200 rounded animate-pulse"></div>
-                    <p id="total-expenses" class="text-lg md:text-3xl font-bold text-danger hidden"></p>
-                    <span id="expense-trend" class="text-xs md:text-sm font-semibold"></span>
+                <p class="text-xs md:text-sm text-gray-600 mb-1 font-medium">Total Expenses</p>
+                <div class="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
+                    <div id="total-expenses-loading" class="h-7 md:h-10 w-16 md:w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-expenses" class="text-base md:text-3xl font-bold text-danger hidden leading-tight"></p>
+                    <span id="expense-trend" class="text-xs md:text-sm font-semibold mt-0.5 md:mt-0"></span>
                 </div>
                 <p class="text-xs text-gray-500 mt-1 md:mt-2 hidden md:block">This month</p>
             </div>
@@ -386,11 +386,11 @@
             </div>
                     </button>
                 </div>
-                <p class="text-xs md:text-sm opacity-90 mb-1">Net Profit</p>
-                <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-                    <div id="net-profit-loading" class="h-8 md:h-10 w-20 md:w-32 bg-white/20 rounded animate-pulse"></div>
-                    <p id="net-profit" class="text-lg md:text-3xl font-bold hidden"></p>
-                    <span id="profit-trend" class="text-xs md:text-sm font-semibold opacity-90"></span>
+                <p class="text-xs md:text-sm opacity-90 mb-1 font-medium">Net Profit</p>
+                <div class="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
+                    <div id="net-profit-loading" class="h-7 md:h-10 w-16 md:w-32 bg-white/20 rounded animate-pulse"></div>
+                    <p id="net-profit" class="text-base md:text-3xl font-bold hidden leading-tight"></p>
+                    <span id="profit-trend" class="text-xs md:text-sm font-semibold opacity-90 mt-0.5 md:mt-0"></span>
                 </div>
                 <p class="text-xs opacity-80 mt-1 md:mt-2 hidden md:block">Income - Expenses</p>
             </div>
@@ -403,28 +403,28 @@
         </div>
         
         <!-- Quick Actions -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <button onclick="openIncomeModal()" class="group bg-white rounded-xl p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-blue-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative" title="Rideshare payout, private client trip, or affiliate job">
-                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+            <button onclick="openIncomeModal()" class="group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-blue-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative min-h-[80px]" title="Rideshare payout, private client trip, or affiliate job">
+                <div class="w-11 h-11 md:w-10 md:h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors flex-shrink-0">
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                 </div>
                 <div class="text-left flex-1">
-                    <p class="font-semibold text-gray-900">Add Income</p>
-                    <p class="text-xs text-gray-500">Log new income</p>
+                    <p class="font-semibold text-sm md:text-base text-gray-900">Add Income</p>
+                    <p class="text-xs text-gray-500 hidden md:block">Log new income</p>
                 </div>
             </button>
             
-            <button onclick="openExpenseModal()" class="group bg-white rounded-xl p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-red-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative" title="Gas, tolls, insurance, car wash, or repairs">
-                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors">
-                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button onclick="openExpenseModal()" class="group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-red-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative min-h-[80px]" title="Gas, tolls, insurance, car wash, or repairs">
+                <div class="w-11 h-11 md:w-10 md:h-10 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors flex-shrink-0">
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                     </svg>
                 </div>
                 <div class="text-left flex-1">
-                    <p class="font-semibold text-gray-900">Add Expense</p>
-                    <p class="text-xs text-gray-500">Track spending</p>
+                    <p class="font-semibold text-sm md:text-base text-gray-900">Add Expense</p>
+                    <p class="text-xs text-gray-500 hidden md:block">Track spending</p>
                 </div>
             </button>
             
