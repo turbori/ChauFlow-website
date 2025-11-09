@@ -1136,19 +1136,18 @@
         const expenseForm = document.getElementById('expense-form');
         let editingExpenseId = null;
         
-        function openExpenseModal(expenseId = null) {
+        async function openExpenseModal(expenseId = null) {
             editingExpenseId = expenseId;
-            expenseModal.classList.remove('hidden');
             
             // Update modal title and button
             const modalTitle = expenseModal.querySelector('h3');
             const submitBtn = document.getElementById('expense-submit-btn');
             
             if (expenseId) {
-                // Edit mode - load existing data
+                // Edit mode - load existing data FIRST
                 modalTitle.textContent = 'Edit Expense';
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Expense';
-                loadExpenseForEdit(expenseId);
+                await loadExpenseForEdit(expenseId);
             } else {
                 // New mode
                 modalTitle.textContent = 'Add Expense';
@@ -1156,6 +1155,8 @@
                 document.getElementById('expense-date').valueAsDate = new Date();
             }
             
+            // Show modal AFTER data is loaded
+            expenseModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
         

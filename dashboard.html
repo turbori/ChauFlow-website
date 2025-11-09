@@ -1050,19 +1050,18 @@
         
         let editingIncomeId = null;
         
-        function openIncomeModal(incomeId = null) {
+        async function openIncomeModal(incomeId = null) {
             editingIncomeId = incomeId;
-            incomeModal.classList.remove('hidden');
             
             // Update modal title and button
             const modalTitle = incomeModal.querySelector('h2');
             const submitBtn = document.getElementById('income-submit-btn');
             
             if (incomeId) {
-                // Edit mode - load existing data
+                // Edit mode - load existing data FIRST
                 modalTitle.textContent = 'Edit Income';
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Income';
-                loadIncomeForEdit(incomeId);
+                await loadIncomeForEdit(incomeId);
             } else {
                 // New mode
                 modalTitle.textContent = 'Add Income';
@@ -1070,6 +1069,8 @@
                 document.getElementById('income-date').valueAsDate = new Date();
             }
             
+            // Show modal AFTER data is loaded
+            incomeModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
         
@@ -1116,19 +1117,18 @@
         
         let editingExpenseId = null;
         
-        function openExpenseModal(expenseId = null) {
+        async function openExpenseModal(expenseId = null) {
             editingExpenseId = expenseId;
-            expenseModal.classList.remove('hidden');
             
             // Update modal title and button
             const modalTitle = expenseModal.querySelector('h2');
             const submitBtn = document.getElementById('expense-submit-btn');
             
             if (expenseId) {
-                // Edit mode - load existing data
+                // Edit mode - load existing data FIRST
                 modalTitle.textContent = 'Edit Expense';
                 submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Update Expense';
-                loadExpenseForEdit(expenseId);
+                await loadExpenseForEdit(expenseId);
             } else {
                 // New mode
                 modalTitle.textContent = 'Add Expense';
@@ -1136,6 +1136,8 @@
                 document.getElementById('expense-date').valueAsDate = new Date();
             }
             
+            // Show modal AFTER data is loaded
+            expenseModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
         
