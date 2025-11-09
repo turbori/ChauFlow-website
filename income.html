@@ -806,9 +806,11 @@
             document.getElementById('income-success').classList.add('hidden');
             document.body.style.overflow = 'auto';
             
-            // Reset modal title
+            // Reset modal title and button
             const modalTitle = incomeModal.querySelector('h3');
+            const submitBtn = document.getElementById('income-submit-btn');
             modalTitle.textContent = 'Add Income';
+            submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Income';
         }
         
         // ============================================

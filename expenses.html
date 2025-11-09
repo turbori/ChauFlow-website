@@ -1196,9 +1196,11 @@
             document.getElementById('expense-success').classList.add('hidden');
             document.body.style.overflow = 'auto';
             
-            // Reset modal title
+            // Reset modal title and button
             const modalTitle = expenseModal.querySelector('h3');
+            const submitBtn = document.getElementById('expense-submit-btn');
             modalTitle.textContent = 'Add Expense';
+            submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Expense';
         }
         
         // ============================================
