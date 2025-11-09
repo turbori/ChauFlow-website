@@ -785,7 +785,12 @@
                 document.getElementById('income-amount').value = amountValue;
                 formatCurrency(document.getElementById('income-amount'));
                 
-                document.getElementById('income-source').value = data.source;
+                // Set both the hidden input and visible input for source (smart modal compatibility)
+                const sourceHidden = document.getElementById('income-source');
+                const sourceInput = document.getElementById('income-source-input');
+                if (sourceHidden) sourceHidden.value = data.source;
+                if (sourceInput) sourceInput.value = data.source;
+                
                 document.getElementById('income-date').value = data.date.split('T')[0];
                 document.getElementById('income-description').value = data.description || '';
                 document.getElementById('income-trips').value = data.trip_count || '';

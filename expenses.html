@@ -1177,7 +1177,12 @@
                 document.getElementById('expense-amount').value = amountValue;
                 formatCurrency(document.getElementById('expense-amount'));
                 
-                document.getElementById('expense-category').value = data.category;
+                // Set both the hidden input and visible input for category (smart modal compatibility)
+                const categoryHidden = document.getElementById('expense-category');
+                const categoryInput = document.getElementById('expense-category-input');
+                if (categoryHidden) categoryHidden.value = data.category;
+                if (categoryInput) categoryInput.value = data.category;
+                
                 document.getElementById('expense-date').value = data.date.split('T')[0];
                 document.getElementById('expense-vendor').value = data.vendor || '';
                 document.getElementById('expense-description').value = data.description || '';
