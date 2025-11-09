@@ -2076,9 +2076,6 @@
                 
                 if (error) throw error;
                 
-                // Show success message
-                alert(`${typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1)} deleted successfully!`);
-                
                 // Reload dashboard data
                 await loadDashboardData();
                 
