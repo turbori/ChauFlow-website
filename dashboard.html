@@ -1054,7 +1054,7 @@
             editingIncomeId = incomeId;
             
             // Update modal title and button
-            const modalTitle = incomeModal.querySelector('h2');
+            const modalTitle = incomeModal.querySelector('h3');
             const submitBtn = document.getElementById('income-submit-btn');
             
             if (incomeId) {
@@ -1108,7 +1108,7 @@
             document.getElementById('income-error').classList.add('hidden');
             document.getElementById('income-success').classList.add('hidden');
             // Reset modal title and button
-            const modalTitle = incomeModal.querySelector('h2');
+            const modalTitle = incomeModal.querySelector('h3');
             const submitBtn = document.getElementById('income-submit-btn');
             modalTitle.textContent = 'Add Income';
             submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Income';
@@ -1121,7 +1121,7 @@
             editingExpenseId = expenseId;
             
             // Update modal title and button
-            const modalTitle = expenseModal.querySelector('h2');
+            const modalTitle = expenseModal.querySelector('h3');
             const submitBtn = document.getElementById('expense-submit-btn');
             
             if (expenseId) {
@@ -1173,7 +1173,7 @@
             document.getElementById('expense-error').classList.add('hidden');
             document.getElementById('expense-success').classList.add('hidden');
             // Reset modal title and button
-            const modalTitle = expenseModal.querySelector('h2');
+            const modalTitle = expenseModal.querySelector('h3');
             const submitBtn = document.getElementById('expense-submit-btn');
             modalTitle.textContent = 'Add Expense';
             submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Add Expense';
