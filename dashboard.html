@@ -278,167 +278,32 @@
         
         <!-- Quick Filters -->
         <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-200 mb-4 md:mb-6">
-            <label for="dashboard-filter-select" class="block text-sm font-semibold text-gray-700 mb-3">
-                <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center gap-3 md:gap-4">
+                <label for="dashboard-filter-select" class="flex items-center gap-2 text-sm md:text-base font-semibold text-gray-700 whitespace-nowrap">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                     Time Period
-                </span>
-            </label>
-            <div class="relative">
-                <select id="dashboard-filter-select" onchange="applyDashboardQuickFilter(this.value)" class="w-full md:w-auto md:min-w-[280px] appearance-none px-4 py-3.5 pr-12 text-base border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 font-medium shadow-sm bg-white cursor-pointer hover:border-primary transition-colors">
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="thisMonth" selected>This Month</option>
-                    <option value="lastMonth">Last Month</option>
-                    <option value="last30Days">Last 30 Days</option>
-                    <option value="last90Days">Last 90 Days</option>
-                    <option value="thisYear">This Year</option>
-                    <option value="lastYear">Last Year</option>
-                    <option value="allTime">All Time</option>
-                </select>
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Skeleton Loaders for Stats Cards -->
-        <div id="stats-skeleton" class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-                <div class="skeleton skeleton-card"></div>
-            </div>
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-                <div class="skeleton skeleton-card"></div>
-            </div>
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-                <div class="skeleton skeleton-card"></div>
-            </div>
-        </div>
-        
-        <!-- Stats Cards -->
-        <div id="stats-cards" class="hidden grid grid-cols-3 gap-2 md:gap-6 mb-6 md:mb-8">
-            <!-- Card 1: Total Income -->
-            <div class="bg-white rounded-lg md:rounded-2xl p-3 md:p-6 shadow-sm border-2 border-green-200 hover:shadow-md transition-shadow duration-200 group relative">
-                <div class="flex items-center gap-2 mb-2 md:mb-3">
-                    <div class="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </label>
+                <div class="relative flex-1">
+                    <select id="dashboard-filter-select" onchange="applyDashboardQuickFilter(this.value)" class="w-full appearance-none px-3 md:px-4 py-2.5 md:py-3 pr-9 md:pr-12 text-sm md:text-base border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-gray-900 font-semibold shadow-sm bg-white cursor-pointer hover:border-primary transition-colors" style="color: #111827 !important; -webkit-text-fill-color: #111827 !important;">
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="thisMonth" selected>This Month</option>
+                        <option value="lastMonth">Last Month</option>
+                        <option value="last30Days">Last 30 Days</option>
+                        <option value="last90Days">Last 90 Days</option>
+                        <option value="thisYear">This Year</option>
+                        <option value="lastYear">Last Year</option>
+                        <option value="allTime">All Time</option>
+                    </select>
+                    <div class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </div>
-                    <div>
-                        <p class="text-xs md:text-sm text-gray-600 font-medium">Total Income</p>
-                        <p class="text-xs text-green-600 font-medium">Money In</p>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
-                    <div id="total-income-loading" class="h-7 md:h-10 w-16 md:w-32 bg-gray-200 rounded animate-pulse"></div>
-                    <p id="total-income" class="text-base md:text-3xl font-bold text-accent hidden leading-tight"></p>
-                    <span id="income-trend" class="text-xs md:text-sm font-semibold mt-0.5 md:mt-0"></span>
                 </div>
             </div>
-            
-            <!-- Card 2: Total Expenses -->
-            <div class="bg-white rounded-lg md:rounded-2xl p-3 md:p-6 shadow-sm border-2 border-red-200 hover:shadow-md transition-shadow duration-200 group relative">
-                <div class="flex items-center gap-2 mb-2 md:mb-3">
-                    <div class="w-8 h-8 md:w-10 md:h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 md:w-6 md:h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-xs md:text-sm text-gray-600 font-medium">Total Expenses</p>
-                        <p class="text-xs text-red-600 font-medium">Money Out</p>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
-                    <div id="total-expenses-loading" class="h-7 md:h-10 w-16 md:w-32 bg-gray-200 rounded animate-pulse"></div>
-                    <p id="total-expenses" class="text-base md:text-3xl font-bold text-danger hidden leading-tight"></p>
-                    <span id="expense-trend" class="text-xs md:text-sm font-semibold mt-0.5 md:mt-0"></span>
-                </div>
-            </div>
-            
-            <!-- Card 3: Net Profit -->
-            <div id="net-profit-card" class="bg-primary rounded-lg md:rounded-2xl p-3 md:p-6 shadow-lg text-white transition-all duration-300 group relative">
-                <div class="flex items-center gap-2 mb-2 md:mb-3">
-                    <div class="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <svg id="net-profit-icon" class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="text-xs md:text-sm text-white font-medium opacity-90">Net Profit</p>
-                        <p class="text-xs text-white font-medium opacity-75">Your Earnings</p>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row md:items-baseline gap-0.5 md:gap-2">
-                    <div id="net-profit-loading" class="h-7 md:h-10 w-16 md:w-32 bg-white/20 rounded animate-pulse"></div>
-                    <p id="net-profit" class="text-base md:text-3xl font-bold hidden leading-tight"></p>
-                    <span id="profit-trend" class="text-xs md:text-sm font-semibold opacity-90 mt-0.5 md:mt-0"></span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- AI Insight -->
-        <div id="ai-insight-container" class="mb-8">
-            <!-- AI insight will be inserted here -->
-        </div>
-        
-        <!-- Quick Actions -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
-            <button onclick="openIncomeModal()" class="group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-blue-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative min-h-[80px]" title="Rideshare payout, private client trip, or affiliate job">
-                <div class="w-11 h-11 md:w-10 md:h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors flex-shrink-0">
-                    <svg class="w-6 h-6 md:w-5 md:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                </div>
-                <div class="text-left flex-1">
-                    <p class="font-semibold text-sm md:text-base text-gray-900">Add Income</p>
-                    <p class="text-xs text-gray-500 hidden md:block">Log new income</p>
-                </div>
-            </button>
-            
-            <button onclick="openExpenseModal()" class="group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-red-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative min-h-[80px]" title="Gas, tolls, insurance, car wash, or repairs">
-                <div class="w-11 h-11 md:w-10 md:h-10 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors flex-shrink-0">
-                    <svg class="w-6 h-6 md:w-5 md:h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                    </svg>
-                </div>
-                <div class="text-left flex-1">
-                    <p class="font-semibold text-sm md:text-base text-gray-900">Add Expense</p>
-                    <p class="text-xs text-gray-500 hidden md:block">Track spending</p>
-                </div>
-            </button>
-            
-            <button class="relative group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 transition-all duration-200 flex items-center gap-3 opacity-60 cursor-not-allowed min-h-[80px]">
-                <div class="w-11 h-11 md:w-10 md:h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 md:w-5 md:h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                </div>
-                <div class="text-left flex-1">
-                    <p class="font-semibold text-sm md:text-base text-gray-700">Scan Receipt</p>
-                    <p class="text-xs text-purple-600 font-medium hidden md:block">Coming Q1 2026</p>
-                </div>
-                <div class="absolute top-2 right-2 bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full">SOON</div>
-            </button>
-            
-            <button class="relative group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 transition-all duration-200 flex items-center gap-3 opacity-60 cursor-not-allowed min-h-[80px]">
-                <div class="w-11 h-11 md:w-10 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 md:w-5 md:h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                </div>
-                <div class="text-left flex-1">
-                    <p class="font-semibold text-sm md:text-base text-gray-700">Export Report</p>
-                    <p class="text-xs text-green-600 font-medium hidden md:block">Coming Q1 2026</p>
-                </div>
-                <div class="absolute top-2 right-2 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">SOON</div>
-            </button>
         </div>
         
         <!-- Balance Sheet Snapshot -->
@@ -452,7 +317,6 @@
                             </div>
                         Your Business Value
                     </h3>
-                    <p class="text-sm text-gray-600 ml-12">What you have vs. what you owe</p>
                     </div>
                     
             <!-- Balance Sheet Summary Cards -->
@@ -534,7 +398,133 @@
                             </div>
                             </div>
         
-        <!-- Recent Activity & Profit Chart -->
+        <!-- Skeleton Loaders for Stats Cards -->
+        <div id="stats-skeleton" class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div id="stats-cards" class="hidden grid grid-cols-3 gap-2 md:gap-6 mb-6 md:mb-8">
+            <!-- Card 1: Income -->
+            <div class="bg-white rounded-lg md:rounded-2xl p-3 md:p-6 shadow-sm border-2 border-green-200 hover:shadow-md transition-shadow duration-200 group relative">
+                <div class="flex items-center justify-center gap-2 mb-3 md:mb-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-700 font-semibold leading-none">Income</p>
+                </div>
+                <div class="flex flex-col items-center md:flex-row md:justify-center md:items-baseline gap-0.5 md:gap-2">
+                    <div id="total-income-loading" class="h-7 md:h-10 w-16 md:w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-income" class="text-base md:text-3xl font-bold text-accent hidden leading-tight"></p>
+                    <span id="income-trend" class="text-xs md:text-sm font-semibold mt-0.5 md:mt-0"></span>
+                </div>
+            </div>
+            
+            <!-- Card 2: Expenses -->
+            <div class="bg-white rounded-lg md:rounded-2xl p-3 md:p-6 shadow-sm border-2 border-red-200 hover:shadow-md transition-shadow duration-200 group relative">
+                <div class="flex items-center justify-center gap-2 mb-3 md:mb-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-700 font-semibold leading-none">Expenses</p>
+                </div>
+                <div class="flex flex-col items-center md:flex-row md:justify-center md:items-baseline gap-0.5 md:gap-2">
+                    <div id="total-expenses-loading" class="h-7 md:h-10 w-16 md:w-32 bg-gray-200 rounded animate-pulse"></div>
+                    <p id="total-expenses" class="text-base md:text-3xl font-bold text-danger hidden leading-tight"></p>
+                    <span id="expense-trend" class="text-xs md:text-sm font-semibold mt-0.5 md:mt-0"></span>
+                </div>
+            </div>
+            
+            <!-- Card 3: Net Profit -->
+            <div id="net-profit-card" class="bg-primary rounded-lg md:rounded-2xl p-3 md:p-6 shadow-lg text-white transition-all duration-300 group relative">
+                <div class="flex items-center justify-center gap-2 mb-3 md:mb-4">
+                    <div class="w-8 h-8 md:w-10 md:h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg id="net-profit-icon" class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm md:text-base text-white font-semibold leading-none">Net Profit</p>
+                </div>
+                <div class="flex flex-col items-center md:flex-row md:justify-center md:items-baseline gap-0.5 md:gap-2">
+                    <div id="net-profit-loading" class="h-7 md:h-10 w-16 md:w-32 bg-white/20 rounded animate-pulse"></div>
+                    <p id="net-profit" class="text-base md:text-3xl font-bold hidden leading-tight"></p>
+                    <span id="profit-trend" class="text-xs md:text-sm font-semibold opacity-90 mt-0.5 md:mt-0"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Insight -->
+        <div id="ai-insight-container" class="mb-8">
+            <!-- AI insight will be inserted here -->
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+            <button onclick="openIncomeModal()" class="group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-blue-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative min-h-[80px]" title="Rideshare payout, private client trip, or affiliate job">
+                <div class="w-11 h-11 md:w-10 md:h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors flex-shrink-0">
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </div>
+                <div class="text-left flex-1">
+                    <p class="font-semibold text-sm md:text-base text-gray-900">Add Income</p>
+                    <p class="text-xs text-gray-500 hidden md:block">Log new income</p>
+                </div>
+            </button>
+            
+            <button onclick="openExpenseModal()" class="group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 hover:shadow-lg hover:border-red-500 hover:scale-[1.02] transition-all duration-200 flex items-center gap-3 cursor-pointer active:scale-[0.98] relative min-h-[80px]" title="Gas, tolls, insurance, car wash, or repairs">
+                <div class="w-11 h-11 md:w-10 md:h-10 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors flex-shrink-0">
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                    </svg>
+                </div>
+                <div class="text-left flex-1">
+                    <p class="font-semibold text-sm md:text-base text-gray-900">Add Expense</p>
+                    <p class="text-xs text-gray-500 hidden md:block">Track spending</p>
+                </div>
+            </button>
+            
+            <button class="relative group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 transition-all duration-200 flex items-center gap-3 opacity-60 cursor-not-allowed min-h-[80px]">
+                <div class="w-11 h-11 md:w-10 md:h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <div class="text-left flex-1">
+                    <p class="font-semibold text-sm md:text-base text-gray-700">Scan Receipt</p>
+                    <p class="text-xs text-purple-600 font-medium hidden md:block">Coming Q1 2026</p>
+                </div>
+                <div class="absolute top-2 right-2 bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full">SOON</div>
+            </button>
+            
+            <button class="relative group bg-white rounded-xl p-4 md:p-4 shadow-sm border-2 border-gray-200 transition-all duration-200 flex items-center gap-3 opacity-60 cursor-not-allowed min-h-[80px]">
+                <div class="w-11 h-11 md:w-10 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 md:w-5 md:h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <div class="text-left flex-1">
+                    <p class="font-semibold text-sm md:text-base text-gray-700">Export Report</p>
+                    <p class="text-xs text-green-600 font-medium hidden md:block">Coming Q1 2026</p>
+                </div>
+                <div class="absolute top-2 right-2 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">SOON</div>
+            </button>
+        </div>
+        
+        <!-- Recent Activity & Summary Stats -->
         <div class="grid lg:grid-cols-3 gap-6">
             
             <!-- Recent Activity -->
@@ -552,68 +542,74 @@
                 </div>
                 
                 <!-- Pagination Controls -->
-                <div id="activity-pagination" class="hidden flex items-center justify-between pt-4 border-t border-gray-200">
-                    <button id="prev-page" onclick="changeActivityPage(-1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
-                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div id="activity-pagination" class="hidden flex items-center justify-center gap-3 pt-4 border-t border-gray-200">
+                    <button id="prev-page" onclick="changeActivityPage(-1)" class="w-8 h-8 flex items-center justify-center text-gray-600 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                        Previous
                     </button>
-                    <span id="page-info" class="text-sm text-gray-600">Page 1 of 1</span>
-                    <button id="next-page" onclick="changeActivityPage(1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
-                        Next
-                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span id="page-info" class="text-sm font-medium text-gray-700 px-2">Page 1 of 1</span>
+                    <button id="next-page" onclick="changeActivityPage(1)" class="w-8 h-8 flex items-center justify-center text-gray-600 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </button>
                 </div>
             </div>
             
-            <!-- Profit Trend -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 h-fit">
-                <h3 id="summary-title" class="text-xl font-bold text-textDark mb-2">Current Month Summary</h3>
-                <p id="summary-subtitle" class="text-xs text-gray-500 mb-6">Your activity this month</p>
+            <!-- Summary Stats Column -->
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Current Month Summary Card (Left) -->
+                <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+                    <h3 id="summary-title" class="text-lg font-bold text-textDark mb-1">Current Month Summary</h3>
+                    <p id="summary-subtitle" class="text-xs text-gray-500 mb-4">Your activity this month</p>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-600">Trips</span>
+                                <span id="week-trips" class="text-sm font-bold text-gray-900">0</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div id="week-trips-bar" class="bg-accent h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-600">Hours</span>
+                                <span id="week-hours" class="text-sm font-bold text-gray-900">0</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div id="week-hours-bar" class="bg-primary h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-600">Miles</span>
+                                <span id="week-miles" class="text-sm font-bold text-gray-900">0</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div id="week-miles-bar" class="bg-purple-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
+                <!-- Right Column: Stacked Cards -->
                 <div class="space-y-4">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-gray-600">Trips</span>
-                            <span id="week-trips" class="font-bold text-gray-900">0</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="week-trips-bar" class="bg-accent h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
+                    <!-- Avg Per Trip Card -->
+                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+                        <p class="text-xs text-gray-600 mb-1">Avg. per trip</p>
+                        <p id="avg-per-trip" class="text-xl md:text-2xl font-bold text-primary">$0.00</p>
                     </div>
                     
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-gray-600">Hours</span>
-                            <span id="week-hours" class="font-bold text-gray-900">0</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="week-hours-bar" class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
+                    <!-- Top Expense Card -->
+                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+                        <p class="text-xs text-gray-600 mb-1">Top expense</p>
+                        <p id="top-expense" class="text-base md:text-lg font-semibold text-gray-900 truncate">—</p>
                     </div>
-                    
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-gray-600">Miles</span>
-                            <span id="week-miles" class="font-bold text-gray-900">0</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="week-miles-bar" class="bg-purple-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-6 pt-6 border-t border-gray-200">
-                    <p class="text-sm text-gray-600 mb-2">Avg. per trip</p>
-                    <p id="avg-per-trip" class="text-2xl font-bold text-primary">$0.00</p>
-                </div>
-                
-                <div class="mt-4">
-                    <p class="text-sm text-gray-600 mb-2">Top expense</p>
-                    <p id="top-expense" class="text-lg font-semibold text-gray-900">—</p>
                 </div>
             </div>
         </div>
