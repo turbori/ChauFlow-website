@@ -175,8 +175,8 @@
         font-size: 16px; /* Prevents zoom on iOS */
     }
     
-    /* Stack form fields vertically */
-    .grid.grid-cols-2 {
+    /* Stack form fields vertically (but not action buttons) */
+    form .grid.grid-cols-2 {
         grid-template-columns: 1fr;
     }
 }
