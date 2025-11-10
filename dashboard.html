@@ -2014,23 +2014,19 @@
                 return `
                     <div class="activity-item bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
                         <div class="p-4 cursor-pointer" onclick="toggleActivityExpand(this)">
-                            <div class="flex items-start gap-3">
+                            <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 ${bgColor} rounded-lg flex items-center justify-center ${iconColor} flex-shrink-0">
                                     ${icon}
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <div class="flex items-start justify-between gap-3">
-                                        <div class="flex-1 min-w-0">
-                                            <p class="font-semibold text-gray-900">${title}</p>
-                                            <p class="text-xs text-gray-500 mt-0.5">${subtitle}</p>
-                                        </div>
-                                        <div class="flex items-center gap-2 flex-shrink-0">
-                                            <span class="text-lg font-bold ${amountColor} whitespace-nowrap">${isIncome ? '+' : '-'}${formattedAmount}</span>
-                                            <svg class="w-5 h-5 text-gray-400 expand-icon transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    <p class="font-semibold text-gray-900">${title}</p>
+                                    <p class="text-xs text-gray-500 mt-0.5">${subtitle}</p>
+                                </div>
+                                <div class="flex items-center gap-2 flex-shrink-0 ml-3">
+                                    <span class="text-lg font-bold ${amountColor} whitespace-nowrap">${isIncome ? '+' : '-'}${formattedAmount}</span>
+                                    <svg class="w-5 h-5 text-gray-400 expand-icon transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
