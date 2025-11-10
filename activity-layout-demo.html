@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Layout Options - ChauFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .swipe-container {
+            overflow-x: hidden;
+            position: relative;
+        }
+        .swipe-content {
+            transition: transform 0.3s ease;
+        }
+        .swipe-actions {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .expandable-content.expanded {
+            max-height: 300px;
+        }
+        .bottom-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 1.5rem 1.5rem 0 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .bottom-sheet.show {
+            transform: translateY(0);
+        }
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+        .overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 pb-20">
+    
+    <!-- Header -->
+    <div class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-md mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold text-gray-900">Activity Layout Options</h1>
+            <p class="text-sm text-gray-600 mt-1">Compare different mobile layouts</p>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto px-4 py-6 space-y-8">
+        
+        <!-- OPTION 1: Vertical Card Layout -->
+        <section>
+            <div class="bg-blue-600 text-white px-4 py-3 rounded-t-xl">
+                <h2 class="text-lg font-bold">Option 1: Vertical Card Layout</h2>
+                <p class="text-sm opacity-90">More breathing room, stacked design</p>
+            </div>
+            <div class="bg-white p-4 rounded-b-xl space-y-3">
+                <!-- Transaction 1 -->
+                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold text-gray-900">Uber Rides</p>
+                            <p class="text-xs text-gray-500">November 10, 2025</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl font-bold text-green-600">+$2,670.00</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs text-gray-500">15 trips • 8h • 120 mi</p>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
+                                Edit
+                            </button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction 2 -->
+                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold text-gray-900">Shell Gas Station</p>
+                            <p class="text-xs text-gray-500">November 10, 2025</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-2xl font-bold text-red-600">-$85.50</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs text-gray-500">Gas • Fill up for morning shift</p>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
+                                Edit
+                            </button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OPTION 2: Swipeable Actions -->
+        <section>
+            <div class="bg-purple-600 text-white px-4 py-3 rounded-t-xl">
+                <h2 class="text-lg font-bold">Option 2: Swipeable Actions</h2>
+                <p class="text-sm opacity-90">Swipe left to reveal actions</p>
+            </div>
+            <div class="bg-white p-4 rounded-b-xl space-y-3">
+                <p class="text-xs text-gray-500 mb-3">👈 Swipe cards left to see Edit/Delete buttons</p>
+                
+                <!-- Transaction 1 -->
+                <div class="swipe-container bg-gray-50 rounded-xl border border-gray-200 relative">
+                    <div class="swipe-actions">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">
+                            Edit
+                        </button>
+                        <button class="px-4 py-2 bg-red-600 text-white rounded-lg font-medium">
+                            Delete
+                        </button>
+                    </div>
+                    <div class="swipe-content bg-gray-50 rounded-xl p-4" ontouchstart="handleSwipeStart(event, this)" ontouchmove="handleSwipeMove(event, this)" ontouchend="handleSwipeEnd(event, this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <p class="font-semibold text-gray-900">Uber Rides</p>
+                                    <span class="text-lg font-bold text-green-600">+$2,670.00</span>
+                                </div>
+                                <p class="text-xs text-gray-500">November 10, 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">15 trips • 8h • 120 mi</p>
+                    </div>
+                </div>
+
+                <!-- Transaction 2 -->
+                <div class="swipe-container bg-gray-50 rounded-xl border border-gray-200 relative">
+                    <div class="swipe-actions">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">
+                            Edit
+                        </button>
+                        <button class="px-4 py-2 bg-red-600 text-white rounded-lg font-medium">
+                            Delete
+                        </button>
+                    </div>
+                    <div class="swipe-content bg-gray-50 rounded-xl p-4" ontouchstart="handleSwipeStart(event, this)" ontouchmove="handleSwipeMove(event, this)" ontouchend="handleSwipeEnd(event, this)">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <p class="font-semibold text-gray-900">Shell Gas Station</p>
+                                    <span class="text-lg font-bold text-red-600">-$85.50</span>
+                                </div>
+                                <p class="text-xs text-gray-500">November 10, 2025</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">Gas • Fill up for morning shift</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OPTION 3: Expandable Cards -->
+        <section>
+            <div class="bg-orange-600 text-white px-4 py-3 rounded-t-xl">
+                <h2 class="text-lg font-bold">Option 3: Expandable Cards</h2>
+                <p class="text-sm opacity-90">Tap to expand and show actions</p>
+            </div>
+            <div class="bg-white p-4 rounded-b-xl space-y-3">
+                <p class="text-xs text-gray-500 mb-3">👆 Tap cards to expand and see details</p>
+                
+                <!-- Transaction 1 -->
+                <div class="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+                    <div class="p-4 cursor-pointer" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <p class="font-semibold text-gray-900">Uber Rides</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg font-bold text-green-600">+$2,670.00</span>
+                                        <svg class="w-5 h-5 text-gray-400 expand-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500">November 10, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="px-4 pb-4 border-t border-gray-200 pt-3 space-y-3">
+                            <div class="bg-white rounded-lg p-3">
+                                <p class="text-xs text-gray-500 mb-2">Trip Details</p>
+                                <div class="grid grid-cols-3 gap-2 text-center">
+                                    <div>
+                                        <p class="text-lg font-bold text-gray-900">15</p>
+                                        <p class="text-xs text-gray-500">Trips</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-lg font-bold text-gray-900">8h</p>
+                                        <p class="text-xs text-gray-500">Hours</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-lg font-bold text-gray-900">120</p>
+                                        <p class="text-xs text-gray-500">Miles</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
+                                    Edit Transaction
+                                </button>
+                                <button class="flex-1 py-2.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction 2 -->
+                <div class="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+                    <div class="p-4 cursor-pointer" onclick="toggleExpand(this)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <p class="font-semibold text-gray-900">Shell Gas Station</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg font-bold text-red-600">-$85.50</span>
+                                        <svg class="w-5 h-5 text-gray-400 expand-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500">November 10, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expandable-content">
+                        <div class="px-4 pb-4 border-t border-gray-200 pt-3 space-y-3">
+                            <div class="bg-white rounded-lg p-3">
+                                <p class="text-xs text-gray-500 mb-1">Category</p>
+                                <p class="text-sm font-medium text-gray-900">Gas</p>
+                                <p class="text-xs text-gray-500 mt-2">Description</p>
+                                <p class="text-sm text-gray-700">Fill up for morning shift</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
+                                    Edit Transaction
+                                </button>
+                                <button class="flex-1 py-2.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OPTION 4: Bottom Sheet Actions -->
+        <section>
+            <div class="bg-green-600 text-white px-4 py-3 rounded-t-xl">
+                <h2 class="text-lg font-bold">Option 4: Bottom Sheet Actions</h2>
+                <p class="text-sm opacity-90">Tap menu icon for actions</p>
+            </div>
+            <div class="bg-white p-4 rounded-b-xl space-y-3">
+                <p class="text-xs text-gray-500 mb-3">👆 Tap the ⋮ icon to open action menu</p>
+                
+                <!-- Transaction 1 -->
+                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-900">Uber Rides</p>
+                                    <p class="text-xs text-gray-500">November 10, 2025</p>
+                                </div>
+                                <div class="flex items-center gap-2 ml-3">
+                                    <span class="text-lg font-bold text-green-600">+$2,670.00</span>
+                                    <button onclick="showBottomSheet('uber')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-lg">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">15 trips • 8h • 120 mi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction 2 -->
+                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-900">Shell Gas Station</p>
+                                    <p class="text-xs text-gray-500">November 10, 2025</p>
+                                </div>
+                                <div class="flex items-center gap-2 ml-3">
+                                    <span class="text-lg font-bold text-red-600">-$85.50</span>
+                                    <button onclick="showBottomSheet('gas')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-lg">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Gas • Fill up for morning shift</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Which layout do you prefer?</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-bold flex-shrink-0">1</div>
+                    <div>
+                        <p class="font-semibold text-gray-900">Vertical Card</p>
+                        <p class="text-sm text-gray-600">Clean, spacious, easy to scan</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold flex-shrink-0">2</div>
+                    <div>
+                        <p class="font-semibold text-gray-900">Swipeable</p>
+                        <p class="text-sm text-gray-600">Modern, compact, familiar pattern</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 font-bold flex-shrink-0">3</div>
+                    <div>
+                        <p class="font-semibold text-gray-900">Expandable</p>
+                        <p class="text-sm text-gray-600">Progressive disclosure, detailed view</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 font-bold flex-shrink-0">4</div>
+                    <div>
+                        <p class="font-semibold text-gray-900">Bottom Sheet</p>
+                        <p class="text-sm text-gray-600">Native feel, large touch targets</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Bottom Sheet Overlay -->
+    <div class="overlay" id="overlay" onclick="hideBottomSheet()"></div>
+
+    <!-- Bottom Sheet -->
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="p-6">
+            <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6"></div>
+            <h3 class="text-lg font-bold text-gray-900 mb-4" id="sheetTitle">Transaction Actions</h3>
+            <div class="space-y-2">
+                <button class="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                    <span class="font-medium">Edit Transaction</span>
+                </button>
+                <button class="w-full flex items-center gap-3 px-4 py-3 text-left text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    <span class="font-medium">Delete Transaction</span>
+                </button>
+                <button onclick="hideBottomSheet()" class="w-full px-4 py-3 text-center text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-colors font-medium mt-2">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Swipe functionality
+        let startX = 0;
+        let currentX = 0;
+        
+        function handleSwipeStart(e, element) {
+            startX = e.touches[0].clientX;
+        }
+        
+        function handleSwipeMove(e, element) {
+            currentX = e.touches[0].clientX;
+            const diff = startX - currentX;
+            if (diff > 0 && diff < 150) {
+                element.style.transform = `translateX(-${diff}px)`;
+            }
+        }
+        
+        function handleSwipeEnd(e, element) {
+            const diff = startX - currentX;
+            if (diff > 75) {
+                element.style.transform = 'translateX(-150px)';
+            } else {
+                element.style.transform = 'translateX(0)';
+            }
+        }
+        
+        // Expandable functionality
+        function toggleExpand(element) {
+            const parent = element.parentElement;
+            const content = parent.querySelector('.expandable-content');
+            const icon = parent.querySelector('.expand-icon');
+            
+            content.classList.toggle('expanded');
+            icon.style.transform = content.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0)';
+        }
+        
+        // Bottom sheet functionality
+        function showBottomSheet(id) {
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('bottomSheet').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hideBottomSheet() {
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('bottomSheet').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+
+</body>
+</html>
+
