@@ -1888,6 +1888,61 @@
             }
         }
         
+        // Helper: Get human-readable date label
+        function getDateLabel(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            // Reset time for comparison
+            const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const yesterdayOnly = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+            
+            if (dateOnly.getTime() === todayOnly.getTime()) {
+                return 'Today';
+            } else if (dateOnly.getTime() === yesterdayOnly.getTime()) {
+                return 'Yesterday';
+            } else {
+                return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            }
+        }
+        
+        // Helper: Group transactions by date
+        function groupByDate(transactions) {
+            const groups = {};
+            transactions.forEach(item => {
+                const dateLabel = getDateLabel(item.date || item.created_at);
+                if (!groups[dateLabel]) {
+                    groups[dateLabel] = [];
+                }
+                groups[dateLabel].push(item);
+            });
+            return groups;
+        }
+        
+        // Helper: Get category chip
+        function getCategoryChip(item) {
+            const isIncome = item.type === 'income';
+            let chips = [];
+            
+            if (isIncome) {
+                // Income chips
+                if (item.trip_count) chips.push(`${item.trip_count} trips`);
+                if (item.hours_worked) chips.push(`${formatNumber(item.hours_worked)}h`);
+            } else {
+                // Expense chips
+                if (item.category) chips.push(item.category);
+            }
+            
+            if (chips.length === 0) return '';
+            
+            return chips.map(chip => 
+                `<span class="inline-block px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-700 rounded-full">${chip}</span>`
+            ).join(' ');
+        }
+        
         function renderActivityPage() {
             const activityContainer = document.getElementById('recent-activity');
             const paginationContainer = document.getElementById('activity-pagination');
@@ -1943,65 +1998,128 @@
                 }
             }
             
-            // Render activity items
-            activityContainer.innerHTML = pageData.map(item => {
-                const isIncome = item.type === 'income';
-                const icon = isIncome ? getSourceIcon(item.source) : getCategoryIcon(item.category);
-                const title = isIncome ? item.source : (item.vendor || item.category);
-                const subtitle = formatDate(item.created_at);
-                const amount = parseFloat(item.amount);
-                const formattedAmount = formatCurrencyDisplay(amount);
-                const amountColor = isIncome ? 'text-accent' : 'text-danger';
-                const bgColor = isIncome ? 'bg-green-100' : 'bg-red-100';
-                const iconColor = isIncome ? 'text-green-600' : 'text-red-600';
-                
-                // Additional details
-                let details = '';
-                if (isIncome) {
-                    const tripInfo = [];
-                    if (item.trip_count) tripInfo.push(`${item.trip_count} trips`);
-                    if (item.hours_worked) tripInfo.push(`${formatNumber(item.hours_worked)}h`);
-                    if (item.miles_driven) tripInfo.push(`${formatNumber(item.miles_driven)} mi`);
-                    if (tripInfo.length > 0) {
-                        details = `<span class="text-xs text-gray-400 ml-1">• ${tripInfo.join(' • ')}</span>`;
+            // Group by date
+            const groupedData = groupByDate(pageData);
+            
+            // Render grouped activity items
+            activityContainer.innerHTML = Object.entries(groupedData).map(([dateLabel, items]) => {
+                const itemsHTML = items.map(item => {
+                    const isIncome = item.type === 'income';
+                    const icon = isIncome ? getSourceIcon(item.source) : getCategoryIcon(item.category);
+                    const title = isIncome ? item.source : (item.vendor || item.category);
+                    const amount = parseFloat(item.amount);
+                    const formattedAmount = formatCurrencyDisplay(amount);
+                    const amountColor = isIncome ? 'text-green-600' : 'text-red-600';
+                    const bgColor = isIncome ? 'bg-green-50' : 'bg-red-50';
+                    const iconColor = isIncome ? 'text-green-600' : 'text-red-600';
+                    const categoryChips = getCategoryChip(item);
+                    
+                    // Time of day
+                    const time = new Date(item.created_at).toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit',
+                        hour12: true 
+                    });
+                    
+                    // Description or details
+                    let description = '';
+                    if (isIncome) {
+                        if (item.description) description = item.description;
+                    } else {
+                        if (item.vendor) description = item.vendor;
+                        else if (item.description) description = item.description;
                     }
-                } else if (item.description) {
-                    details = `<span class="text-xs text-gray-400 ml-1">• ${item.description.substring(0, 30)}${item.description.length > 30 ? '...' : ''}</span>`;
-                }
-                
-                return `
-                    <div class="activity-item flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 hover:shadow-sm transition-all duration-200 border border-transparent hover:border-gray-200">
-                        <div class="flex items-center gap-3 flex-1 min-w-0">
-                            <div class="w-10 h-10 ${bgColor} rounded-lg flex items-center justify-center ${iconColor} flex-shrink-0">
-                                ${icon}
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-gray-900 truncate">${title}</p>
-                                <div class="flex items-center text-xs text-gray-500">
-                                    <span>${subtitle}</span>
-                                    ${details}
+                    
+                    return `
+                        <div class="activity-item relative bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all duration-200">
+                            <!-- Row 1: Icon, Title, Menu -->
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center gap-3 flex-1 min-w-0">
+                                    <div class="w-10 h-10 ${bgColor} rounded-lg flex items-center justify-center ${iconColor} flex-shrink-0">
+                                        ${icon}
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-semibold text-gray-900 text-base truncate">${title}</h4>
+                                        ${description ? `<p class="text-sm text-gray-500 truncate mt-0.5">${description}</p>` : ''}
+                                    </div>
+                                </div>
+                                <!-- 3-dot menu -->
+                                <div class="relative flex-shrink-0 ml-2">
+                                    <button onclick="toggleActivityMenu('${item.id}')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                        </svg>
+                                    </button>
+                                    <!-- Dropdown menu -->
+                                    <div id="menu-${item.id}" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                        <button onclick="editActivity('${item.type}', '${item.id}')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                        <button onclick="deleteActivity('${item.type}', '${item.id}', '${title.replace(/'/g, "\\'")}', ${amount})" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-3 ml-4 flex-shrink-0">
-                            <span class="text-lg font-bold ${amountColor}">${isIncome ? '+' : '-'}${formattedAmount}</span>
-                            <div class="flex items-center gap-1">
-                                <button data-action="edit" data-type="${item.type}" data-id="${item.id}" class="activity-edit-btn p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </button>
-                                <button data-action="delete" data-type="${item.type}" data-id="${item.id}" data-title="${title.replace(/"/g, '&quot;')}" data-amount="${amount}" class="activity-delete-btn p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                </button>
+                            
+                            <!-- Row 2: Amount and Time -->
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-2xl font-bold ${amountColor}">${isIncome ? '+' : '-'}${formattedAmount}</span>
+                                <span class="text-sm text-gray-500">${time}</span>
                             </div>
+                            
+                            <!-- Row 3: Category chips -->
+                            ${categoryChips ? `<div class="flex flex-wrap gap-2">${categoryChips}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+                
+                return `
+                    <div class="mb-6">
+                        <!-- Date Header -->
+                        <div class="flex items-center gap-2 mb-3 px-1">
+                            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">${dateLabel}</h3>
+                            <div class="flex-1 h-px bg-gray-200"></div>
+                        </div>
+                        <!-- Transactions -->
+                        <div class="space-y-3">
+                            ${itemsHTML}
                         </div>
                     </div>
                 `;
             }).join('');
         }
+        
+        // Toggle activity menu
+        function toggleActivityMenu(id) {
+            const menu = document.getElementById(`menu-${id}`);
+            if (!menu) return;
+            
+            // Close all other menus
+            document.querySelectorAll('[id^="menu-"]').forEach(m => {
+                if (m.id !== `menu-${id}`) {
+                    m.classList.add('hidden');
+                }
+            });
+            
+            // Toggle this menu
+            menu.classList.toggle('hidden');
+        }
+        
+        // Close menus when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('[onclick^="toggleActivityMenu"]') && !e.target.closest('[id^="menu-"]')) {
+                document.querySelectorAll('[id^="menu-"]').forEach(m => {
+                    m.classList.add('hidden');
+                });
+            }
+        });
         
         function changeActivityPage(direction) {
             const totalPages = Math.ceil(allActivityData.length / itemsPerPage);
