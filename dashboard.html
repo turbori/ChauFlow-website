@@ -1816,7 +1816,8 @@
         
         let allActivityData = [];
         let currentActivityPage = 1;
-        const itemsPerPage = 10;
+        // Show 5 items on mobile, 10 on desktop
+        const getItemsPerPage = () => window.innerWidth < 768 ? 5 : 10;
         
         async function loadRecentActivity() {
             if (!currentUser) return;
@@ -1913,6 +1914,7 @@
             }
             
             // Calculate pagination
+            const itemsPerPage = getItemsPerPage();
             const totalPages = Math.ceil(allActivityData.length / itemsPerPage);
             const startIndex = (currentActivityPage - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
@@ -2053,6 +2055,7 @@
         }
         
         function changeActivityPage(direction) {
+            const itemsPerPage = getItemsPerPage();
             const totalPages = Math.ceil(allActivityData.length / itemsPerPage);
             currentActivityPage += direction;
             
