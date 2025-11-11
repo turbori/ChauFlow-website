@@ -93,6 +93,17 @@
    ============================================ */
 
 @media (max-width: 768px) {
+    /* Hide mobile menu button and user menu on mobile (we have bottom nav) */
+    #mobile-nav-btn,
+    #user-menu-btn {
+        display: none !important;
+    }
+    
+    /* Hide user info text on mobile */
+    nav .md\:block.text-right {
+        display: none !important;
+    }
+    
     /* Ensure mobile menu is accessible */
     #mobile-menu {
         position: fixed;
