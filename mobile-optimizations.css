@@ -22,6 +22,36 @@
         color: #3B82F6;
         background-color: #EFF6FF;
     }
+    
+    /* Force consistent sizing for all bottom nav items */
+    nav.md\:hidden a {
+        /* Ensure all links have same dimensions */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* Force consistent icon sizing */
+    nav.md\:hidden a svg {
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+        max-width: 24px !important;
+        max-height: 24px !important;
+        margin-bottom: 0.25rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Force consistent text sizing */
+    nav.md\:hidden a span {
+        font-size: 0.75rem !important;
+        line-height: 1rem !important;
+        font-weight: 500 !important;
+        white-space: nowrap !important;
+        display: block !important;
+    }
 }
 
 /* ============================================
