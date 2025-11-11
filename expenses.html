@@ -381,63 +381,36 @@
             </div>
         </div>
 
-        <!-- Expenses Table -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50 border-b border-gray-200">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Vendor</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Description</th>
-                            <th class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Amount</th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="expenses-table-body" class="divide-y divide-gray-200">
-                        <!-- Loading state -->
-                        <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                <div class="flex flex-col items-center gap-3">
-                                    <svg class="w-8 h-8 animate-spin text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                    </svg>
-                                    <p>Loading expense data...</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- Expenses Cards -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <div id="expenses-table-body" class="space-y-3">
+                <!-- Loading state -->
+                <div class="flex flex-col items-center gap-3 py-12 text-gray-500">
+                    <svg class="w-8 h-8 animate-spin text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <p>Loading expense data...</p>
+                </div>
             </div>
             
             <!-- Pagination Controls -->
-            <div id="expense-pagination" class="hidden flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
-                <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-600">Showing</span>
-                    <span id="expense-range" class="text-sm font-medium text-gray-900">1-15</span>
-                    <span class="text-sm text-gray-600">of</span>
-                    <span id="expense-total" class="text-sm font-medium text-gray-900">0</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button id="expense-prev-page" onclick="changeExpensePage(-1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
-                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                        Previous
-                    </button>
-                    <span id="expense-page-info" class="text-sm text-gray-600 px-3">Page 1 of 1</span>
-                    <button id="expense-next-page" onclick="changeExpensePage(1)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200" disabled>
-                        Next
-                        <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
-                </div>
+            <div id="expense-pagination" class="hidden flex items-center justify-center gap-3 pt-4 border-t border-gray-200">
+                <button id="expense-prev-page" onclick="changeExpensePage(-1)" class="w-8 h-8 flex items-center justify-center text-gray-600 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <span id="expense-page-info" class="text-sm font-medium text-gray-700 px-2">Page 1 of 1</span>
+                <button id="expense-next-page" onclick="changeExpensePage(1)" class="w-8 h-8 flex items-center justify-center text-gray-600 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200" disabled>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
             </div>
+        </div>
 
-            <!-- Empty State -->
-            <div id="empty-state" class="hidden py-16 text-center">
+        <!-- Empty State (kept for backward compatibility) -->
+        <div id="empty-state" class="hidden py-16 text-center">
                 <svg class="mx-auto w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
@@ -874,31 +847,25 @@
         }
         
         function renderExpensePage() {
-            const tbody = document.getElementById('expenses-table-body');
+            const container = document.getElementById('expenses-table-body');
             const emptyState = document.getElementById('empty-state');
             const paginationContainer = document.getElementById('expense-pagination');
-            const rangeEl = document.getElementById('expense-range');
-            const totalEl = document.getElementById('expense-total');
             const pageInfo = document.getElementById('expense-page-info');
             const prevBtn = document.getElementById('expense-prev-page');
             const nextBtn = document.getElementById('expense-next-page');
             
             // Handle empty state
             if (allExpenseData.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center gap-3">
-                                <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                                <p class="text-gray-500 font-medium">No expense entries found</p>
-                                <button onclick="openExpenseModal()" class="mt-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                    Add Your First Expense
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                container.innerHTML = `
+                    <div class="flex flex-col items-center gap-3 py-12">
+                        <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p class="text-gray-500 font-medium">No expense entries found</p>
+                        <button onclick="openExpenseModal()" class="mt-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Add Your First Expense
+                        </button>
+                    </div>
                 `;
                 if (emptyState) emptyState.classList.add('hidden');
                 if (paginationContainer) paginationContainer.classList.add('hidden');
@@ -914,8 +881,6 @@
             const pageData = allExpenseData.slice(startIndex, endIndex);
             
             // Update pagination info
-            if (rangeEl) rangeEl.textContent = `${startIndex + 1}-${Math.min(endIndex, allExpenseData.length)}`;
-            if (totalEl) totalEl.textContent = allExpenseData.length;
             if (pageInfo) pageInfo.textContent = `Page ${currentExpensePage} of ${totalPages}`;
             
             // Update button states
@@ -931,58 +896,96 @@
                 }
             }
             
-            // Render table rows
-            tbody.innerHTML = pageData.map(expense => {
+            // Render expandable cards
+            container.innerHTML = pageData.map(expense => {
                 const icon = getCategoryIcon(expense.category);
                 
                 return `
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">${formatDateShort(expense.date)}</div>
-                            <div class="text-xs text-gray-500">${formatDateRelative(expense.date)}</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
-                                    ${icon}
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all duration-200 cursor-pointer" onclick="toggleExpenseExpand(this)">
+                        <div class="flex items-center gap-3">
+                            <!-- Icon -->
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 flex-shrink-0">
+                                ${icon}
+                            </div>
+                            
+                            <!-- Title & Subtitle -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-semibold text-gray-900 truncate">${expense.category}</p>
                                 </div>
-                                <span class="text-sm font-medium text-gray-900">${expense.category}</span>
+                                <p class="text-xs text-gray-500">${formatDateRelative(expense.date)}</p>
                             </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-900">${expense.vendor || '—'}</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-900 max-w-xs truncate">${expense.description || '—'}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <span class="text-lg font-bold text-danger">${formatCurrencyDisplay(expense.amount)}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <div class="flex items-center justify-center gap-2">
-                                <button 
-                                    onclick="editExpense('${expense.id}')"
-                                    class="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors"
-                                    title="Edit"
-                                >
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </button>
-                                <button 
-                                    onclick="deleteExpense('${expense.id}')"
-                                    class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                    title="Delete"
-                                >
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                </button>
+                            
+                            <!-- Amount & Arrow -->
+                            <div class="flex items-center gap-2 flex-shrink-0 ml-3">
+                                <span class="text-base font-bold text-red-600 whitespace-nowrap">${formatCurrencyDisplay(expense.amount)}</span>
+                                <svg class="w-5 h-5 text-gray-400 transition-transform duration-200 expand-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                        
+                        <!-- Expandable Content -->
+                        <div class="expandable-content overflow-hidden transition-all duration-200" style="max-height: 0;">
+                            <div class="pt-4 mt-4 border-t border-gray-200 space-y-3">
+                                ${expense.vendor ? `
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Vendor</p>
+                                    <p class="text-sm text-gray-900">${expense.vendor}</p>
+                                </div>
+                                ` : ''}
+                                ${expense.description ? `
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Description</p>
+                                    <p class="text-sm text-gray-900">${expense.description}</p>
+                                </div>
+                                ` : ''}
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Date</p>
+                                    <p class="text-sm text-gray-900">${formatDateShort(expense.date)}</p>
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="flex items-center gap-2 pt-2">
+                                    <button 
+                                        onclick="event.stopPropagation(); editExpense('${expense.id}')"
+                                        class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                        Edit
+                                    </button>
+                                    <button 
+                                        onclick="event.stopPropagation(); deleteExpense('${expense.id}')"
+                                        class="flex-1 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }).join('');
+        }
+        
+        // Toggle expand/collapse for expense cards
+        function toggleExpenseExpand(card) {
+            const content = card.querySelector('.expandable-content');
+            const arrow = card.querySelector('.expand-arrow');
+            const isExpanded = content.style.maxHeight && content.style.maxHeight !== '0px';
+            
+            if (isExpanded) {
+                content.style.maxHeight = '0';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                arrow.style.transform = 'rotate(180deg)';
+            }
         }
         
         function changeExpensePage(direction) {
