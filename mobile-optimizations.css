@@ -150,9 +150,15 @@
    ============================================ */
 
 @media (max-width: 768px) {
-    /* Stack cards vertically on mobile */
+    /* Force 3-column grid for stat cards on mobile */
+    main > .grid.md\:grid-cols-3:first-of-type,
+    main > div > .grid.md\:grid-cols-3:first-of-type {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+    
+    /* Stack other cards vertically on mobile */
     .grid.md\:grid-cols-2,
-    .grid.md\:grid-cols-3,
     .grid.md\:grid-cols-4 {
         grid-template-columns: 1fr;
     }
@@ -160,6 +166,34 @@
     /* Reduce padding on cards for mobile */
     .rounded-2xl {
         padding: 1rem !important;
+    }
+    
+    /* Make stat cards (top 3) more compact on mobile */
+    main > .grid.md\:grid-cols-3:first-of-type .rounded-2xl,
+    main > div > .grid.md\:grid-cols-3:first-of-type .rounded-2xl {
+        padding: 0.75rem !important;
+    }
+    
+    main > .grid.md\:grid-cols-3:first-of-type .text-3xl,
+    main > div > .grid.md\:grid-cols-3:first-of-type .text-3xl {
+        font-size: 1.125rem !important;
+    }
+    
+    main > .grid.md\:grid-cols-3:first-of-type .text-sm,
+    main > div > .grid.md\:grid-cols-3:first-of-type .text-sm {
+        font-size: 0.75rem !important;
+    }
+    
+    main > .grid.md\:grid-cols-3:first-of-type .w-12,
+    main > div > .grid.md\:grid-cols-3:first-of-type .w-12 {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+    
+    main > .grid.md\:grid-cols-3:first-of-type .w-6,
+    main > div > .grid.md\:grid-cols-3:first-of-type .w-6 {
+        width: 1.25rem !important;
+        height: 1.25rem !important;
     }
     
     /* Reduce card spacing */
