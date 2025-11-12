@@ -86,6 +86,28 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+    
+    /* Reduce main content padding on mobile */
+    main {
+        padding-top: 1rem !important;
+        padding-bottom: 5rem !important;
+    }
+    
+    /* Reduce page header spacing */
+    main > div:first-child {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* Reduce heading sizes on mobile */
+    h1 {
+        font-size: 1.875rem !important; /* 30px instead of 36px */
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Compact button groups */
+    .flex.gap-3 {
+        gap: 0.5rem !important;
+    }
 }
 
 /* ============================================
@@ -140,6 +162,17 @@
         padding: 1rem !important;
     }
     
+    /* Reduce card spacing */
+    .gap-6,
+    .md\:gap-6 {
+        gap: 1rem !important;
+    }
+    
+    .mb-8,
+    .md\:mb-8 {
+        margin-bottom: 1.5rem !important;
+    }
+    
     /* Make stat cards more compact */
     .text-3xl {
         font-size: 1.875rem;
@@ -147,6 +180,11 @@
     
     .text-4xl {
         font-size: 2.25rem;
+    }
+    
+    /* Compact section spacing */
+    .bg-white.rounded-2xl {
+        margin-bottom: 1rem !important;
     }
 }
 
@@ -228,16 +266,22 @@
 
 @media (max-width: 768px) {
     #ai-insight-container {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem !important;
     }
     
     #ai-insight-container .rounded-2xl {
-        padding: 1rem;
+        padding: 0.75rem !important;
     }
     
     #ai-insight-container .text-sm {
         font-size: 0.875rem;
         line-height: 1.5;
+    }
+    
+    /* Compact ChaufAI header */
+    #ai-insight-container h3 {
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
     }
 }
 
@@ -280,6 +324,35 @@
     .flex.gap-2 {
         justify-content: center;
     }
+    
+    /* Compact pagination spacing */
+    #income-pagination,
+    #expense-pagination,
+    #activity-pagination {
+        margin-top: 1rem !important;
+        padding-top: 1rem !important;
+    }
+}
+
+/* ============================================
+   EXPANDABLE CARDS MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Compact expandable transaction cards */
+    .bg-white.border.rounded-xl {
+        padding: 0.75rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    /* Reduce spacing in card content */
+    .space-y-3 {
+        gap: 0.5rem !important;
+    }
+    
+    .space-y-4 {
+        gap: 0.75rem !important;
+    }
 }
 
 /* ============================================
@@ -295,8 +368,27 @@
     /* Make asset/liability cards more compact */
     .bg-green-50,
     .bg-red-50,
-    .bg-blue-50 {
-        padding: 1rem;
+    .bg-blue-50,
+    .bg-purple-50 {
+        padding: 0.75rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Compact balance sheet sections */
+    .bg-green-50 h3,
+    .bg-red-50 h3,
+    .bg-blue-50 h3,
+    .bg-purple-50 h3 {
+        font-size: 1.125rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    /* Reduce spacing in transaction lists */
+    .bg-green-50 .space-y-2,
+    .bg-red-50 .space-y-2,
+    .bg-blue-50 .space-y-2,
+    .bg-purple-50 .space-y-2 {
+        gap: 0.5rem !important;
     }
 }
 
